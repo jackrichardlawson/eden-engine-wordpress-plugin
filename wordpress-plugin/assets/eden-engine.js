@@ -66,6 +66,7 @@
             }
 
             root.dataset.edenMounted = "true";
+            document.body.classList.add("eden-has-showcase");
             updateTargetMapper(root);
             updatePathwayDemo(root);
         });
