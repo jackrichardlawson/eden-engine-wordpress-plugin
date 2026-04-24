@@ -16,33 +16,66 @@ body.eden-has-showcase .wp-site-blocks {
 }
 
 .eden-showcase {
-    --eden-bg: #f7f0e3;
-    --eden-cream: #fffaf1;
-    --eden-panel: rgba(255, 250, 241, 0.92);
-    --eden-panel-strong: #efe2c9;
-    --eden-ink: #20261d;
-    --eden-muted: #5e6658;
-    --eden-soft: #858b7b;
-    --eden-olive: #2d3a27;
-    --eden-green: #66835b;
-    --eden-brass: #b8892e;
-    --eden-brass-soft: #ead2a0;
-    --eden-line: rgba(44, 54, 39, 0.16);
+    --eden-bg: #020503;
+    --eden-bg-soft: #06100b;
+    --eden-panel: rgba(8, 20, 15, 0.76);
+    --eden-panel-strong: rgba(9, 30, 24, 0.92);
+    --eden-glass: rgba(255, 255, 255, 0.045);
+    --eden-text: #f8fbf3;
+    --eden-text-soft: #d8e3d8;
+    --eden-muted: #9fae9f;
+    --eden-green: #7cff2f;
+    --eden-green-soft: #36f17b;
+    --eden-green-deep: #168348;
+    --eden-cyan: #1fd1ff;
+    --eden-blue: #2075ff;
+    --eden-gold: #d7b867;
+    --eden-line: rgba(172, 255, 190, 0.16);
+    --eden-line-blue: rgba(31, 209, 255, 0.23);
     --eden-radius: 8px;
+    --eden-shadow: 0 30px 110px rgba(0, 0, 0, 0.42);
+    --eden-glow-green: 0 0 38px rgba(124, 255, 47, 0.28);
+    --eden-glow-cyan: 0 0 42px rgba(31, 209, 255, 0.24);
     background:
-        radial-gradient(circle at 80% 8%, rgba(184, 137, 46, 0.13), transparent 30%),
-        linear-gradient(90deg, rgba(45, 58, 39, 0.05) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(45, 58, 39, 0.04) 1px, transparent 1px),
-        var(--eden-bg);
-    background-size: 100% 100%, 42px 42px, 42px 42px, 100% 100%;
-    color: var(--eden-ink);
-    display: grid;
+        radial-gradient(circle at 50% 8%, rgba(124, 255, 47, 0.11), transparent 28%),
+        radial-gradient(circle at 78% 30%, rgba(31, 209, 255, 0.12), transparent 28%),
+        linear-gradient(90deg, rgba(31, 209, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(124, 255, 47, 0.035) 1px, transparent 1px),
+        linear-gradient(145deg, #020503 0%, #06100b 48%, #03121a 100%);
+    background-size: 100% 100%, 100% 100%, 58px 58px, 58px 58px, 100% 100%;
+    color: var(--eden-text);
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    gap: 18px;
+    isolation: isolate;
     line-height: 1.5;
     margin: 0;
     overflow: hidden;
-    padding: 18px;
+    position: relative;
+}
+
+.eden-showcase::before,
+.eden-showcase::after {
+    content: "";
+    pointer-events: none;
+    position: absolute;
+    z-index: -1;
+}
+
+.eden-showcase::before {
+    background:
+        linear-gradient(116deg, transparent 0 48%, rgba(124, 255, 47, 0.09) 49%, transparent 50%),
+        linear-gradient(64deg, transparent 0 58%, rgba(31, 209, 255, 0.08) 59%, transparent 60%);
+    background-size: 560px 560px;
+    inset: 0;
+    opacity: 0.62;
+}
+
+.eden-showcase::after {
+    background: radial-gradient(circle, rgba(124, 255, 47, 0.08), transparent 62%);
+    height: 900px;
+    left: 50%;
+    top: -460px;
+    transform: translateX(-50%);
+    width: 900px;
 }
 
 .eden-showcase *,
@@ -54,30 +87,32 @@ body.eden-has-showcase .wp-site-blocks {
 .eden-showcase h1,
 .eden-showcase h2,
 .eden-showcase h3,
-.eden-showcase p {
+.eden-showcase p,
+.eden-showcase figure {
     margin: 0;
 }
 
 .eden-showcase h1,
 .eden-showcase h2,
 .eden-showcase h3 {
-    color: var(--eden-ink);
+    color: var(--eden-text);
     letter-spacing: 0;
-    line-height: 1.03;
+    line-height: 0.98;
 }
 
 .eden-showcase h1 {
-    font-size: clamp(3rem, 8.6vw, 7.2rem);
-    max-width: 960px;
+    font-size: clamp(3.2rem, 6.2vw, 6.35rem);
+    max-width: 1000px;
 }
 
 .eden-showcase h2 {
-    font-size: clamp(2.05rem, 5.2vw, 4.6rem);
-    max-width: 940px;
+    font-size: clamp(2.6rem, 5.2vw, 5.35rem);
+    max-width: 1000px;
 }
 
 .eden-showcase h3 {
-    font-size: 1.18rem;
+    font-size: 1.28rem;
+    line-height: 1.15;
 }
 
 .eden-showcase p {
@@ -86,165 +121,273 @@ body.eden-has-showcase .wp-site-blocks {
 
 .eden-site-nav {
     align-items: center;
-    background: rgba(255, 250, 241, 0.82);
+    background: rgba(1, 8, 5, 0.72);
     border: 1px solid var(--eden-line);
     border-radius: var(--eden-radius);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.32);
     display: flex;
     gap: 8px;
     justify-content: center;
-    margin: 0 auto;
-    max-width: 1180px;
+    left: 50%;
     padding: 10px;
-    position: sticky;
-    top: 8px;
-    width: min(100%, 1180px);
-    z-index: 20;
-    backdrop-filter: blur(16px);
+    position: fixed;
+    top: 14px;
+    transform: translateX(-50%);
+    width: min(calc(100% - 32px), 1120px);
+    z-index: 40;
+    backdrop-filter: blur(18px);
 }
 
 .eden-site-nav a {
     border-radius: var(--eden-radius);
-    color: var(--eden-muted);
-    font-size: 0.88rem;
+    color: var(--eden-text-soft);
+    font-size: 0.84rem;
     font-weight: 850;
     padding: 10px 12px;
     text-decoration: none;
+    transition: background 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
 
 .eden-site-nav a:hover {
-    background: rgba(45, 58, 39, 0.08);
-    color: var(--eden-ink);
+    background: rgba(124, 255, 47, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(124, 255, 47, 0.16);
+    color: var(--eden-text);
 }
 
 .eden-hero,
 .eden-section,
 .eden-cta {
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
     margin: 0 auto;
-    max-width: 1180px;
-    width: min(100%, 1180px);
+    max-width: 1240px;
+    position: relative;
+    width: min(calc(100% - 36px), 1240px);
 }
 
 .eden-hero {
     align-items: center;
-    background:
-        linear-gradient(120deg, rgba(255, 250, 241, 0.72), rgba(239, 226, 201, 0.52)),
-        var(--eden-panel);
     display: grid;
-    gap: 38px;
-    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.7fr);
-    min-height: 720px;
-    padding: clamp(28px, 6vw, 76px);
+    gap: 44px;
+    grid-template-columns: minmax(0, 0.96fr) minmax(380px, 0.82fr);
+    min-height: 100vh;
+    overflow: hidden;
+    padding: clamp(96px, 12vw, 154px) 0 clamp(72px, 10vw, 112px);
+}
+
+.eden-hero-bg {
+    background:
+        radial-gradient(circle at 46% 46%, rgba(124, 255, 47, 0.11), transparent 22%),
+        radial-gradient(circle at 76% 46%, rgba(31, 209, 255, 0.14), transparent 24%);
+    filter: blur(4px);
+    inset: 0 -20%;
+    position: absolute;
+    z-index: -1;
+}
+
+.eden-hero-copy,
+.eden-copy-column,
+.eden-section-header,
+.eden-card,
+.eden-interface-panel {
+    min-width: 0;
+}
+
+.eden-logo {
+    border: 1px solid rgba(124, 255, 47, 0.34);
+    border-radius: 50%;
+    box-shadow: var(--eden-glow-green);
+    display: block;
+    height: 66px;
+    margin-bottom: 22px;
+    object-fit: cover;
+    width: 66px;
+}
+
+.eden-eyebrow {
+    color: var(--eden-green);
+    font-size: 0.76rem;
+    font-weight: 900;
+    letter-spacing: 0.12em;
+    margin-bottom: 14px;
+    text-transform: uppercase;
 }
 
 .eden-hero-copy > p:not(.eden-eyebrow) {
-    color: var(--eden-muted);
-    font-size: clamp(1.05rem, 2vw, 1.28rem);
-    margin-top: 24px;
+    color: var(--eden-text-soft);
+    font-size: clamp(1.08rem, 2vw, 1.32rem);
+    margin-top: 20px;
     max-width: 760px;
 }
 
 .eden-hero-actions {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;
-    margin-top: 30px;
+    margin-top: 28px;
 }
 
-.eden-hero-visual {
-    background:
-        linear-gradient(rgba(45, 58, 39, 0.07) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(45, 58, 39, 0.07) 1px, transparent 1px),
-        var(--eden-cream);
-    background-size: 34px 34px;
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
-    box-shadow: 0 30px 90px rgba(39, 34, 24, 0.14);
-    display: grid;
-    gap: 16px;
-    padding: 20px;
-}
-
-.eden-molecule-row {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: 1fr auto 1fr auto 1fr;
-}
-
-.eden-molecule-row span,
-.eden-equation,
-.eden-hero-metrics div {
-    background: rgba(255, 250, 241, 0.86);
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
-}
-
-.eden-molecule-row span {
+.eden-button {
     align-items: center;
-    aspect-ratio: 1.2;
-    color: var(--eden-ink);
-    display: flex;
-    font-size: clamp(1.2rem, 3vw, 1.8rem);
-    font-weight: 900;
-    justify-content: center;
-    text-align: center;
-}
-
-.eden-molecule-row b {
-    align-self: center;
-    color: var(--eden-brass);
-    font-size: 1.4rem;
-}
-
-.eden-reaction-arrow {
-    background: var(--eden-olive);
+    background: linear-gradient(135deg, var(--eden-green) 0%, var(--eden-green-soft) 45%, var(--eden-cyan) 100%);
+    border: 0;
     border-radius: var(--eden-radius);
-    color: #fffaf1;
-    font-size: 0.82rem;
+    box-shadow: 0 18px 46px rgba(57, 228, 119, 0.22);
+    color: #00130b;
+    display: inline-flex;
+    font-size: 0.92rem;
+    font-weight: 930;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 20px;
+    text-decoration: none;
+    transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.eden-button:hover {
+    box-shadow: 0 22px 58px rgba(31, 209, 255, 0.24);
+    transform: translateY(-2px);
+}
+
+.eden-button--ghost {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid var(--eden-line-blue);
+    box-shadow: none;
+    color: var(--eden-text);
+}
+
+.eden-button--light {
+    background: var(--eden-text);
+    color: #00130b;
+}
+
+.eden-hero-art {
+    aspect-ratio: 0.88;
+    min-height: 590px;
+    position: relative;
+}
+
+.eden-hero-art::before {
+    background:
+        linear-gradient(rgba(124, 255, 47, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 209, 255, 0.08) 1px, transparent 1px);
+    background-size: 42px 42px;
+    border: 1px solid rgba(172, 255, 190, 0.13);
+    border-radius: var(--eden-radius);
+    bottom: 0;
+    content: "";
+    left: 4%;
+    position: absolute;
+    right: 4%;
+    top: 52%;
+    transform: perspective(780px) rotateX(60deg);
+    transform-origin: center bottom;
+}
+
+.eden-media {
+    background:
+        radial-gradient(circle at 50% 38%, rgba(124, 255, 47, 0.18), transparent 34%),
+        radial-gradient(circle at 70% 62%, rgba(31, 209, 255, 0.16), transparent 30%),
+        linear-gradient(145deg, rgba(10, 32, 24, 0.8), rgba(4, 17, 23, 0.86));
+    border: 1px solid var(--eden-line);
+    border-radius: var(--eden-radius);
+    overflow: hidden;
+    position: relative;
+}
+
+.eden-media::before {
+    background:
+        linear-gradient(rgba(124, 255, 47, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(31, 209, 255, 0.06) 1px, transparent 1px);
+    background-size: 30px 30px;
+    content: "";
+    inset: 0;
+    opacity: 0.5;
+    position: absolute;
+}
+
+.eden-media img {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.94;
+    position: relative;
+    width: 100%;
+    z-index: 2;
+}
+
+.eden-media--fallback img {
+    opacity: 0;
+}
+
+.eden-media--fallback::after {
+    background:
+        radial-gradient(circle at 50% 24%, rgba(124, 255, 47, 0.32), transparent 18%),
+        radial-gradient(circle at 64% 58%, rgba(31, 209, 255, 0.28), transparent 21%),
+        linear-gradient(90deg, transparent 0 48%, rgba(124, 255, 47, 0.18) 49%, transparent 50%),
+        linear-gradient(36deg, transparent 0 52%, rgba(31, 209, 255, 0.16) 53%, transparent 54%);
+    content: "";
+    inset: 0;
+    position: absolute;
+    z-index: 1;
+}
+
+.eden-media--fallback::before {
+    opacity: 0.95;
+    z-index: 2;
+}
+
+.eden-hero-media {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    filter: drop-shadow(0 0 42px rgba(124, 255, 47, 0.2));
+    inset: 0;
+    position: absolute;
+}
+
+.eden-hero-media::before {
+    display: none;
+}
+
+.eden-hero-media img {
+    object-fit: contain;
+}
+
+.eden-hero-readout {
+    background: rgba(2, 12, 8, 0.78);
+    border: 1px solid rgba(172, 255, 190, 0.22);
+    border-radius: var(--eden-radius);
+    bottom: 11%;
+    box-shadow: var(--eden-shadow);
+    left: 6%;
+    padding: 14px 16px;
+    position: absolute;
+    z-index: 4;
+    backdrop-filter: blur(14px);
+}
+
+.eden-hero-readout span,
+.eden-card-index,
+.eden-step,
+.eden-interface-top,
+.eden-module-tile p {
+    color: var(--eden-muted);
+    display: block;
+    font-size: 0.72rem;
     font-weight: 900;
-    letter-spacing: 0.08em;
-    padding: 12px;
-    text-align: center;
     text-transform: uppercase;
 }
 
-.eden-equation {
-    color: var(--eden-muted);
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-    font-size: 0.9rem;
-    padding: 14px;
-}
-
-.eden-hero-metrics {
-    display: grid;
-    gap: 10px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.eden-hero-metrics div {
-    display: grid;
-    gap: 4px;
-    min-height: 98px;
-    padding: 14px;
-}
-
-.eden-hero-metrics strong {
-    color: var(--eden-ink);
-    font-size: 1.12rem;
-}
-
-.eden-hero-metrics span {
-    color: var(--eden-muted);
-    font-size: 0.82rem;
+.eden-hero-readout strong {
+    color: var(--eden-text);
+    display: block;
+    margin-top: 5px;
 }
 
 .eden-section {
-    background: var(--eden-panel);
+    border-top: 1px solid var(--eden-line);
     display: grid;
-    gap: 28px;
-    padding: clamp(24px, 5vw, 54px);
+    gap: 34px;
+    padding: clamp(72px, 10vw, 128px) 0;
 }
 
 .eden-showcase--single {
@@ -252,391 +395,352 @@ body.eden-has-showcase .wp-site-blocks {
 }
 
 .eden-section-header {
-    border-left: 4px solid var(--eden-brass);
     display: grid;
-    gap: 10px;
-    max-width: 940px;
-    padding-left: 16px;
+    gap: 14px;
+    max-width: 920px;
 }
 
 .eden-section-header > p:not(.eden-eyebrow) {
-    font-size: 1.05rem;
+    color: var(--eden-text-soft);
+    font-size: clamp(1rem, 1.5vw, 1.16rem);
     max-width: 820px;
 }
 
-.eden-eyebrow,
-.eden-card-kicker {
-    color: var(--eden-brass);
-    font-size: 0.76rem;
-    font-weight: 900;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+.eden-pillar-grid,
+.eden-pathway-grid,
+.eden-module-grid {
+    display: grid;
+    gap: 16px;
+}
+
+.eden-pillar-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .eden-card {
-    background: rgba(255, 250, 241, 0.92);
+    background:
+        linear-gradient(145deg, rgba(15, 34, 27, 0.88), rgba(5, 18, 24, 0.72)),
+        var(--eden-panel);
     border: 1px solid var(--eden-line);
     border-radius: var(--eden-radius);
-    display: grid;
-    gap: 12px;
-    padding: 20px;
-}
-
-.eden-card-rule {
-    background: var(--eden-brass);
-    display: block;
-    height: 3px;
-    width: 46px;
-}
-
-.eden-feature-grid,
-.eden-flow,
-.eden-metrics,
-.eden-status-grid,
-.eden-use-grid {
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.27);
     display: grid;
     gap: 14px;
-}
-
-.eden-feature-grid,
-.eden-flow,
-.eden-status-grid,
-.eden-use-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.eden-feature-card,
-.eden-flow-card {
-    min-height: 250px;
-}
-
-.eden-system-map {
-    display: grid;
-    gap: 18px;
-}
-
-.eden-system-rail {
-    align-items: center;
-    background: var(--eden-panel-strong);
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
-    display: grid;
-    gap: 8px;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    padding: 12px;
-}
-
-.eden-system-rail span {
-    background: var(--eden-cream);
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
-    color: var(--eden-ink);
-    font-weight: 900;
-    padding: 14px;
-    text-align: center;
-}
-
-.eden-step,
-.eden-route span,
-.eden-metrics span {
-    color: var(--eden-soft);
-    font-size: 0.76rem;
-    font-weight: 850;
-    text-transform: uppercase;
-}
-
-.eden-card-footer {
-    align-items: center;
-    display: flex;
-    gap: 10px;
-    justify-content: space-between;
-    margin-top: auto;
-}
-
-.eden-pill {
-    align-items: center;
-    border-radius: 999px;
-    display: inline-flex;
-    font-size: 0.7rem;
-    font-weight: 900;
-    gap: 7px;
-    padding: 7px 10px;
-    text-transform: uppercase;
-    width: fit-content;
-}
-
-.eden-pill::before {
-    border-radius: 50%;
-    content: "";
-    height: 7px;
-    width: 7px;
-}
-
-.eden-pill--ready {
-    background: rgba(102, 131, 91, 0.16);
-    color: #405434;
-}
-
-.eden-pill--ready::before {
-    background: var(--eden-green);
-}
-
-.eden-pill--watch {
-    background: rgba(184, 137, 46, 0.16);
-    color: #76591e;
-}
-
-.eden-pill--watch::before {
-    background: var(--eden-brass);
-}
-
-.eden-pill--planned {
-    background: rgba(83, 91, 80, 0.12);
-    color: #555d51;
-}
-
-.eden-pill--planned::before {
-    background: #77705d;
-}
-
-.eden-button {
-    align-items: center;
-    background: var(--eden-olive);
-    border-radius: var(--eden-radius);
-    color: #fffaf1;
-    display: inline-flex;
-    font-size: 0.92rem;
-    font-weight: 900;
-    justify-content: center;
-    min-height: 46px;
-    padding: 0 18px;
-    text-decoration: none;
-}
-
-.eden-button--light {
-    background: #fffaf1;
-    color: var(--eden-olive);
-}
-
-.eden-tool-layout {
-    display: grid;
-    gap: 16px;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.35fr);
-}
-
-.eden-tool,
-.eden-target-aside {
-    background: var(--eden-panel-strong);
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
-    display: grid;
-    gap: 18px;
+    overflow: hidden;
     padding: 20px;
+    position: relative;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
-.eden-target-aside {
-    align-content: start;
-    background: rgba(255, 250, 241, 0.92);
+.eden-card::before,
+.eden-interface-panel::before,
+.eden-cta::before {
+    background: linear-gradient(90deg, rgba(124, 255, 47, 0.56), rgba(31, 209, 255, 0.24), transparent);
+    content: "";
+    height: 1px;
+    inset: 0 0 auto;
+    position: absolute;
 }
 
-.eden-tool label {
-    display: grid;
-    gap: 9px;
+.eden-card:hover {
+    border-color: rgba(124, 255, 47, 0.34);
+    box-shadow: var(--eden-shadow), var(--eden-glow-green);
+    transform: translateY(-4px);
 }
 
-.eden-tool label span {
-    align-items: center;
+.eden-pillar-card {
+    min-height: 520px;
+}
+
+.eden-card-media {
+    aspect-ratio: 1.18;
+    margin: 8px 0 8px;
+}
+
+.eden-card-index,
+.eden-step {
+    color: var(--eden-cyan);
+}
+
+.eden-card p,
+.eden-pathway-card p {
     color: var(--eden-muted);
+}
+
+.eden-visual-section {
+    align-items: center;
+    grid-template-columns: minmax(0, 0.8fr) minmax(420px, 1fr);
+}
+
+.eden-visual-section .eden-section-media {
+    aspect-ratio: 1.24;
+    box-shadow: var(--eden-shadow);
+    min-height: 520px;
+}
+
+.eden-copy-column {
+    display: grid;
+    gap: 26px;
+}
+
+.eden-signal-list,
+.eden-flow-tags {
     display: flex;
-    gap: 12px;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.eden-tool input[type="range"] {
-    accent-color: var(--eden-green);
-    width: 100%;
+.eden-signal-list span,
+.eden-flow-tags span {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(172, 255, 190, 0.16);
+    border-radius: 999px;
+    color: var(--eden-text-soft);
+    font-size: 0.86rem;
+    font-weight: 820;
+    padding: 9px 12px;
 }
 
-.eden-metrics {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+.eden-pathway-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.eden-metrics div {
-    background: var(--eden-cream);
+.eden-pathway-card {
+    min-height: 230px;
+}
+
+.eden-pathway-card .eden-step {
+    margin-bottom: 30px;
+}
+
+.eden-demo-panel-section {
+    gap: 28px;
+}
+
+.eden-interface-panel {
+    background:
+        linear-gradient(rgba(31, 209, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124, 255, 47, 0.05) 1px, transparent 1px),
+        rgba(3, 13, 10, 0.92);
+    background-size: 36px 36px;
     border: 1px solid var(--eden-line);
     border-radius: var(--eden-radius);
-    padding: 16px;
-}
-
-.eden-metrics strong {
-    color: var(--eden-ink);
-    display: block;
-    font-size: 1.2rem;
-    margin-top: 5px;
-}
-
-.eden-note {
-    border-top: 1px solid var(--eden-line);
-    font-size: 0.92rem;
-    padding-top: 14px;
-}
-
-.eden-routes {
-    display: grid;
-    gap: 12px;
-}
-
-.eden-route {
-    align-items: center;
-    background: var(--eden-cream);
-    border: 1px solid var(--eden-line);
-    border-radius: var(--eden-radius);
-    color: inherit;
-    cursor: pointer;
-    display: grid;
-    gap: 5px 14px;
-    grid-template-columns: minmax(0, 1fr) auto;
-    padding: 16px;
-    text-align: left;
-}
-
-.eden-route.is-active,
-.eden-route:hover {
-    border-color: var(--eden-green);
-    box-shadow: inset 4px 0 0 var(--eden-green);
-}
-
-.eden-route span {
-    grid-column: 1 / -1;
-}
-
-.eden-route b {
-    color: var(--eden-green);
-}
-
-.eden-route-detail {
-    align-items: center;
-    background: rgba(102, 131, 91, 0.13);
-    border: 1px solid rgba(102, 131, 91, 0.28);
-    border-radius: var(--eden-radius);
+    box-shadow: inset 0 0 90px rgba(31, 209, 255, 0.07), var(--eden-shadow);
     display: grid;
     gap: 16px;
-    grid-template-columns: auto minmax(0, 1fr);
-    padding: 16px;
+    overflow: hidden;
+    padding: 18px;
+    position: relative;
 }
 
-.eden-ring {
-    background:
-        radial-gradient(circle, var(--eden-bg) 0 55%, transparent 56%),
-        conic-gradient(var(--eden-green) calc(var(--eden-ring) * 1%), rgba(45, 58, 39, 0.18) 0);
+.eden-interface-top {
+    align-items: center;
+    border-bottom: 1px solid var(--eden-line);
+    display: flex;
+    gap: 8px;
+    padding: 0 0 16px;
+}
+
+.eden-interface-top span {
+    background: var(--eden-green);
     border-radius: 50%;
-    display: grid;
-    height: 84px;
-    place-items: center;
-    width: 84px;
+    box-shadow: var(--eden-glow-green);
+    height: 9px;
+    width: 9px;
 }
 
-.eden-ring span {
-    color: var(--eden-ink);
-    font-weight: 950;
+.eden-interface-top span:nth-child(2) {
+    background: var(--eden-cyan);
 }
 
-.eden-status-grid .eden-card {
-    min-height: 155px;
+.eden-interface-top span:nth-child(3) {
+    background: var(--eden-gold);
 }
 
-.eden-use-grid .eden-card {
-    min-height: 130px;
+.eden-interface-top strong {
+    color: var(--eden-text-soft);
+    margin-left: 8px;
+}
+
+.eden-module-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.eden-module-tile {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(172, 255, 190, 0.14);
+    border-radius: var(--eden-radius);
+    min-height: 180px;
+    overflow: hidden;
+    padding: 18px;
+    position: relative;
+}
+
+.eden-module-tile h3 {
+    max-width: 170px;
+}
+
+.eden-module-tile p {
+    margin-top: 10px;
+}
+
+.eden-module-tile i {
+    background:
+        radial-gradient(circle, rgba(124, 255, 47, 0.62), transparent 62%),
+        conic-gradient(from 80deg, rgba(31, 209, 255, 0.7), rgba(124, 255, 47, 0.18), rgba(31, 209, 255, 0.7));
+    border-radius: 50%;
+    bottom: -46px;
+    height: 112px;
+    position: absolute;
+    right: -34px;
+    width: 112px;
 }
 
 .eden-cta {
     align-items: center;
-    background: var(--eden-olive);
-    color: #fffaf1;
+    background:
+        linear-gradient(135deg, rgba(8, 36, 22, 0.94), rgba(2, 18, 26, 0.94)),
+        #06100b;
+    border: 1px solid rgba(124, 255, 47, 0.22);
+    border-radius: var(--eden-radius);
+    box-shadow: var(--eden-shadow), inset 0 0 96px rgba(31, 209, 255, 0.08);
     display: grid;
-    gap: 24px;
+    gap: 28px;
     grid-template-columns: minmax(0, 1fr) auto;
-    padding: clamp(24px, 5vw, 48px);
+    margin-bottom: 72px;
+    overflow: hidden;
+    padding: clamp(34px, 6vw, 60px);
 }
 
-.eden-cta h2,
+.eden-cta-glow {
+    background: radial-gradient(circle, rgba(124, 255, 47, 0.2), transparent 62%);
+    height: 520px;
+    position: absolute;
+    right: -220px;
+    top: -240px;
+    width: 520px;
+}
+
 .eden-cta p {
-    color: #fffaf1;
+    color: var(--eden-text-soft);
+    margin-top: 14px;
+    max-width: 760px;
 }
 
-.eden-cta p {
-    margin-top: 10px;
-    max-width: 780px;
-    opacity: 0.82;
-}
-
-@media (max-width: 980px) {
-    .eden-hero,
-    .eden-tool-layout,
-    .eden-cta {
-        grid-template-columns: 1fr;
+@media (prefers-reduced-motion: no-preference) {
+    .eden-showcase::before {
+        animation: eden-drift 18s ease-in-out infinite alternate;
     }
 
-    .eden-feature-grid,
-    .eden-flow,
-    .eden-metrics,
-    .eden-status-grid,
-    .eden-use-grid,
-    .eden-system-rail {
+    .eden-hero-art,
+    .eden-cta-glow {
+        animation: eden-float 7s ease-in-out infinite;
+    }
+}
+
+@keyframes eden-drift {
+    from {
+        transform: translate3d(-18px, 0, 0);
+    }
+
+    to {
+        transform: translate3d(22px, 18px, 0);
+    }
+}
+
+@keyframes eden-float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-14px);
+    }
+}
+
+@media (max-width: 1060px) {
+    .eden-hero,
+    .eden-visual-section,
+    .eden-cta {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .eden-pillar-grid,
+    .eden-pathway-grid,
+    .eden-module-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .eden-showcase h1 {
-        font-size: clamp(3rem, 10vw, 5.1rem);
+    .eden-hero-art {
+        min-height: 660px;
+    }
+
+    .eden-visual-section .eden-section-media {
+        min-height: 420px;
     }
 }
 
-@media (max-width: 640px) {
-    .eden-showcase {
-        padding: 10px;
-    }
-
+@media (max-width: 700px) {
     .eden-site-nav {
         display: none;
     }
 
-    .eden-showcase h1 {
-        font-size: 2.72rem;
-        line-height: 1.08;
-    }
-
-    .eden-showcase h2 {
-        font-size: 2.22rem;
+    .eden-hero,
+    .eden-section,
+    .eden-cta {
+        width: min(calc(100% - 22px), 1240px);
     }
 
     .eden-hero {
         min-height: 0;
-        padding: 22px;
+        padding: 54px 0 64px;
     }
 
-    .eden-molecule-row,
-    .eden-hero-metrics,
-    .eden-feature-grid,
-    .eden-flow,
-    .eden-metrics,
-    .eden-status-grid,
-    .eden-use-grid,
-    .eden-system-rail,
-    .eden-route-detail {
-        grid-template-columns: 1fr;
+    .eden-logo {
+        height: 62px;
+        width: 62px;
     }
 
-    .eden-molecule-row b {
-        text-align: center;
+    .eden-showcase h1 {
+        font-size: clamp(2.72rem, 14vw, 4.05rem);
+        overflow-wrap: break-word;
     }
 
-    .eden-route {
-        grid-template-columns: 1fr;
+    .eden-showcase h2 {
+        font-size: clamp(2.22rem, 11vw, 3.4rem);
     }
 
-    .eden-card-footer,
-    .eden-tool label span {
-        align-items: flex-start;
-        flex-direction: column;
+    .eden-button {
+        width: 100%;
+    }
+
+    .eden-hero-art {
+        aspect-ratio: 0.8;
+        min-height: 520px;
+    }
+
+    .eden-hero-readout {
+        bottom: 7%;
+        left: 5%;
+        right: 5%;
+    }
+
+    .eden-pillar-grid,
+    .eden-pathway-grid,
+    .eden-module-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .eden-pillar-card {
+        min-height: 420px;
+    }
+
+    .eden-visual-section .eden-section-media {
+        min-height: 340px;
+    }
+
+    .eden-module-tile {
+        min-height: 150px;
     }
 }
