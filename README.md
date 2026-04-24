@@ -2,6 +2,8 @@
 
 Public-safe Eden Engine website sections for WordPress.
 
+Current version: 0.1.1
+
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
 ## Shortcodes
@@ -59,3 +61,10 @@ eden-engine-wordpress-plugin/
 
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
+## Changelog
+
+### Version 0.1.1
+
+- Improved homepage showcase
+- Improved responsive styling
+- Preserved all shortcodes

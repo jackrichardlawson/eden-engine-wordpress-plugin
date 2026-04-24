@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Eden Engine
  * Description: Eden Engine website sections, shortcodes, and public safe demo components.
- * Version: 0.1.0
+ * Version: 0.1.1
  * Author: Jack Lawson
  * Text Domain: eden-engine
  */
@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'EDEN_ENGINE_VERSION' ) ) {
-    define( 'EDEN_ENGINE_VERSION', '0.1.0' );
+    define( 'EDEN_ENGINE_VERSION', '0.1.1' );
 }
 
 if ( ! defined( 'EDEN_ENGINE_PLUGIN_FILE' ) ) {
@@ -36,4 +36,3 @@ if ( ! defined( 'EDEN_ENGINE_PLUGIN_URL' ) ) {
 }
 
 require_once EDEN_ENGINE_PLUGIN_PATH . 'includes/shortcodes.php';
-

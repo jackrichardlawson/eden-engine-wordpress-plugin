@@ -39,7 +39,7 @@
         var buttons = root.querySelectorAll("[data-eden-route]");
         var confidence = root.querySelector("[data-eden-route-confidence]");
         var details = root.querySelector("[data-eden-route-details]");
-        var ring = root.querySelector(".eden-engine-ring");
+        var ring = root.querySelector(".eden-ring");
 
         if (!buttons.length || !confidence || !details || !ring) {
             return;
@@ -60,12 +60,12 @@
     }
 
     function mount() {
-        document.querySelectorAll(".eden-engine-showcase").forEach(function (root) {
-            if (root.dataset.edenEngineMounted === "true") {
+        document.querySelectorAll(".eden-showcase").forEach(function (root) {
+            if (root.dataset.edenMounted === "true") {
                 return;
             }
 
-            root.dataset.edenEngineMounted = "true";
+            root.dataset.edenMounted = "true";
             updateTargetMapper(root);
             updatePathwayDemo(root);
         });
@@ -77,4 +77,3 @@
         mount();
     }
 })();
-
