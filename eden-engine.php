@@ -1,8 +1,9 @@
 <?php
 /**
  * Plugin Name: Eden Engine
+ * Plugin URI: https://github.com/jackrichardlawson/eden-engine-wordpress-plugin
  * Description: Eden Engine website sections, shortcodes, and public safe demo components.
- * Version: 0.1.2
+ * Version: 0.2.0
  * Author: Jack Lawson
  * Text Domain: eden-engine
  */
@@ -12,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'EDEN_ENGINE_VERSION' ) ) {
-    define( 'EDEN_ENGINE_VERSION', '0.1.2' );
+    define( 'EDEN_ENGINE_VERSION', '0.2.0' );
 }
 
 if ( ! defined( 'EDEN_ENGINE_PLUGIN_FILE' ) ) {

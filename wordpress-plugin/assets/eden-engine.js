@@ -1,56 +1,67 @@
 (function () {
-    function mountShowcase(root) {
-        if (root.dataset.edenMounted === "true") {
+    function mountDemo(root) {
+        var tabs = root.querySelectorAll("[data-eden-demo-tab]");
+        var prompt = root.querySelector("[data-eden-demo-prompt]");
+        var details = root.querySelector("[data-eden-demo-details]");
+
+        if (!tabs.length || !prompt || !details) {
             return;
         }
 
-        root.dataset.edenMounted = "true";
-        document.body.classList.add("eden-has-showcase");
+        tabs.forEach(function (tab) {
+            tab.addEventListener("click", function () {
+                tabs.forEach(function (item) {
+                    item.classList.remove("is-active");
+                });
 
-        root.querySelectorAll(".eden-media img").forEach(function (image) {
-            image.addEventListener(
-                "load",
-                function () {
-                    var frame = image.closest(".eden-media");
+                tab.classList.add("is-active");
+                prompt.textContent = tab.getAttribute("data-eden-prompt") || "";
+                details.textContent = tab.getAttribute("data-eden-details") || "";
+            });
+        });
+    }
 
-                    if (frame) {
-                        frame.classList.add("eden-media--loaded");
+    function mountReveal(root) {
+        var sections = root.querySelectorAll("[data-eden-engine-section]");
+
+        root.classList.add("eden-engine-js");
+
+        if (!("IntersectionObserver" in window)) {
+            sections.forEach(function (section) {
+                section.classList.add("is-visible");
+            });
+            return;
+        }
+
+        var observer = new IntersectionObserver(
+            function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) {
+                        return;
                     }
-                },
-                { once: true }
-            );
 
-            image.addEventListener(
-                "error",
-                function () {
-                    var frame = image.closest(".eden-media");
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
+                });
+            },
+            { rootMargin: "0px 0px -12% 0px", threshold: 0.08 }
+        );
 
-                    if (frame) {
-                        frame.classList.add("eden-media--fallback");
-                    }
-
-                    image.setAttribute("aria-hidden", "true");
-                },
-                { once: true }
-            );
-
-            if (image.complete && image.naturalWidth > 0) {
-                var frame = image.closest(".eden-media");
-
-                if (frame) {
-                    if (image.naturalWidth <= 2 && image.naturalHeight <= 2) {
-                        frame.classList.add("eden-media--fallback");
-                        image.setAttribute("aria-hidden", "true");
-                    } else {
-                        frame.classList.add("eden-media--loaded");
-                    }
-                }
-            }
+        sections.forEach(function (section) {
+            observer.observe(section);
         });
     }
 
     function mount() {
-        document.querySelectorAll(".eden-showcase").forEach(mountShowcase);
+        document.querySelectorAll(".eden-engine-showcase").forEach(function (root) {
+            if (root.dataset.edenEngineMounted === "true") {
+                return;
+            }
+
+            root.dataset.edenEngineMounted = "true";
+            mountDemo(root);
+            mountReveal(root);
+        });
     }
 
     if (document.readyState === "loading") {
