@@ -264,6 +264,24 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
 
 add_action( 'wp', 'eden_engine_purge_cache_after_update', 20 );
 
+if ( ! function_exists( 'eden_engine_public_tagline' ) ) {
+    function eden_engine_public_tagline(): string {
+        return 'Closed loop food infrastructure';
+    }
+}
+
+add_filter( 'pre_option_blogdescription', 'eden_engine_public_tagline' );
+
+if ( ! function_exists( 'eden_engine_document_title' ) ) {
+    function eden_engine_document_title( array $parts ): array {
+        $parts['tagline'] = eden_engine_public_tagline();
+
+        return $parts;
+    }
+}
+
+add_filter( 'document_title_parts', 'eden_engine_document_title' );
+
 if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
