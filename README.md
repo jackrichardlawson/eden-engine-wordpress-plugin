@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts and research preview components for WordPress.
 
-Current version: 0.2.0
+Current version: 0.2.9
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
