@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Eden Engine
  * Plugin URI: https://github.com/jackrichardlawson/eden-engine-wordpress-plugin
- * Description: Eden Engine website sections, shortcodes, and public safe demo components.
+ * Description: Eden Engine website sections, research previews, and closed loop food infrastructure components.
  * Version: 0.2.0
  * Author: Jack Lawson
  * Text Domain: eden-engine
