@@ -235,6 +235,35 @@ if ( ! function_exists( 'eden_engine_body_class' ) ) {
 
 add_filter( 'body_class', 'eden_engine_body_class' );
 
+if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
+    function eden_engine_purge_cache_after_update(): void {
+        if ( is_admin() ) {
+            return;
+        }
+
+        $option_name = 'eden_engine_cache_purged_version';
+
+        if ( get_option( $option_name ) === EDEN_ENGINE_VERSION ) {
+            return;
+        }
+
+        do_action( 'litespeed_purge_url', home_url( '/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/mission/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/technology/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/whitepaper/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/journal/' ) );
+        do_action( 'litespeed_purge_all' );
+
+        if ( ! headers_sent() ) {
+            header( 'X-LiteSpeed-Purge: *', false );
+        }
+
+        update_option( $option_name, EDEN_ENGINE_VERSION, false );
+    }
+}
+
+add_action( 'wp', 'eden_engine_purge_cache_after_update', 20 );
+
 if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
