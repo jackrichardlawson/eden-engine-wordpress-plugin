@@ -19,6 +19,7 @@ if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
             'eden_reactor_status',
             'eden_mission',
             'eden_technology',
+            'eden_roadmap',
             'eden_whitepaper',
         );
     }
@@ -158,6 +159,12 @@ if ( ! function_exists( 'eden_engine_shortcode_technology' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_shortcode_roadmap' ) ) {
+    function eden_engine_shortcode_roadmap( array $atts ): string {
+        return eden_engine_render( $atts, 'roadmap' );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_whitepaper' ) ) {
     function eden_engine_shortcode_whitepaper( array $atts ): string {
         return eden_engine_render( $atts, 'whitepaper' );
@@ -171,6 +178,7 @@ add_shortcode( 'eden_pathway_demo', 'eden_engine_shortcode_pathway_demo' );
 add_shortcode( 'eden_reactor_status', 'eden_engine_shortcode_reactor_status' );
 add_shortcode( 'eden_mission', 'eden_engine_shortcode_mission' );
 add_shortcode( 'eden_technology', 'eden_engine_shortcode_technology' );
+add_shortcode( 'eden_roadmap', 'eden_engine_shortcode_roadmap' );
 add_shortcode( 'eden_whitepaper', 'eden_engine_shortcode_whitepaper' );
 
 if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
@@ -185,6 +193,10 @@ if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
 
         if ( is_page( 'technology' ) ) {
             return 'technology';
+        }
+
+        if ( is_page( 'roadmap' ) ) {
+            return 'roadmap';
         }
 
         if ( is_page( 'whitepaper' ) ) {
@@ -205,6 +217,7 @@ if ( ! function_exists( 'eden_engine_auto_custom_pages' ) ) {
             has_shortcode( $content, 'eden_engine_showcase' ) ||
             has_shortcode( $content, 'eden_mission' ) ||
             has_shortcode( $content, 'eden_technology' ) ||
+            has_shortcode( $content, 'eden_roadmap' ) ||
             has_shortcode( $content, 'eden_whitepaper' ) ||
             str_contains( $content, 'data-eden-engine-embed' )
         ) {
@@ -235,6 +248,30 @@ if ( ! function_exists( 'eden_engine_body_class' ) ) {
 
 add_filter( 'body_class', 'eden_engine_body_class' );
 
+if ( ! function_exists( 'eden_engine_ensure_public_pages' ) ) {
+    function eden_engine_ensure_public_pages(): void {
+        if ( get_option( 'eden_engine_pages_created_version' ) === EDEN_ENGINE_VERSION ) {
+            return;
+        }
+
+        if ( ! get_page_by_path( 'roadmap' ) ) {
+            wp_insert_post(
+                array(
+                    'post_title'   => 'Roadmap',
+                    'post_name'    => 'roadmap',
+                    'post_content' => '[eden_roadmap]',
+                    'post_status'  => 'publish',
+                    'post_type'    => 'page',
+                )
+            );
+        }
+
+        update_option( 'eden_engine_pages_created_version', EDEN_ENGINE_VERSION, false );
+    }
+}
+
+add_action( 'init', 'eden_engine_ensure_public_pages', 20 );
+
 if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
     function eden_engine_purge_cache_after_update(): void {
         if ( is_admin() ) {
@@ -250,6 +287,7 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
         do_action( 'litespeed_purge_url', home_url( '/' ) );
         do_action( 'litespeed_purge_url', home_url( '/mission/' ) );
         do_action( 'litespeed_purge_url', home_url( '/technology/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/roadmap/' ) );
         do_action( 'litespeed_purge_url', home_url( '/whitepaper/' ) );
         do_action( 'litespeed_purge_url', home_url( '/journal/' ) );
         do_action( 'litespeed_purge_all' );
@@ -286,11 +324,12 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
             array( 'Home', home_url( '/' ) ),
-            array( 'Mission', home_url( '/mission/' ) ),
+            array( 'System', home_url( '/#system' ) ),
             array( 'Technology', home_url( '/technology/' ) ),
+            array( 'Roadmap', home_url( '/roadmap/' ) ),
             array( 'Whitepaper', home_url( '/whitepaper/' ) ),
             array( 'Journal', home_url( '/journal/' ) ),
-            array( 'Collaborate', home_url( '/#collaborate' ) ),
+            array( 'Partner', home_url( '/#partner' ) ),
         );
 
         $html  = '<div class="eden-wp-nav-wrap"><header class="eden-nav eden-wp-nav" aria-label="Eden Engine navigation">';
@@ -301,7 +340,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
             $html .= '<a href="' . esc_url( $item[1] ) . '">' . esc_html( $item[0] ) . '</a>';
         }
 
-        $html .= '</nav><a class="eden-nav-action" href="' . esc_url( home_url( '/#collaborate' ) ) . '">Collaborate</a>';
+        $html .= '</nav><a class="eden-nav-action" href="' . esc_url( home_url( '/#partner' ) ) . '">Partner</a>';
         $html .= '</header></div>';
 
         return $html;
