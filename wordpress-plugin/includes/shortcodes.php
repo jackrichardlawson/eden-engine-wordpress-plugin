@@ -129,6 +129,21 @@ if ( ! function_exists( 'eden_engine_maybe_enqueue_assets' ) ) {
 
 add_action( 'wp_enqueue_scripts', 'eden_engine_maybe_enqueue_assets' );
 
+if ( ! function_exists( 'eden_engine_dequeue_legacy_theme_assets' ) ) {
+    function eden_engine_dequeue_legacy_theme_assets(): void {
+        if ( '' === eden_engine_current_page_widget() && ! eden_engine_page_has_shortcode() ) {
+            return;
+        }
+
+        wp_dequeue_style( 'eden-engine-style' );
+        wp_deregister_style( 'eden-engine-style' );
+        wp_dequeue_script( 'eden-engine-script' );
+        wp_deregister_script( 'eden-engine-script' );
+    }
+}
+
+add_action( 'wp_enqueue_scripts', 'eden_engine_dequeue_legacy_theme_assets', 100 );
+
 if ( ! function_exists( 'eden_engine_shortcode_showcase' ) ) {
     function eden_engine_shortcode_showcase( array $atts ): string {
         return eden_engine_render( $atts, 'home' );
