@@ -19,7 +19,13 @@ if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
             'eden_reactor_status',
             'eden_mission',
             'eden_technology',
+            'eden_system',
+            'eden_applications',
             'eden_roadmap',
+            'eden_company',
+            'eden_vision',
+            'eden_contact',
+            'eden_technical_brief',
             'eden_whitepaper',
         );
     }
@@ -49,6 +55,12 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
                 array(),
                 $script_version,
                 true
+            );
+
+            wp_add_inline_script(
+                'eden-engine',
+                'window.EdenEngineAssetsBase = ' . wp_json_encode( EDEN_ENGINE_PLUGIN_URL . 'assets/' ) . ';',
+                'before'
             );
         }
     }
@@ -159,15 +171,51 @@ if ( ! function_exists( 'eden_engine_shortcode_technology' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_shortcode_system' ) ) {
+    function eden_engine_shortcode_system( array $atts ): string {
+        return eden_engine_render( $atts, 'system' );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_shortcode_applications' ) ) {
+    function eden_engine_shortcode_applications( array $atts ): string {
+        return eden_engine_render( $atts, 'applications' );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_roadmap' ) ) {
     function eden_engine_shortcode_roadmap( array $atts ): string {
         return eden_engine_render( $atts, 'roadmap' );
     }
 }
 
+if ( ! function_exists( 'eden_engine_shortcode_company' ) ) {
+    function eden_engine_shortcode_company( array $atts ): string {
+        return eden_engine_render( $atts, 'company' );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_shortcode_vision' ) ) {
+    function eden_engine_shortcode_vision( array $atts ): string {
+        return eden_engine_render( $atts, 'vision' );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_shortcode_contact' ) ) {
+    function eden_engine_shortcode_contact( array $atts ): string {
+        return eden_engine_render( $atts, 'contact' );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_shortcode_technical_brief' ) ) {
+    function eden_engine_shortcode_technical_brief( array $atts ): string {
+        return eden_engine_render( $atts, 'technical-brief' );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_whitepaper' ) ) {
     function eden_engine_shortcode_whitepaper( array $atts ): string {
-        return eden_engine_render( $atts, 'whitepaper' );
+        return eden_engine_render( $atts, 'technical-brief' );
     }
 }
 
@@ -178,7 +226,13 @@ add_shortcode( 'eden_pathway_demo', 'eden_engine_shortcode_pathway_demo' );
 add_shortcode( 'eden_reactor_status', 'eden_engine_shortcode_reactor_status' );
 add_shortcode( 'eden_mission', 'eden_engine_shortcode_mission' );
 add_shortcode( 'eden_technology', 'eden_engine_shortcode_technology' );
+add_shortcode( 'eden_system', 'eden_engine_shortcode_system' );
+add_shortcode( 'eden_applications', 'eden_engine_shortcode_applications' );
 add_shortcode( 'eden_roadmap', 'eden_engine_shortcode_roadmap' );
+add_shortcode( 'eden_company', 'eden_engine_shortcode_company' );
+add_shortcode( 'eden_vision', 'eden_engine_shortcode_vision' );
+add_shortcode( 'eden_contact', 'eden_engine_shortcode_contact' );
+add_shortcode( 'eden_technical_brief', 'eden_engine_shortcode_technical_brief' );
 add_shortcode( 'eden_whitepaper', 'eden_engine_shortcode_whitepaper' );
 
 if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
@@ -188,19 +242,35 @@ if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
         }
 
         if ( is_page( 'mission' ) ) {
-            return 'mission';
+            return 'company';
         }
 
         if ( is_page( 'technology' ) ) {
             return 'technology';
         }
 
+        if ( is_page( 'system' ) ) {
+            return 'system';
+        }
+
+        if ( is_page( 'applications' ) ) {
+            return 'applications';
+        }
+
         if ( is_page( 'roadmap' ) ) {
             return 'roadmap';
         }
 
-        if ( is_page( 'whitepaper' ) ) {
-            return 'whitepaper';
+        if ( is_page( 'company' ) ) {
+            return 'company';
+        }
+
+        if ( is_page( 'vision' ) ) {
+            return 'vision';
+        }
+
+        if ( is_page( 'technical-brief' ) || is_page( 'contact' ) || is_page( 'whitepaper' ) ) {
+            return 'technical-brief';
         }
 
         return '';
@@ -217,7 +287,13 @@ if ( ! function_exists( 'eden_engine_auto_custom_pages' ) ) {
             has_shortcode( $content, 'eden_engine_showcase' ) ||
             has_shortcode( $content, 'eden_mission' ) ||
             has_shortcode( $content, 'eden_technology' ) ||
+            has_shortcode( $content, 'eden_system' ) ||
+            has_shortcode( $content, 'eden_applications' ) ||
             has_shortcode( $content, 'eden_roadmap' ) ||
+            has_shortcode( $content, 'eden_company' ) ||
+            has_shortcode( $content, 'eden_vision' ) ||
+            has_shortcode( $content, 'eden_contact' ) ||
+            has_shortcode( $content, 'eden_technical_brief' ) ||
             has_shortcode( $content, 'eden_whitepaper' ) ||
             str_contains( $content, 'data-eden-engine-embed' )
         ) {
@@ -266,6 +342,32 @@ if ( ! function_exists( 'eden_engine_ensure_public_pages' ) ) {
             );
         }
 
+        $pages = array(
+            'technology'      => array( 'Technology', '[eden_technology]' ),
+            'system'          => array( 'System', '[eden_system]' ),
+            'applications'    => array( 'Applications', '[eden_applications]' ),
+            'company'         => array( 'Company', '[eden_company]' ),
+            'vision'          => array( 'Vision', '[eden_vision]' ),
+            'technical-brief' => array( 'Technical Brief', '[eden_technical_brief]' ),
+            'contact'         => array( 'Contact', '[eden_contact]' ),
+        );
+
+        foreach ( $pages as $slug => $page ) {
+            if ( get_page_by_path( $slug ) ) {
+                continue;
+            }
+
+            wp_insert_post(
+                array(
+                    'post_title'   => $page[0],
+                    'post_name'    => $slug,
+                    'post_content' => $page[1],
+                    'post_status'  => 'publish',
+                    'post_type'    => 'page',
+                )
+            );
+        }
+
         update_option( 'eden_engine_pages_created_version', EDEN_ENGINE_VERSION, false );
     }
 }
@@ -285,10 +387,14 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
         }
 
         do_action( 'litespeed_purge_url', home_url( '/' ) );
-        do_action( 'litespeed_purge_url', home_url( '/mission/' ) );
         do_action( 'litespeed_purge_url', home_url( '/technology/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/system/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/applications/' ) );
         do_action( 'litespeed_purge_url', home_url( '/roadmap/' ) );
-        do_action( 'litespeed_purge_url', home_url( '/whitepaper/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/company/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/vision/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/technical-brief/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/contact/' ) );
         do_action( 'litespeed_purge_url', home_url( '/journal/' ) );
         do_action( 'litespeed_purge_all' );
 
@@ -304,7 +410,7 @@ add_action( 'wp', 'eden_engine_purge_cache_after_update', 20 );
 
 if ( ! function_exists( 'eden_engine_public_tagline' ) ) {
     function eden_engine_public_tagline(): string {
-        return 'Closed loop food infrastructure';
+        return 'Carbon In. Civilization Out.';
     }
 }
 
@@ -324,12 +430,12 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
             array( 'Home', home_url( '/' ) ),
-            array( 'System', home_url( '/#system' ) ),
             array( 'Technology', home_url( '/technology/' ) ),
+            array( 'System', home_url( '/system/' ) ),
+            array( 'Applications', home_url( '/applications/' ) ),
             array( 'Roadmap', home_url( '/roadmap/' ) ),
-            array( 'Whitepaper', home_url( '/whitepaper/' ) ),
-            array( 'Journal', home_url( '/journal/' ) ),
-            array( 'Partner', home_url( '/#partner' ) ),
+            array( 'Company', home_url( '/company/' ) ),
+            array( 'Vision', home_url( '/vision/' ) ),
         );
 
         $html  = '<div class="eden-wp-nav-wrap"><header class="eden-nav eden-wp-nav" aria-label="Eden Engine navigation">';
@@ -340,7 +446,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
             $html .= '<a href="' . esc_url( $item[1] ) . '">' . esc_html( $item[0] ) . '</a>';
         }
 
-        $html .= '</nav><a class="eden-nav-action" href="' . esc_url( home_url( '/#partner' ) ) . '">Partner</a>';
+        $html .= '</nav><a class="eden-nav-action" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
         $html .= '</header></div>';
 
         return $html;

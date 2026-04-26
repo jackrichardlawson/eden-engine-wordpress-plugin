@@ -1,8 +1,8 @@
 # Eden Engine WordPress Plugin
 
-Custom Eden Engine page layouts and research preview components for WordPress.
+Custom Eden Engine page layouts, carbon conversion platform sections, and technical brief intake components for WordPress.
 
-Current version: 0.2.9
+Current version: 0.3.0
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -11,9 +11,14 @@ This repository is intentionally plugin-only. It should contain only the WordPre
 The plugin automatically renders custom layouts for:
 
 - `/`
-- `/mission/`
 - `/technology/`
-- `/whitepaper/`
+- `/system/`
+- `/applications/`
+- `/roadmap/`
+- `/company/`
+- `/vision/`
+- `/technical-brief/`
+- `/contact/`
 
 `/journal/` remains the WordPress Posts Page and receives Eden visual styling only.
 
@@ -32,6 +37,13 @@ Individual sections are also available:
 [eden_reactor_status]
 [eden_mission]
 [eden_technology]
+[eden_system]
+[eden_applications]
+[eden_roadmap]
+[eden_company]
+[eden_vision]
+[eden_contact]
+[eden_technical_brief]
 [eden_whitepaper]
 ```
 
@@ -69,6 +81,8 @@ eden-engine-wordpress-plugin/
     assets/
       eden-engine.css
       eden-engine.js
+      images/
+        eden-engine/
 ```
 
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.

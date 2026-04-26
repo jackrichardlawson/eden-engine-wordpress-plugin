@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Eden Engine
  * Plugin URI: https://github.com/jackrichardlawson/eden-engine-wordpress-plugin
- * Description: Eden Engine website sections, research previews, and closed loop food infrastructure components.
- * Version: 0.2.9
+ * Description: Eden Engine website pages, carbon conversion platform sections, and technical brief intake components.
+ * Version: 0.3.0
  * Author: Jack Lawson
  * Text Domain: eden-engine
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'EDEN_ENGINE_VERSION' ) ) {
-    define( 'EDEN_ENGINE_VERSION', '0.2.9' );
+    define( 'EDEN_ENGINE_VERSION', '0.3.0' );
 }
 
 if ( ! defined( 'EDEN_ENGINE_PLUGIN_FILE' ) ) {
