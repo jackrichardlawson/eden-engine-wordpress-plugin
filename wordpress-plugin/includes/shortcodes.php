@@ -586,25 +586,32 @@ add_filter( 'document_title_parts', 'eden_engine_document_title' );
 if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
-            array( 'Home', home_url( '/' ) ),
-            array( 'Technology', home_url( '/technology/' ) ),
-            array( 'System', home_url( '/system/' ) ),
-            array( 'Applications', home_url( '/applications/' ) ),
-            array( 'Roadmap', home_url( '/roadmap/' ) ),
-            array( 'Company', home_url( '/company/' ) ),
-            array( 'Vision', home_url( '/vision/' ) ),
-            array( 'Journal', home_url( '/journal/' ) ),
+            array( 'home', 'Home', home_url( '/' ) ),
+            array( 'technology', 'Technology', home_url( '/technology/' ) ),
+            array( 'system', 'System', home_url( '/system/' ) ),
+            array( 'applications', 'Applications', home_url( '/applications/' ) ),
+            array( 'roadmap', 'Roadmap', home_url( '/roadmap/' ) ),
+            array( 'company', 'Company', home_url( '/company/' ) ),
+            array( 'vision', 'Vision', home_url( '/vision/' ) ),
+            array( 'journal', 'Journal', home_url( '/journal/' ) ),
         );
 
-        $html  = '<div class="eden-wp-nav-wrap"><header class="eden-nav eden-wp-nav" aria-label="Eden Engine navigation">';
-        $html .= '<a class="eden-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home"><span class="eden-brand-mark" aria-hidden="true">EE</span><span>Eden Engine</span></a>';
-        $html .= '<nav class="eden-nav-links" aria-label="Primary navigation">';
+        $html  = '<div class="eden-wp-nav-wrap"><header class="site-header eden-wp-nav" aria-label="Eden Engine site header">';
+        $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
+        $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/brand/legacy-tree-logo.png' ) . '" alt="" /></span>';
+        $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Civilization Out.</small></span></a>';
+        $html .= '<nav class="site-nav eden-wp-site-nav" aria-label="Primary navigation">';
 
         foreach ( $items as $item ) {
-            $html .= '<a href="' . esc_url( $item[1] ) . '">' . esc_html( $item[0] ) . '</a>';
+            $is_current = ( 'home' === $item[0] && is_front_page() ) || ( 'journal' === $item[0] && eden_engine_should_style_blog() ) || is_page( $item[0] );
+            $current    = $is_current ? ' aria-current="page"' : '';
+            $html      .= '<a class="site-nav__link" href="' . esc_url( $item[2] ) . '"' . $current . '>' . esc_html( $item[1] ) . '</a>';
         }
 
-        $html .= '</nav><a class="eden-nav-action" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
+        $html .= '</nav><div class="site-header__actions">';
+        $html .= '<a class="button button--outline" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
+        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/contact/' ) ) . '">Partner With Us</a>';
+        $html .= '</div>';
         $html .= '</header></div>';
 
         return $html;

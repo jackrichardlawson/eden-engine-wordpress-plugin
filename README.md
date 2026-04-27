@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, carbon conversion platform sections, and technical brief intake components for WordPress.
 
-Current version: 0.3.3
+Current version: 0.3.4
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -91,6 +91,11 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.3.4
+
+- Matched the native Journal navigation to the main Eden Engine site header
+- Tightened the Journal index hero so the first post appears higher on desktop and mobile
 
 ### Version 0.3.3
 

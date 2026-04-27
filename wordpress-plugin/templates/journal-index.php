@@ -24,7 +24,7 @@ if ( $is_search ) {
     $journal_intro = wp_strip_all_tags( get_the_archive_description() );
     $journal_intro = $journal_intro ?: 'A focused collection from the Eden Engine build log.';
 } else {
-    $journal_title = 'Eden Engine Journal';
+    $journal_title = 'Journal';
     $journal_intro = 'Research notes, public constraints, and build updates from the path toward a controlled carbon conversion platform.';
 }
 
