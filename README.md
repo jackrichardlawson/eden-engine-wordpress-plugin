@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, carbon conversion platform sections, and technical brief intake components for WordPress.
 
-Current version: 0.3.2
+Current version: 0.3.3
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -20,7 +20,7 @@ The plugin automatically renders custom layouts for:
 - `/technical-brief/`
 - `/contact/`
 
-`/journal/` remains the WordPress Posts Page and receives Eden visual styling only.
+`/journal/` remains the WordPress Posts Page and now uses Eden-owned native WordPress index and single post templates.
 
 Paste this shortcode into a WordPress page for the full homepage layout if you need manual placement:
 
@@ -78,6 +78,9 @@ eden-engine-wordpress-plugin/
   wordpress-plugin/
     includes/
       shortcodes.php
+    templates/
+      journal-index.php
+      journal-single.php
     assets/
       eden-engine.css
       eden-engine.js
@@ -88,6 +91,12 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.3.3
+
+- Added native Eden Engine WordPress templates for the Journal index, archives, search, and single posts
+- Matched native posts to the homepage visual system with signal-path, readout, featured-post, and article layouts
+- Removed legacy child-theme Eden assets from native blog screens when the plugin renders journal templates
 
 ### Version 0.3.2
 

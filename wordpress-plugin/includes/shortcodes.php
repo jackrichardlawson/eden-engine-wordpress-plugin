@@ -119,6 +119,143 @@ if ( ! function_exists( 'eden_engine_should_style_blog' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_blog_template' ) ) {
+    function eden_engine_blog_template( string $template ): string {
+        if ( is_admin() ) {
+            return $template;
+        }
+
+        if ( is_home() || is_archive() || is_search() ) {
+            $journal_template = EDEN_ENGINE_PLUGIN_PATH . 'templates/journal-index.php';
+
+            return file_exists( $journal_template ) ? $journal_template : $template;
+        }
+
+        if ( is_singular( 'post' ) ) {
+            $single_template = EDEN_ENGINE_PLUGIN_PATH . 'templates/journal-single.php';
+
+            return file_exists( $single_template ) ? $single_template : $template;
+        }
+
+        return $template;
+    }
+}
+
+add_filter( 'template_include', 'eden_engine_blog_template', 99 );
+
+if ( ! function_exists( 'eden_engine_post_image_url' ) ) {
+    function eden_engine_post_image_url( ?int $post_id = null, string $size = 'large' ): string {
+        $post_id = $post_id ?: get_the_ID();
+
+        if ( has_post_thumbnail( $post_id ) ) {
+            $image_url = get_the_post_thumbnail_url( $post_id, $size );
+
+            if ( $image_url ) {
+                return $image_url;
+            }
+        }
+
+        $fallbacks = array(
+            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/phase-1-co2-to-sugar.jpg',
+            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/hero-reactor.jpg',
+            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/platform-pathways.jpg',
+            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/roadmap-preview.jpg',
+        );
+
+        return $fallbacks[ absint( $post_id ) % count( $fallbacks ) ];
+    }
+}
+
+if ( ! function_exists( 'eden_engine_post_image_alt' ) ) {
+    function eden_engine_post_image_alt( ?int $post_id = null ): string {
+        $post_id = $post_id ?: get_the_ID();
+
+        if ( has_post_thumbnail( $post_id ) ) {
+            $alt = get_post_meta( get_post_thumbnail_id( $post_id ), '_wp_attachment_image_alt', true );
+
+            if ( $alt ) {
+                return (string) $alt;
+            }
+        }
+
+        return get_the_title( $post_id );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_post_kicker' ) ) {
+    function eden_engine_post_kicker( ?int $post_id = null ): string {
+        $post_id    = $post_id ?: get_the_ID();
+        $categories = get_the_category( $post_id );
+
+        if ( ! empty( $categories ) && ! is_wp_error( $categories ) ) {
+            return $categories[0]->name;
+        }
+
+        return 'Eden Engine Journal';
+    }
+}
+
+if ( ! function_exists( 'eden_engine_post_read_time' ) ) {
+    function eden_engine_post_read_time( ?int $post_id = null ): string {
+        $post_id = $post_id ?: get_the_ID();
+        $content = wp_strip_all_tags( strip_shortcodes( (string) get_post_field( 'post_content', $post_id ) ) );
+        $words   = str_word_count( $content );
+        $minutes = max( 1, (int) ceil( $words / 220 ) );
+
+        return sprintf(
+            /* translators: %d is an estimated reading time in minutes. */
+            _n( '%d min read', '%d min read', $minutes, 'eden-engine' ),
+            $minutes
+        );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_post_excerpt' ) ) {
+    function eden_engine_post_excerpt( ?int $post_id = null, int $words = 26 ): string {
+        $post_id = $post_id ?: get_the_ID();
+        $excerpt = get_the_excerpt( $post_id );
+
+        if ( '' === trim( $excerpt ) ) {
+            $excerpt = (string) get_post_field( 'post_content', $post_id );
+        }
+
+        return wp_trim_words( wp_strip_all_tags( $excerpt ), $words, '...' );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_render_journal_card' ) ) {
+    function eden_engine_render_journal_card( string $variant = 'card' ): void {
+        $post_id     = get_the_ID();
+        $is_featured = 'featured' === $variant;
+        $heading_tag = $is_featured ? 'h2' : 'h3';
+        $class_name  = $is_featured ? 'eden-journal-card eden-journal-card--featured' : 'eden-journal-card';
+        $image_size  = $is_featured ? 'large' : 'medium_large';
+        ?>
+        <article class="<?php echo esc_attr( $class_name ); ?>">
+            <a class="eden-journal-card__media" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" aria-label="<?php echo esc_attr( get_the_title( $post_id ) ); ?>">
+                <img
+                    src="<?php echo esc_url( eden_engine_post_image_url( $post_id, $image_size ) ); ?>"
+                    alt="<?php echo esc_attr( eden_engine_post_image_alt( $post_id ) ); ?>"
+                    <?php echo $is_featured ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+                />
+            </a>
+            <div class="eden-journal-card__body">
+                <div class="eden-journal-card__meta" aria-label="Post metadata">
+                    <span><?php echo esc_html( eden_engine_post_kicker( $post_id ) ); ?></span>
+                    <span><?php echo esc_html( get_the_date( '', $post_id ) ); ?></span>
+                    <span><?php echo esc_html( eden_engine_post_read_time( $post_id ) ); ?></span>
+                </div>
+                <<?php echo esc_attr( $heading_tag ); ?> class="eden-journal-card__title">
+                    <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>"><?php echo esc_html( get_the_title( $post_id ) ); ?></a>
+                </<?php echo esc_attr( $heading_tag ); ?>>
+                <p class="eden-journal-card__excerpt"><?php echo esc_html( eden_engine_post_excerpt( $post_id, $is_featured ? 34 : 24 ) ); ?></p>
+                <a class="eden-journal-card__link" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>">Read field note</a>
+            </div>
+        </article>
+        <?php
+    }
+}
+
 if ( ! function_exists( 'eden_engine_maybe_enqueue_assets' ) ) {
     function eden_engine_maybe_enqueue_assets(): void {
         if ( eden_engine_page_has_shortcode() || eden_engine_should_style_blog() || '' !== eden_engine_current_page_widget() ) {
@@ -131,7 +268,7 @@ add_action( 'wp_enqueue_scripts', 'eden_engine_maybe_enqueue_assets' );
 
 if ( ! function_exists( 'eden_engine_dequeue_legacy_theme_assets' ) ) {
     function eden_engine_dequeue_legacy_theme_assets(): void {
-        if ( '' === eden_engine_current_page_widget() && ! eden_engine_page_has_shortcode() ) {
+        if ( '' === eden_engine_current_page_widget() && ! eden_engine_page_has_shortcode() && ! eden_engine_should_style_blog() ) {
             return;
         }
 
@@ -333,6 +470,11 @@ if ( ! function_exists( 'eden_engine_body_class' ) ) {
             $classes[] = 'eden-engine-custom-page';
         }
 
+        if ( eden_engine_should_style_blog() ) {
+            $classes[] = 'eden-engine-custom-page';
+            $classes[] = 'eden-engine-journal-page';
+        }
+
         return $classes;
     }
 }
@@ -451,6 +593,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
             array( 'Roadmap', home_url( '/roadmap/' ) ),
             array( 'Company', home_url( '/company/' ) ),
             array( 'Vision', home_url( '/vision/' ) ),
+            array( 'Journal', home_url( '/journal/' ) ),
         );
 
         $html  = '<div class="eden-wp-nav-wrap"><header class="eden-nav eden-wp-nav" aria-label="Eden Engine navigation">';
@@ -475,5 +618,3 @@ if ( ! function_exists( 'eden_engine_blog_nav' ) ) {
         }
     }
 }
-
-add_action( 'wp_body_open', 'eden_engine_blog_nav' );
