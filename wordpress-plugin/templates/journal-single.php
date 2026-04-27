@@ -89,14 +89,26 @@ if ( function_exists( 'wp_body_open' ) ) {
                 </div>
             </div>
 
-            <nav class="eden-post-navigation" aria-label="Adjacent journal posts">
-                <div>
-                    <?php previous_post_link( '<span>Previous</span>%link' ); ?>
-                </div>
-                <div>
-                    <?php next_post_link( '<span>Next</span>%link' ); ?>
-                </div>
-            </nav>
+            <?php
+            $previous_post = get_previous_post();
+            $next_post     = get_next_post();
+            ?>
+            <?php if ( $previous_post || $next_post ) : ?>
+                <nav class="eden-post-navigation" aria-label="Adjacent journal posts">
+                    <?php if ( $previous_post ) : ?>
+                        <div>
+                            <span>Previous</span>
+                            <a href="<?php echo esc_url( get_permalink( $previous_post ) ); ?>"><?php echo esc_html( get_the_title( $previous_post ) ); ?></a>
+                        </div>
+                    <?php endif; ?>
+                    <?php if ( $next_post ) : ?>
+                        <div>
+                            <span>Next</span>
+                            <a href="<?php echo esc_url( get_permalink( $next_post ) ); ?>"><?php echo esc_html( get_the_title( $next_post ) ); ?></a>
+                        </div>
+                    <?php endif; ?>
+                </nav>
+            <?php endif; ?>
         </article>
     <?php endwhile; ?>
 </main>
