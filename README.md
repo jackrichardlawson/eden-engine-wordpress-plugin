@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, carbon conversion platform sections, and technical brief intake components for WordPress.
 
-Current version: 0.3.4
+Current version: 0.3.6
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -91,6 +91,14 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.3.6
+
+- Added plugin-versioned CSS and JavaScript URLs so browser and CDN caches pick up deployed bundle changes immediately
+
+### Version 0.3.5
+
+- Rebuilt the public site around Phase 1 credibility framing, current-status modules, tightened hero layouts, and a working technical brief intake path
 
 ### Version 0.3.4
 

@@ -36,8 +36,8 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
         $style_path  = EDEN_ENGINE_PLUGIN_PATH . 'assets/eden-engine.css';
         $script_path = EDEN_ENGINE_PLUGIN_PATH . 'assets/eden-engine.js';
 
-        $style_version  = file_exists( $style_path ) ? (string) filemtime( $style_path ) : EDEN_ENGINE_VERSION;
-        $script_version = file_exists( $script_path ) ? (string) filemtime( $script_path ) : EDEN_ENGINE_VERSION;
+        $style_version  = file_exists( $style_path ) ? EDEN_ENGINE_VERSION . '-' . (string) filemtime( $style_path ) : EDEN_ENGINE_VERSION;
+        $script_version = file_exists( $script_path ) ? EDEN_ENGINE_VERSION . '-' . (string) filemtime( $script_path ) : EDEN_ENGINE_VERSION;
 
         if ( file_exists( $style_path ) ) {
             wp_enqueue_style(
