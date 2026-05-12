@@ -59,10 +59,115 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
 
             wp_add_inline_script(
                 'eden-engine',
-                'window.EdenEngineAssetsBase = ' . wp_json_encode( EDEN_ENGINE_PLUGIN_URL . 'assets/' ) . ';',
+                'window.EdenEngineAssetsBase = ' . wp_json_encode( EDEN_ENGINE_PLUGIN_URL . 'assets/' ) . ';' .
+                'window.EdenEngineConfig = ' . wp_json_encode(
+                    array(
+                        'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
+                        'briefRequestNonce' => wp_create_nonce( 'eden_engine_brief_request' ),
+                        'fallbackEmail'     => sanitize_email(
+                            (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
+                        ),
+                    )
+                ) . ';',
                 'before'
             );
         }
+    }
+}
+
+if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
+    function eden_engine_public_widget_content( string $widget ): array {
+        $content = array(
+            'home'            => array(
+                'title'   => 'Carbon In. Civilization Out.',
+                'summary' => 'Eden Engine is an early-stage hardtech R&D program developing controlled carbon-conversion pathways, beginning with one bounded Phase 1 bench-validation target.',
+                'cta'     => 'Request Technical Brief',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+            'technology'      => array(
+                'title'   => 'The Technology Behind Carbon Conversion',
+                'summary' => 'The technology program is organized around one testable carbon-to-carbohydrate pathway, with future modules treated as conditional extensions of bench evidence.',
+                'cta'     => 'Request Technical Brief',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+            'system'          => array(
+                'title'   => 'Target System Architecture',
+                'summary' => 'The system page describes an intended modular architecture: what is modeled now, what Phase 1 must measure, and which modules remain future work.',
+                'cta'     => 'View Roadmap',
+                'url'     => home_url( '/roadmap/' ),
+            ),
+            'applications'    => array(
+                'title'   => 'Motivating Use Cases',
+                'summary' => 'Applications are future motivating targets for resilient resource systems, not claims of current deployment or commercial output.',
+                'cta'     => 'View Roadmap',
+                'url'     => home_url( '/roadmap/' ),
+            ),
+            'roadmap'         => array(
+                'title'   => 'From First Wedge to Future Platform',
+                'summary' => 'The roadmap separates current Phase 1 work from conditional future pathways, making each expansion dependent on measured evidence and partner support.',
+                'cta'     => 'Request Technical Brief',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+            'journal'         => array(
+                'title'   => 'Field Notes From the Carbon Conversion Build',
+                'summary' => 'A public proof ledger for what is modeled, what is being tested, and what still needs evidence.',
+                'cta'     => 'Read Field Notes',
+                'url'     => home_url( '/journal/' ),
+            ),
+            'company'         => array(
+                'title'   => 'Building a Disciplined Carbon Conversion Program',
+                'summary' => 'Eden Engine Technologies is an early-stage hardtech R&D company focused on disciplined carbon-conversion validation before broader platform claims.',
+                'cta'     => 'Partner With Eden Engine',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+            'vision'          => array(
+                'title'   => 'A Better Planet Starts With Better Infrastructure',
+                'summary' => 'Vision is the long-term home for Eden Engine ambition: regenerative infrastructure, circular resources, and more resilient production systems.',
+                'cta'     => 'View Roadmap',
+                'url'     => home_url( '/roadmap/' ),
+            ),
+            'technical-brief' => array(
+                'title'   => 'Partner With Eden Engine',
+                'summary' => 'Request the Phase 1 technical brief or start a partner conversation around bench validation, assays, sensors, pathway review, or early funding.',
+                'cta'     => 'Request Technical Brief',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+            'partner'         => array(
+                'title'   => 'Partner With Eden Engine',
+                'summary' => 'Request the Phase 1 technical brief or start a partner conversation around bench validation, assays, sensors, pathway review, or early funding.',
+                'cta'     => 'Request Technical Brief',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+            'contact'         => array(
+                'title'   => 'Partner With Eden Engine',
+                'summary' => 'Request the Phase 1 technical brief or start a partner conversation around bench validation, assays, sensors, pathway review, or early funding.',
+                'cta'     => 'Request Technical Brief',
+                'url'     => home_url( '/technical-brief/' ),
+            ),
+        );
+
+        return $content[ $widget ] ?? $content['home'];
+    }
+}
+
+if ( ! function_exists( 'eden_engine_fallback_html' ) ) {
+    function eden_engine_fallback_html( string $widget ): string {
+        $content = eden_engine_public_widget_content( $widget );
+
+        $html  = '<section class="eden-engine-crawlable-fallback">';
+        $html .= '<p class="eyebrow">Current status</p>';
+        $html .= '<h1>' . esc_html( $content['title'] ) . '</h1>';
+        $html .= '<p>' . esc_html( $content['summary'] ) . '</p>';
+        $html .= '<ul>';
+        $html .= '<li><strong>Stage:</strong> Phase 1: bench validation planning.</li>';
+        $html .= '<li><strong>Objective:</strong> Build and instrument a bounded carbon-to-carbohydrate pathway.</li>';
+        $html .= '<li><strong>Measured:</strong> No public measured performance data is claimed until dated bench evidence exists.</li>';
+        $html .= '<li><strong>Not claimed:</strong> No commercial food, fuel, materials, life-support output, or production-ready system claim.</li>';
+        $html .= '</ul>';
+        $html .= '<a class="button button--primary" href="' . esc_url( $content['url'] ) . '">' . esc_html( $content['cta'] ) . '</a>';
+        $html .= '</section>';
+
+        return $html;
     }
 }
 
@@ -83,10 +188,11 @@ if ( ! function_exists( 'eden_engine_render' ) ) {
         $compact = filter_var( $atts['compact'], FILTER_VALIDATE_BOOLEAN ) ? 'true' : 'false';
 
         return sprintf(
-            '<div class="eden-engine-embed-root" data-eden-engine-embed data-widget="%1$s" data-title="%2$s" data-compact="%3$s"></div>',
+            '<div class="eden-engine-embed-root" data-eden-engine-embed data-widget="%1$s" data-title="%2$s" data-compact="%3$s">%4$s</div>',
             esc_attr( $widget ),
             esc_attr( $title ),
-            esc_attr( $compact )
+            esc_attr( $compact ),
+            eden_engine_fallback_html( $widget )
         );
     }
 }
@@ -313,7 +419,7 @@ if ( ! function_exists( 'eden_engine_shortcode_reactor_status' ) ) {
 
 if ( ! function_exists( 'eden_engine_shortcode_mission' ) ) {
     function eden_engine_shortcode_mission( array $atts ): string {
-        return eden_engine_render( $atts, 'mission' );
+        return eden_engine_render( $atts, 'company' );
     }
 }
 
@@ -464,6 +570,89 @@ if ( ! function_exists( 'eden_engine_auto_custom_pages' ) ) {
 
 add_filter( 'the_content', 'eden_engine_auto_custom_pages', 5 );
 
+if ( ! function_exists( 'eden_engine_redirect_alias_pages' ) ) {
+    function eden_engine_redirect_alias_pages(): void {
+        if ( is_admin() || ! ( is_page( 'contact' ) || is_page( 'whitepaper' ) ) ) {
+            return;
+        }
+
+        wp_safe_redirect( home_url( '/technical-brief/' ), 301 );
+        exit;
+    }
+}
+
+add_action( 'template_redirect', 'eden_engine_redirect_alias_pages', 10 );
+
+if ( ! function_exists( 'eden_engine_brief_request_field' ) ) {
+    function eden_engine_brief_request_field( string $key ): string {
+        $value = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+        return sanitize_text_field( (string) $value );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_handle_brief_request' ) ) {
+    function eden_engine_handle_brief_request(): void {
+        $nonce = eden_engine_brief_request_field( 'nonce' );
+
+        if ( ! wp_verify_nonce( $nonce, 'eden_engine_brief_request' ) ) {
+            wp_send_json_error( array( 'message' => 'The request could not be verified. Please refresh and try again.' ), 403 );
+        }
+
+        if ( '' !== eden_engine_brief_request_field( 'website' ) ) {
+            wp_send_json_error( array( 'message' => 'The request could not be sent.' ), 400 );
+        }
+
+        $name          = eden_engine_brief_request_field( 'name' );
+        $email         = sanitize_email( eden_engine_brief_request_field( 'email' ) );
+        $organization  = eden_engine_brief_request_field( 'organization' );
+        $role          = eden_engine_brief_request_field( 'role' );
+        $interest_type = eden_engine_brief_request_field( 'interestType' );
+        $message       = sanitize_textarea_field(
+            isset( $_POST['message'] ) ? (string) wp_unslash( $_POST['message'] ) : '' // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        );
+
+        if ( '' === $name || '' === $email || '' === $message || ! is_email( $email ) ) {
+            wp_send_json_error( array( 'message' => 'Please provide a valid name, email, and message.' ), 400 );
+        }
+
+        $recipient = sanitize_email(
+            (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
+        );
+
+        if ( ! is_email( $recipient ) ) {
+            wp_send_json_error( array( 'message' => 'The request inbox is not configured. Please use email instead.' ), 500 );
+        }
+
+        $subject = sprintf( 'Eden Engine Technical Brief Request - %s', $name );
+        $body    = implode(
+            "\n",
+            array(
+                'New Eden Engine technical brief request:',
+                '',
+                'Name: ' . $name,
+                'Email: ' . $email,
+                'Organization: ' . $organization,
+                'Role: ' . $role,
+                'Interest Type: ' . $interest_type,
+                '',
+                'Message:',
+                $message,
+            )
+        );
+        $headers = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
+
+        if ( ! wp_mail( $recipient, $subject, $body, $headers ) ) {
+            wp_send_json_error( array( 'message' => 'The request could not be sent. Please use email instead.' ), 500 );
+        }
+
+        wp_send_json_success( array( 'message' => 'Request sent. Eden Engine will follow up by email.' ) );
+    }
+}
+
+add_action( 'wp_ajax_nopriv_eden_engine_brief_request', 'eden_engine_handle_brief_request' );
+add_action( 'wp_ajax_eden_engine_brief_request', 'eden_engine_handle_brief_request' );
+
 if ( ! function_exists( 'eden_engine_body_class' ) ) {
     function eden_engine_body_class( array $classes ): array {
         if ( '' !== eden_engine_current_page_widget() ) {
@@ -591,9 +780,10 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
             array( 'system', 'System', home_url( '/system/' ) ),
             array( 'applications', 'Applications', home_url( '/applications/' ) ),
             array( 'roadmap', 'Roadmap', home_url( '/roadmap/' ) ),
+            array( 'journal', 'Journal', home_url( '/journal/' ) ),
             array( 'company', 'Company', home_url( '/company/' ) ),
             array( 'vision', 'Vision', home_url( '/vision/' ) ),
-            array( 'journal', 'Journal', home_url( '/journal/' ) ),
+            array( 'technical-brief', 'Technical Brief', home_url( '/technical-brief/' ) ),
         );
 
         $html  = '<div class="eden-wp-nav-wrap"><header class="site-header eden-wp-nav" aria-label="Eden Engine site header">';
@@ -610,7 +800,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
 
         $html .= '</nav><div class="site-header__actions">';
         $html .= '<a class="button button--outline" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
-        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/contact/' ) ) . '">Partner With Us</a>';
+        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Partner With Eden Engine</a>';
         $html .= '</div>';
         $html .= '</header></div>';
 

@@ -1,0 +1,319 @@
+{
+  "name": "Eden Engine Compact Pilot / Alpha Skid Concept",
+  "version": "1.0",
+  "source_reference": "Generated from requested compact 3D twin layout based on current Eden Engine skid model screenshot.",
+  "scale": {
+    "conceptual_length_m": 9.6,
+    "conceptual_depth_m": 2.15,
+    "conceptual_height_m": 2.85,
+    "intended_scale_mode": "compact_pilot_alpha_skid"
+  },
+  "safety_scope": {
+    "real_hardware_execution_enabled": false,
+    "active_execution_mode": "dry_run_only",
+    "notes": [
+      "Concept visualization only.",
+      "Not a fabrication drawing.",
+      "Formate Activator is a breakthrough placeholder and not validated hardware."
+    ]
+  },
+  "modules": [
+    {
+      "module_id": "controls_cabinet",
+      "label": "Controls Cabinet and HMI",
+      "center_m": {
+        "x": -4.35,
+        "y": -0.28,
+        "z": 1.05
+      },
+      "dimensions_m": {
+        "width_x": 0.55,
+        "depth_y": 0.44,
+        "height_z": 1.9
+      },
+      "zone": "support_systems",
+      "maturity_level": "standard_equipment",
+      "color": "dark_steel",
+      "notes": "Operator panel, safety logic, data collection. Dry-run only."
+    },
+    {
+      "module_id": "co2_conditioning",
+      "label": "CO2 Source and Conditioning",
+      "center_m": {
+        "x": -3.55,
+        "y": 0.15,
+        "z": 0.82
+      },
+      "dimensions_m": {
+        "width_x": 0.65,
+        "depth_y": 0.8,
+        "height_z": 1.25
+      },
+      "zone": "dirty_side",
+      "maturity_level": "known_science_hard_engineering",
+      "color": "blue",
+      "notes": "Receives bottled or captured CO2, regulates and conditions feed. Not direct air capture in this model."
+    },
+    {
+      "module_id": "co2_electrolyzer_stack",
+      "label": "CO2 Electrolyzer Stack",
+      "center_m": {
+        "x": -2.75,
+        "y": 0.08,
+        "z": 0.84
+      },
+      "dimensions_m": {
+        "width_x": 0.86,
+        "depth_y": 0.9,
+        "height_z": 1.25
+      },
+      "zone": "dirty_side",
+      "maturity_level": "known_science_hard_engineering",
+      "color": "blue",
+      "notes": "MEA-style formate-producing stack. Represents known science with hard engineering."
+    },
+    {
+      "module_id": "electrolyte_loop",
+      "label": "Electrolyte Loop Tank and Pump",
+      "center_m": {
+        "x": -1.75,
+        "y": 0.18,
+        "z": 0.72
+      },
+      "dimensions_m": {
+        "width_x": 0.65,
+        "depth_y": 0.8,
+        "height_z": 1.1
+      },
+      "zone": "dirty_side",
+      "maturity_level": "standard_equipment",
+      "color": "blue",
+      "notes": "Recirculates liquid around the electrochemical stack."
+    },
+    {
+      "module_id": "carbonate_salt_management",
+      "label": "Carbonate / Salt Management",
+      "center_m": {
+        "x": -0.85,
+        "y": 0.17,
+        "z": 0.82
+      },
+      "dimensions_m": {
+        "width_x": 0.58,
+        "depth_y": 0.72,
+        "height_z": 1.2
+      },
+      "zone": "dirty_side",
+      "maturity_level": "needs_engineering",
+      "color": "orange",
+      "notes": "Handles carbonate/salt byproduct and recycle. Critical low-salt protection."
+    },
+    {
+      "module_id": "formate_buffer_tank",
+      "label": "Formate Buffer Tank",
+      "center_m": {
+        "x": -0.18,
+        "y": 0.15,
+        "z": 0.86
+      },
+      "dimensions_m": {
+        "width_x": 0.48,
+        "depth_y": 0.68,
+        "height_z": 1.22
+      },
+      "zone": "dirty_side",
+      "maturity_level": "standard_equipment",
+      "color": "orange",
+      "notes": "Intermediate buffer before salt-blocking shuttle."
+    },
+    {
+      "module_id": "formate_shuttle_salt_firewall",
+      "label": "Formate Shuttle / Salt Firewall",
+      "center_m": {
+        "x": 0.55,
+        "y": 0.1,
+        "z": 0.86
+      },
+      "dimensions_m": {
+        "width_x": 0.58,
+        "depth_y": 0.86,
+        "height_z": 1.45
+      },
+      "zone": "firewall",
+      "maturity_level": "needs_engineering",
+      "color": "yellow",
+      "notes": "Selective transfer gate: formate passes, salts/carbonate stay out of clean loop."
+    },
+    {
+      "module_id": "formate_activator",
+      "label": "Formate Activator - Breakthrough Module",
+      "center_m": {
+        "x": 1.35,
+        "y": 0.1,
+        "z": 0.91
+      },
+      "dimensions_m": {
+        "width_x": 0.58,
+        "depth_y": 0.86,
+        "height_z": 1.5
+      },
+      "zone": "clean_side",
+      "maturity_level": "breakthrough_module",
+      "color": "red",
+      "notes": "Core unsolved module: turns formate into usable C1 intermediate. Candidate routes are placeholders."
+    },
+    {
+      "module_id": "c1_capture_cartridge",
+      "label": "C1 Capture Cartridge",
+      "center_m": {
+        "x": 2.05,
+        "y": 0.1,
+        "z": 0.88
+      },
+      "dimensions_m": {
+        "width_x": 0.42,
+        "depth_y": 0.76,
+        "height_z": 1.38
+      },
+      "zone": "clean_side",
+      "maturity_level": "known_pieces_hard_to_combine",
+      "color": "green",
+      "notes": "Captures reactive C1 locally after activation to protect the rest of the system."
+    },
+    {
+      "module_id": "sugar_builder_cartridge_rack",
+      "label": "Sugar Builder Cartridge Rack",
+      "center_m": {
+        "x": 2.95,
+        "y": 0.1,
+        "z": 0.88
+      },
+      "dimensions_m": {
+        "width_x": 0.86,
+        "depth_y": 0.86,
+        "height_z": 1.38
+      },
+      "zone": "clean_side",
+      "maturity_level": "known_pieces_hard_to_combine",
+      "color": "green",
+      "notes": "Parallel replaceable enzyme cartridges for building mixed C6 sugars."
+    },
+    {
+      "module_id": "product_recovery_membrane_skid",
+      "label": "Product Recovery Membrane Skid",
+      "center_m": {
+        "x": 3.95,
+        "y": 0.1,
+        "z": 0.8
+      },
+      "dimensions_m": {
+        "width_x": 0.65,
+        "depth_y": 0.8,
+        "height_z": 1.25
+      },
+      "zone": "product_side",
+      "maturity_level": "standard_equipment",
+      "color": "cyan",
+      "notes": "Membrane/product recovery module; standard equipment class."
+    },
+    {
+      "module_id": "syrup_collection_storage",
+      "label": "Syrup Collection / Storage Tank",
+      "center_m": {
+        "x": 4.65,
+        "y": 0.1,
+        "z": 0.78
+      },
+      "dimensions_m": {
+        "width_x": 0.48,
+        "depth_y": 0.7,
+        "height_z": 1.2
+      },
+      "zone": "product_side",
+      "maturity_level": "standard_equipment",
+      "color": "purple",
+      "notes": "Final mixed C6 syrup storage. Product side only."
+    },
+    {
+      "module_id": "power_electronics",
+      "label": "Power Electronics",
+      "center_m": {
+        "x": -3.45,
+        "y": -0.12,
+        "z": 0.28
+      },
+      "dimensions_m": {
+        "width_x": 1.2,
+        "depth_y": 0.3,
+        "height_z": 0.45
+      },
+      "zone": "support_systems",
+      "maturity_level": "support_system",
+      "color": "dark_steel",
+      "notes": "Power supply cabinets for electrochemical and activation modules."
+    },
+    {
+      "module_id": "thermal_loop",
+      "label": "Thermal Loop",
+      "center_m": {
+        "x": -1.5,
+        "y": -0.62,
+        "z": 0.35
+      },
+      "dimensions_m": {
+        "width_x": 0.9,
+        "depth_y": 0.48,
+        "height_z": 0.55
+      },
+      "zone": "support_systems",
+      "maturity_level": "support_system",
+      "color": "dark_steel",
+      "notes": "Cooling/heating support loop for steady operation."
+    },
+    {
+      "module_id": "sensor_rail_sample_ports",
+      "label": "Sensor Rail and Sample Ports",
+      "center_m": {
+        "x": 2.35,
+        "y": -0.77,
+        "z": 0.35
+      },
+      "dimensions_m": {
+        "width_x": 1.85,
+        "depth_y": 0.2,
+        "height_z": 0.45
+      },
+      "zone": "support_systems",
+      "maturity_level": "standard_equipment",
+      "color": "dark_steel",
+      "notes": "Sampling and simulated sensor access points for dry-run planning."
+    },
+    {
+      "module_id": "safety_interlock_system",
+      "label": "Safety Interlock System",
+      "center_m": {
+        "x": 4.3,
+        "y": -0.7,
+        "z": 0.45
+      },
+      "dimensions_m": {
+        "width_x": 0.42,
+        "depth_y": 0.32,
+        "height_z": 0.55
+      },
+      "zone": "support_systems",
+      "maturity_level": "standard_equipment",
+      "color": "dark_steel",
+      "notes": "Dry-run safety interlock representation. No hardware connected."
+    }
+  ],
+  "flow_color_key": {
+    "blue": "dirty side CO2/electrochemistry/electrolyte flow",
+    "yellow": "formate / firewall shuttle flow",
+    "green": "clean-side C1/sugar building flow",
+    "cyan": "product recovery / sugar solution flow",
+    "purple": "syrup storage",
+    "red": "breakthrough formate activator",
+    "dark_steel": "support systems"
+  }
+}
