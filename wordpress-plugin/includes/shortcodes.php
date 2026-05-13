@@ -262,9 +262,9 @@ if ( ! function_exists( 'eden_engine_post_image_url' ) ) {
         }
 
         $fallbacks = array(
-            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/phase-1-co2-to-sugar.jpg',
+            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/phase-1-co2-to-sugar-20260513.png',
             EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/pilot-system-hero.png',
-            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/platform-pathways.jpg',
+            EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/platform-pathways-20260513.png',
             EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/roadmap-preview.jpg',
         );
 
