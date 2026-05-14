@@ -79,14 +79,14 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
     function eden_engine_public_widget_content( string $widget ): array {
         $content = array(
             'home'            => array(
-                'title'   => 'Carbon In. Civilization Out.',
-                'summary' => 'Eden Engine is an early-stage hardtech R&D program developing controlled carbon-conversion pathways, beginning with one bounded Phase 1 bench-validation target.',
+                'title'   => 'Carbon In. Sugar Out.',
+                'summary' => 'Eden Engine is developing a controlled carbon conversion system focused on Phase 1 validation of one bounded carbon to sugar pathway before broader claims.',
                 'cta'     => 'Request Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
             'technology'      => array(
-                'title'   => 'The Technology Behind Carbon Conversion',
-                'summary' => 'The technology program is organized around one testable carbon-to-carbohydrate pathway, with future modules treated as conditional extensions of bench evidence.',
+                'title'   => 'The Technology Behind Carbon to Sugar',
+                'summary' => 'Technology explains the Phase 1 carbon to sugar target, target architecture, technical risk, evidence metrics, and control loop.',
                 'cta'     => 'Request Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
@@ -103,8 +103,8 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 'url'     => home_url( '/roadmap/' ),
             ),
             'roadmap'         => array(
-                'title'   => 'From First Wedge to Future Platform',
-                'summary' => 'The roadmap separates current Phase 1 work from conditional future pathways, making each expansion dependent on measured evidence and partner support.',
+                'title'   => 'From First Sugar Pathway to Future Food Systems',
+                'summary' => 'The roadmap starts with Phase 1 bench validation, then moves through evidence gates toward future food systems, mission applications, and long-term vision.',
                 'cta'     => 'Request Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
