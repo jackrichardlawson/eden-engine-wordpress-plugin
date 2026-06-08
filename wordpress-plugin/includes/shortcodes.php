@@ -777,13 +777,9 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
         $items = array(
             array( 'home', 'Home', home_url( '/' ) ),
             array( 'technology', 'Technology', home_url( '/technology/' ) ),
-            array( 'system', 'System', home_url( '/system/' ) ),
-            array( 'applications', 'Applications', home_url( '/applications/' ) ),
             array( 'roadmap', 'Roadmap', home_url( '/roadmap/' ) ),
             array( 'journal', 'Journal', home_url( '/journal/' ) ),
             array( 'company', 'Company', home_url( '/company/' ) ),
-            array( 'vision', 'Vision', home_url( '/vision/' ) ),
-            array( 'technical-brief', 'Technical Brief', home_url( '/technical-brief/' ) ),
         );
 
         $html  = '<div class="eden-wp-nav-wrap"><header class="site-header eden-wp-nav" aria-label="Eden Engine site header">';
@@ -798,10 +794,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
             $html      .= '<a class="site-nav__link" href="' . esc_url( $item[2] ) . '"' . $current . '>' . esc_html( $item[1] ) . '</a>';
         }
 
-        $html .= '</nav><div class="site-header__actions">';
-        $html .= '<a class="button button--outline" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
-        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Partner With Eden Engine</a>';
-        $html .= '</div>';
+        $html .= '</nav>';
         $html .= '</header></div>';
 
         return $html;
