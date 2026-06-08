@@ -756,7 +756,7 @@ add_action( 'wp', 'eden_engine_purge_cache_after_update', 20 );
 
 if ( ! function_exists( 'eden_engine_public_tagline' ) ) {
     function eden_engine_public_tagline(): string {
-        return 'Carbon In. Civilization Out.';
+        return 'Carbon In. Sugar Out.';
     }
 }
 
@@ -785,7 +785,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
         $html  = '<div class="eden-wp-nav-wrap"><header class="site-header eden-wp-nav" aria-label="Eden Engine site header">';
         $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
         $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/brand/legacy-tree-logo.png' ) . '" alt="" /></span>';
-        $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Civilization Out.</small></span></a>';
+        $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Sugar Out.</small></span></a>';
         $html .= '<nav class="site-nav eden-wp-site-nav" aria-label="Primary navigation">';
 
         foreach ( $items as $item ) {
@@ -794,7 +794,10 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
             $html      .= '<a class="site-nav__link" href="' . esc_url( $item[2] ) . '"' . $current . '>' . esc_html( $item[1] ) . '</a>';
         }
 
-        $html .= '</nav>';
+        $html .= '</nav><div class="site-header__actions">';
+        $html .= '<a class="button button--outline" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
+        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Partner With Eden Engine</a>';
+        $html .= '</div>';
         $html .= '</header></div>';
 
         return $html;
