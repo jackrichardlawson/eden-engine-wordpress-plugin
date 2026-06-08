@@ -1,8 +1,8 @@
 # Eden Engine WordPress Plugin
 
-Custom Eden Engine page layouts, carbon conversion platform sections, and technical brief intake components for WordPress.
+Custom Eden Engine page layouts, CO2-to-food-ingredients platform sections, and technical brief intake components for WordPress.
 
-Current version: 0.3.12
+Current version: 0.3.13
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -92,9 +92,15 @@ The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_d
 
 ## Changelog
 
+### Version 0.3.13
+
+- Repositioned public website copy from sugar-only framing to a modular CO2-to-food-ingredients platform
+- Added protein/biomass proof and carbohydrate precursor breakthrough language across the deploy bundle
+- Bumped the plugin package version so cached WordPress pages refresh after deployment
+
 ### Version 0.3.12
 
-- Restored the native Journal header actions and Sugar Out tagline so the top bar matches the public website shell
+- Restored the native Journal header actions and brand tagline so the top bar matches the public website shell
 - Kept the consolidated five-link primary navigation on Journal pages
 - Bumped the plugin package version so cached WordPress journal pages refresh after deployment
 
@@ -158,7 +164,7 @@ The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_d
 
 ### Version 0.1.2
 
-- Reworked homepage copy around Eden Engine's CO2-to-sugar research path
+- Reworked homepage copy around Eden Engine's CO2-to-carbohydrate research path
 - Added richer hero, molecule pathway visual, use cases, and stronger research preview messaging
 - Added showcase page styling that can suppress the extra theme header on shortcode pages
 

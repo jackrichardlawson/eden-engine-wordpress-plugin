@@ -55,7 +55,7 @@ if ( function_exists( 'wp_body_open' ) ) {
         </div>
         <div class="eden-journal-hero__readout" aria-label="Journal focus areas">
             <span>Build Log</span>
-            <strong>CO2 to sugar, recursive control, platform validation.</strong>
+            <strong>CO2 to ingredients, bounded validation, evidence before scale.</strong>
             <ul>
                 <li>Research notes</li>
                 <li>Regulatory context</li>

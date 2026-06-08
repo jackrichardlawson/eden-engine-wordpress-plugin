@@ -79,14 +79,14 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
     function eden_engine_public_widget_content( string $widget ): array {
         $content = array(
             'home'            => array(
-                'title'   => 'Carbon In. Sugar Out.',
-                'summary' => 'Eden Engine is developing a controlled carbon conversion system focused on Phase 1 validation of one bounded carbon to sugar pathway before broader claims.',
+                'title'   => 'Carbon In. Food Infrastructure Out.',
+                'summary' => 'Eden Engine is developing a modular CO2-to-food-ingredients platform, beginning with bounded carbon validation, protein/biomass proof, and carbohydrate precursor R&D.',
                 'cta'     => 'Request Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
             'technology'      => array(
-                'title'   => 'The Technology Behind Carbon to Sugar',
-                'summary' => 'Technology explains the Phase 1 carbon to sugar target, target architecture, technical risk, evidence metrics, and control loop.',
+                'title'   => 'The Technology Behind CO2-to-Food Ingredients',
+                'summary' => 'Technology explains the Phase 1 carbon-to-ingredient target, target architecture, technical risk, evidence metrics, and control loop.',
                 'cta'     => 'Request Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
@@ -103,8 +103,8 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 'url'     => home_url( '/roadmap/' ),
             ),
             'roadmap'         => array(
-                'title'   => 'From First Sugar Pathway to Future Food Systems',
-                'summary' => 'The roadmap starts with Phase 1 bench validation, then moves through evidence gates toward future food systems, mission applications, and long-term vision.',
+                'title'   => 'From First Carbon Proof to Future Food Systems',
+                'summary' => 'The roadmap starts with Phase 1 carbon validation, then moves through evidence gates toward protein biomass proof, carbohydrate precursor breakthroughs, integrated pilots, and future food-system applications.',
                 'cta'     => 'Request Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
@@ -115,8 +115,8 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 'url'     => home_url( '/journal/' ),
             ),
             'company'         => array(
-                'title'   => 'Building a Disciplined Carbon Conversion Program',
-                'summary' => 'Eden Engine Technologies is an early-stage hardtech R&D company focused on disciplined carbon-conversion validation before broader platform claims.',
+                'title'   => 'Building a Disciplined Carbon-to-Food-Ingredients Program',
+                'summary' => 'Eden Engine Technologies is building a disciplined CO2-to-food-ingredients validation program with evidence before scale.',
                 'cta'     => 'Partner With Eden Engine',
                 'url'     => home_url( '/technical-brief/' ),
             ),
@@ -160,9 +160,9 @@ if ( ! function_exists( 'eden_engine_fallback_html' ) ) {
         $html .= '<p>' . esc_html( $content['summary'] ) . '</p>';
         $html .= '<ul>';
         $html .= '<li><strong>Stage:</strong> Phase 1: bench validation planning.</li>';
-        $html .= '<li><strong>Objective:</strong> Build and instrument a bounded carbon-to-carbohydrate pathway.</li>';
+        $html .= '<li><strong>Objective:</strong> Build and instrument a bounded carbon-to-ingredient pathway, beginning with protein/biomass proof and preserving carbohydrate-relevant outputs as the breakthrough target.</li>';
         $html .= '<li><strong>Measured:</strong> No public measured performance data is claimed until dated bench evidence exists.</li>';
-        $html .= '<li><strong>Not claimed:</strong> No commercial food, fuel, materials, life-support output, or production-ready system claim.</li>';
+        $html .= '<li><strong>Not claimed:</strong> No commercial food, feed, nutrition, fuel, materials, life-support output, deployment, crop-improvement, or production-ready system claim.</li>';
         $html .= '</ul>';
         $html .= '<a class="button button--primary" href="' . esc_url( $content['url'] ) . '">' . esc_html( $content['cta'] ) . '</a>';
         $html .= '</section>';
@@ -756,7 +756,7 @@ add_action( 'wp', 'eden_engine_purge_cache_after_update', 20 );
 
 if ( ! function_exists( 'eden_engine_public_tagline' ) ) {
     function eden_engine_public_tagline(): string {
-        return 'Carbon In. Sugar Out.';
+        return 'Carbon In. Food Infrastructure Out.';
     }
 }
 
@@ -785,7 +785,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
         $html  = '<div class="eden-wp-nav-wrap"><header class="site-header eden-wp-nav" aria-label="Eden Engine site header">';
         $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
         $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/brand/legacy-tree-logo.png' ) . '" alt="" /></span>';
-        $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Sugar Out.</small></span></a>';
+        $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Food Infrastructure Out.</small></span></a>';
         $html .= '<nav class="site-nav eden-wp-site-nav" aria-label="Primary navigation">';
 
         foreach ( $items as $item ) {
