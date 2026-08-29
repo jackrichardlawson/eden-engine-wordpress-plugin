@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
 
-Current version: 0.4.0
+Current version: 0.5.0
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -99,6 +99,7 @@ eden-engine-wordpress-plugin/
   README.md
   wordpress-plugin/
     includes/
+      journal-policy.php
       shortcodes.php
     templates/
       journal-index.php
@@ -114,6 +115,15 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.5.0
+
+- Refined the public experience with a full-bleed Phase 1 hero, editorial evidence layouts, site progress telemetry, and a more useful status-console footer
+- Expanded evidence gates, recovery and QA architecture, roadmap sequencing, and partner-track routing while keeping claims inside the Phase 1 bench-validation boundary
+- Added canonical redirects and review metadata for duplicate or historical Journal posts
+- Replaced the historical sugar-safety article output with a proof-focused safety checklist and current-status notice
+- Removed the obsolete brief-request AJAX endpoint and aligned the visible partner fallback address with the configured mail recipient
+- Improved semantic page structure, skip-link behavior, image loading, reduced-motion support, and native Journal template ownership
 
 ### Version 0.4.0
 

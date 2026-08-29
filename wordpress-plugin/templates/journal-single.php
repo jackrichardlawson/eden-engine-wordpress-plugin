@@ -73,7 +73,7 @@ if ( function_exists( 'wp_body_open' ) ) {
                             <dd><?php echo esc_html( eden_engine_post_read_time( $post_id ) ); ?></dd>
                         </div>
                     </dl>
-                    <a class="eden-journal-button" href="<?php echo esc_url( home_url( '/technical-brief/' ) ); ?>">Request Technical Brief</a>
+                    <a class="eden-journal-button" href="<?php echo esc_url( home_url( '/technical-brief/' ) ); ?>">Read Technical Brief</a>
                 </aside>
 
                 <div class="eden-post-content">

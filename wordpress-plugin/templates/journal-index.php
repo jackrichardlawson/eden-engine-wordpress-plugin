@@ -49,7 +49,7 @@ if ( function_exists( 'wp_body_open' ) ) {
 
     <section class="eden-journal-hero" aria-labelledby="eden-journal-title">
         <div class="eden-journal-hero__copy">
-            <p class="eden-journal-eyebrow">Field Notes / Native WordPress Posts</p>
+            <p class="eden-journal-eyebrow">Build Log / Public Proof Trail</p>
             <h1 id="eden-journal-title"><?php echo esc_html( $journal_title ); ?></h1>
             <p><?php echo esc_html( $journal_intro ); ?></p>
         </div>

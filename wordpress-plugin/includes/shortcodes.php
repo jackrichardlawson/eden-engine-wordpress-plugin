@@ -9,6 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
+if ( ! function_exists( 'eden_engine_partner_recipient' ) ) {
+    function eden_engine_partner_recipient(): string {
+        return sanitize_email(
+            (string) apply_filters(
+                'eden_engine_partner_request_recipient',
+                apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
+            )
+        );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
     function eden_engine_shortcode_names(): array {
         return array(
@@ -65,16 +76,13 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
                 'window.EdenEngineConfig = ' . wp_json_encode(
                     array(
                         'ajaxUrl'             => admin_url( 'admin-ajax.php' ),
-                        'briefRequestNonce'   => wp_create_nonce( 'eden_engine_brief_request' ),
                         'partnerRequestNonce' => wp_create_nonce( 'eden_engine_partner_request' ),
                         'partnerNonceUrl'     => add_query_arg(
                             'action',
                             'eden_engine_partner_nonce',
                             admin_url( 'admin-ajax.php' )
                         ),
-                        'fallbackEmail'       => sanitize_email(
-                            (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
-                        ),
+                        'fallbackEmail'       => eden_engine_partner_recipient(),
                         'partnerUrl'          => home_url( '/partner/' ),
                         'technicalBriefUrl'   => home_url( '/technical-brief/' ),
                     )
@@ -193,16 +201,14 @@ if ( ! function_exists( 'eden_engine_fallback_html' ) ) {
         $html .= '<h1>' . esc_html( $content['title'] ) . '</h1>';
         $html .= '<p>' . esc_html( $content['summary'] ) . '</p>';
         $html .= '<ul>';
-        $html .= '<li><strong>Stage:</strong> Phase 1: bench validation planning.</li>';
+        $html .= '<li><strong>Stage:</strong> Phase 1: bench-validation planning.</li>';
         $html .= '<li><strong>Objective:</strong> Build and instrument a bounded carbon-to-ingredient pathway, beginning with protein/biomass proof and preserving carbohydrate-relevant outputs as the breakthrough target.</li>';
         $html .= '<li><strong>Measured:</strong> No public measured performance data is claimed until dated bench evidence exists.</li>';
         $html .= '<li><strong>Not claimed:</strong> No commercial food, feed, nutrition, fuel, materials, life-support output, deployment, crop-improvement, or production-ready system claim.</li>';
         $html .= '</ul>';
 
         if ( 'partner' === $widget || 'contact' === $widget ) {
-            $fallback_email = sanitize_email(
-                (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
-            );
+            $fallback_email = eden_engine_partner_recipient();
 
             if ( is_email( $fallback_email ) ) {
                 $html .= '<p><strong>Direct email:</strong> <a href="mailto:' . esc_attr( $fallback_email ) . '">' . esc_html( $fallback_email ) . '</a></p>';
@@ -266,7 +272,9 @@ if ( ! function_exists( 'eden_engine_page_has_shortcode' ) ) {
 
 if ( ! function_exists( 'eden_engine_should_style_blog' ) ) {
     function eden_engine_should_style_blog(): bool {
-        return is_home() || is_singular( 'post' ) || is_archive() || is_search();
+        $post_search = is_search() && 'post' === get_query_var( 'post_type' );
+
+        return is_home() || is_singular( 'post' ) || is_category() || is_tag() || is_author() || is_date() || $post_search;
     }
 }
 
@@ -276,7 +284,7 @@ if ( ! function_exists( 'eden_engine_blog_template' ) ) {
             return $template;
         }
 
-        if ( is_home() || is_archive() || is_search() ) {
+        if ( eden_engine_should_style_blog() && ! is_singular( 'post' ) ) {
             $journal_template = EDEN_ENGINE_PLUGIN_PATH . 'templates/journal-index.php';
 
             return file_exists( $journal_template ) ? $journal_template : $template;
@@ -688,68 +696,6 @@ if ( ! function_exists( 'eden_engine_brief_request_field' ) ) {
     }
 }
 
-if ( ! function_exists( 'eden_engine_handle_brief_request' ) ) {
-    function eden_engine_handle_brief_request(): void {
-        $nonce = eden_engine_brief_request_field( 'nonce' );
-
-        if ( ! wp_verify_nonce( $nonce, 'eden_engine_brief_request' ) ) {
-            wp_send_json_error( array( 'message' => 'The request could not be verified. Please refresh and try again.' ), 403 );
-        }
-
-        if ( '' !== eden_engine_brief_request_field( 'website' ) ) {
-            wp_send_json_error( array( 'message' => 'The request could not be sent.' ), 400 );
-        }
-
-        $name          = eden_engine_brief_request_field( 'name' );
-        $email         = sanitize_email( eden_engine_brief_request_field( 'email' ) );
-        $organization  = eden_engine_brief_request_field( 'organization' );
-        $role          = eden_engine_brief_request_field( 'role' );
-        $interest_type = eden_engine_brief_request_field( 'interestType' );
-        $message       = sanitize_textarea_field(
-            isset( $_POST['message'] ) ? (string) wp_unslash( $_POST['message'] ) : '' // phpcs:ignore WordPress.Security.NonceVerification.Missing
-        );
-
-        if ( '' === $name || '' === $email || '' === $message || ! is_email( $email ) ) {
-            wp_send_json_error( array( 'message' => 'Please provide a valid name, email, and message.' ), 400 );
-        }
-
-        $recipient = sanitize_email(
-            (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
-        );
-
-        if ( ! is_email( $recipient ) ) {
-            wp_send_json_error( array( 'message' => 'The request inbox is not configured. Please use email instead.' ), 500 );
-        }
-
-        $subject = sprintf( 'Eden Engine Technical Brief Request - %s', $name );
-        $body    = implode(
-            "\n",
-            array(
-                'New Eden Engine technical brief request:',
-                '',
-                'Name: ' . $name,
-                'Email: ' . $email,
-                'Organization: ' . $organization,
-                'Role: ' . $role,
-                'Interest Type: ' . $interest_type,
-                '',
-                'Message:',
-                $message,
-            )
-        );
-        $headers = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
-
-        if ( ! wp_mail( $recipient, $subject, $body, $headers ) ) {
-            wp_send_json_error( array( 'message' => 'The request could not be sent. Please use email instead.' ), 500 );
-        }
-
-        wp_send_json_success( array( 'message' => 'Request sent. Eden Engine will follow up by email.' ) );
-    }
-}
-
-add_action( 'wp_ajax_nopriv_eden_engine_brief_request', 'eden_engine_handle_brief_request' );
-add_action( 'wp_ajax_eden_engine_brief_request', 'eden_engine_handle_brief_request' );
-
 if ( ! function_exists( 'eden_engine_partner_request_textarea' ) ) {
     function eden_engine_partner_request_textarea( string $key ): string {
         $value = isset( $_POST[ $key ] ) ? (string) wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
@@ -864,12 +810,7 @@ if ( ! function_exists( 'eden_engine_handle_partner_request' ) ) {
             wp_send_json_error( array( 'message' => 'Please provide a valid optional reference URL.' ), 400 );
         }
 
-        $recipient = sanitize_email(
-            (string) apply_filters(
-                'eden_engine_partner_request_recipient',
-                apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
-            )
-        );
+        $recipient = eden_engine_partner_recipient();
 
         if ( ! is_email( $recipient ) ) {
             wp_send_json_error( array( 'message' => 'The partner inbox is not configured. Please use the direct email link instead.' ), 500 );
@@ -1102,7 +1043,7 @@ if ( ! function_exists( 'eden_engine_footer_html' ) ) {
         $html .= '<div><h2>Journal</h2><a href="' . esc_url( home_url( '/journal/' ) ) . '">Journal</a></div>';
         $html .= '<div><h2>Company</h2><a href="' . esc_url( home_url( '/company/' ) ) . '">Company</a><a href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Phase 1</a><a href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Technical Brief</a></div>';
         $html .= '</div>';
-        $html .= '<p class="site-footer__disclaimer">Current status: Phase 1 bench-validation planning and early testing. No commercial food, feed, nutrition, life-support, deployment, or production-ready capability is claimed. Future applications depend on dated measured evidence, safety validation, independent review, and scale-up results.</p>';
+        $html .= '<p class="site-footer__disclaimer">Current status: Phase 1 bench-validation planning. No commercial food, feed, nutrition, life-support, deployment, or production-ready capability is claimed. Future applications depend on dated measured evidence, safety validation, independent review, and scale-up results.</p>';
         $html .= '</footer>';
 
         return $html;
