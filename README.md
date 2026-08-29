@@ -1,8 +1,8 @@
 # Eden Engine WordPress Plugin
 
-Custom Eden Engine page layouts, CO2-to-food-ingredients platform sections, and technical brief intake components for WordPress.
+Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
 
-Current version: 0.3.13
+Current version: 0.4.0
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -12,15 +12,21 @@ The plugin automatically renders custom layouts for:
 
 - `/`
 - `/technology/`
-- `/system/`
-- `/applications/`
+- `/evidence/`
 - `/roadmap/`
+- `/applications/`
 - `/company/`
-- `/vision/`
+- `/partner/`
 - `/technical-brief/`
-- `/contact/`
 
 `/journal/` remains the WordPress Posts Page and now uses Eden-owned native WordPress index and single post templates.
+
+Legacy public routes redirect intentionally:
+
+- `/system/` -> `/technology/?section=architecture`
+- `/mission/` and `/vision/` -> `/company/`
+- `/contact/` -> `/partner/`
+- `/whitepaper/` -> `/technical-brief/`
 
 Paste this shortcode into a WordPress page for the full homepage layout if you need manual placement:
 
@@ -37,11 +43,13 @@ Individual sections are also available:
 [eden_reactor_status]
 [eden_mission]
 [eden_technology]
+[eden_evidence]
 [eden_system]
 [eden_applications]
 [eden_roadmap]
 [eden_company]
 [eden_vision]
+[eden_partner]
 [eden_contact]
 [eden_technical_brief]
 [eden_whitepaper]
@@ -60,6 +68,20 @@ Branch: main
 ```
 
 After installation, activate **Eden Engine** from the WordPress Plugins screen. Keep Home as the Front Page and Journal as the Posts Page.
+
+The native Journal header uses the same public navigation as the React site: Technology, Evidence, Roadmap, Applications, Journal, and Company, with one **Partner on Phase 1** action. A small Journal-only script provides the accessible mobile disclosure without loading the full React bundle. The shared footer is rendered by the plugin for both index and single-post templates.
+
+Partner submissions refresh their nonce from a no-cache WordPress AJAX endpoint before posting. The server also validates the inquiry track, required context, field lengths, honeypot, and a short per-connection rate limit. If JavaScript is unavailable, the fallback exposes the configured direct email and Technical Brief link.
+
+## Build Assets
+
+The React source lives in the parent Eden Engine repository under `apps/web`. From `apps/web`, run:
+
+```bash
+npm run build:wp
+```
+
+That build type-checks the web app, clears `wordpress-plugin/assets/`, emits `eden-engine.js` and `eden-engine.css`, and copies the public image/model assets into this repository. Commit the generated assets here only after the source and PHP changes are complete.
 
 ## Manual ZIP Install
 
@@ -84,6 +106,7 @@ eden-engine-wordpress-plugin/
     assets/
       eden-engine.css
       eden-engine.js
+      eden-engine-journal-nav.js
       images/
         eden-engine/
 ```
@@ -91,6 +114,17 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.4.0
+
+- Added first-class Evidence, Applications, Partner, and distinct Technical Brief WordPress routes
+- Added a dedicated Phase 1 partner inquiry nonce and AJAX mail handler
+- Added fresh nonce retrieval, server-side inquiry allowlisting/limits, throttling, and a direct-email no-JavaScript fallback
+- Consolidated native Journal navigation around Technology, Evidence, Roadmap, Applications, Journal, and Company
+- Added an accessible Journal-only mobile menu without loading the full React bundle
+- Added a shared native Journal footer and intentional redirects for legacy public routes
+- Added automatic Evidence and Partner page creation plus cache-purge coverage
+- Added optimized WebP homepage visuals generated for the new design
 
 ### Version 0.3.13
 

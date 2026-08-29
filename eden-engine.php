@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Eden Engine
  * Plugin URI: https://github.com/jackrichardlawson/eden-engine-wordpress-plugin
- * Description: Eden Engine website pages, CO2-to-food-ingredients platform sections, and technical brief intake components.
- * Version: 0.3.13
+ * Description: Eden Engine website pages, evidence program, partner intake, and CO2-to-food-ingredients platform sections.
+ * Version: 0.4.0
  * Author: Jack Lawson
  * Text Domain: eden-engine
  */
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if ( ! defined( 'EDEN_ENGINE_VERSION' ) ) {
-    define( 'EDEN_ENGINE_VERSION', '0.3.13' );
+    define( 'EDEN_ENGINE_VERSION', '0.4.0' );
 }
 
 if ( ! defined( 'EDEN_ENGINE_PLUGIN_FILE' ) ) {

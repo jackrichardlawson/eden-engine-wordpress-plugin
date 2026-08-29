@@ -122,6 +122,7 @@ if ( function_exists( 'wp_body_open' ) ) {
             </div>
         <?php endif; ?>
     </section>
+    <?php echo eden_engine_footer_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 </main>
 <?php wp_footer(); ?>
 </body>

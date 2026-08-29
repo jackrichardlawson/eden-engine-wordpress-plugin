@@ -19,11 +19,13 @@ if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
             'eden_reactor_status',
             'eden_mission',
             'eden_technology',
+            'eden_evidence',
             'eden_system',
             'eden_applications',
             'eden_roadmap',
             'eden_company',
             'eden_vision',
+            'eden_partner',
             'eden_contact',
             'eden_technical_brief',
             'eden_whitepaper',
@@ -32,7 +34,7 @@ if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
 }
 
 if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
-    function eden_engine_enqueue_assets(): void {
+    function eden_engine_enqueue_assets( bool $include_script = true ): void {
         $style_path  = EDEN_ENGINE_PLUGIN_PATH . 'assets/eden-engine.css';
         $script_path = EDEN_ENGINE_PLUGIN_PATH . 'assets/eden-engine.js';
 
@@ -48,7 +50,7 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
             );
         }
 
-        if ( file_exists( $script_path ) ) {
+        if ( $include_script && file_exists( $script_path ) ) {
             wp_enqueue_script(
                 'eden-engine',
                 EDEN_ENGINE_PLUGIN_URL . 'assets/eden-engine.js',
@@ -62,16 +64,42 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
                 'window.EdenEngineAssetsBase = ' . wp_json_encode( EDEN_ENGINE_PLUGIN_URL . 'assets/' ) . ';' .
                 'window.EdenEngineConfig = ' . wp_json_encode(
                     array(
-                        'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
-                        'briefRequestNonce' => wp_create_nonce( 'eden_engine_brief_request' ),
-                        'fallbackEmail'     => sanitize_email(
+                        'ajaxUrl'             => admin_url( 'admin-ajax.php' ),
+                        'briefRequestNonce'   => wp_create_nonce( 'eden_engine_brief_request' ),
+                        'partnerRequestNonce' => wp_create_nonce( 'eden_engine_partner_request' ),
+                        'partnerNonceUrl'     => add_query_arg(
+                            'action',
+                            'eden_engine_partner_nonce',
+                            admin_url( 'admin-ajax.php' )
+                        ),
+                        'fallbackEmail'       => sanitize_email(
                             (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
                         ),
+                        'partnerUrl'          => home_url( '/partner/' ),
+                        'technicalBriefUrl'   => home_url( '/technical-brief/' ),
                     )
                 ) . ';',
                 'before'
             );
         }
+    }
+}
+
+if ( ! function_exists( 'eden_engine_enqueue_journal_nav' ) ) {
+    function eden_engine_enqueue_journal_nav(): void {
+        $script_path = EDEN_ENGINE_PLUGIN_PATH . 'assets/eden-engine-journal-nav.js';
+
+        if ( ! file_exists( $script_path ) ) {
+            return;
+        }
+
+        wp_enqueue_script(
+            'eden-engine-journal-nav',
+            EDEN_ENGINE_PLUGIN_URL . 'assets/eden-engine-journal-nav.js',
+            array(),
+            EDEN_ENGINE_VERSION . '-' . (string) filemtime( $script_path ),
+            true
+        );
     }
 }
 
@@ -81,14 +109,20 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
             'home'            => array(
                 'title'   => 'Carbon In. Food Infrastructure Out.',
                 'summary' => 'Eden Engine is developing a modular CO2-to-food-ingredients platform, beginning with bounded carbon validation, protein/biomass proof, and carbohydrate precursor R&D.',
-                'cta'     => 'Request Technical Brief',
-                'url'     => home_url( '/technical-brief/' ),
+                'cta'     => 'Partner on Phase 1',
+                'url'     => home_url( '/partner/' ),
             ),
             'technology'      => array(
                 'title'   => 'The Technology Behind CO2-to-Food Ingredients',
                 'summary' => 'Technology explains the Phase 1 carbon-to-ingredient target, target architecture, technical risk, evidence metrics, and control loop.',
-                'cta'     => 'Request Technical Brief',
-                'url'     => home_url( '/technical-brief/' ),
+                'cta'     => 'View the Evidence Program',
+                'url'     => home_url( '/evidence/' ),
+            ),
+            'evidence'        => array(
+                'title'   => 'Evidence Before Scale',
+                'summary' => 'The evidence program separates what is modeled, planned, measured, and independently reviewed while defining the next test that could reduce uncertainty.',
+                'cta'     => 'Partner on Phase 1',
+                'url'     => home_url( '/partner/' ),
             ),
             'system'          => array(
                 'title'   => 'Target System Architecture',
@@ -98,15 +132,15 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
             ),
             'applications'    => array(
                 'title'   => 'Motivating Use Cases',
-                'summary' => 'Applications are future motivating targets for resilient resource systems, not claims of current deployment or commercial output.',
-                'cta'     => 'View Roadmap',
-                'url'     => home_url( '/roadmap/' ),
+                'summary' => 'Applications are organized by research, industrial, resilience, remote, and frontier horizons. They are motivating targets, not claims of current deployment or commercial output.',
+                'cta'     => 'View the Evidence Program',
+                'url'     => home_url( '/evidence/' ),
             ),
             'roadmap'         => array(
                 'title'   => 'From First Carbon Proof to Future Food Systems',
                 'summary' => 'The roadmap starts with Phase 1 carbon validation, then moves through evidence gates toward protein biomass proof, carbohydrate precursor breakthroughs, integrated pilots, and future food-system applications.',
-                'cta'     => 'Request Technical Brief',
-                'url'     => home_url( '/technical-brief/' ),
+                'cta'     => 'View the Evidence Program',
+                'url'     => home_url( '/evidence/' ),
             ),
             'journal'         => array(
                 'title'   => 'Field Notes From the Carbon Conversion Build',
@@ -117,8 +151,8 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
             'company'         => array(
                 'title'   => 'Building a Disciplined Carbon-to-Food-Ingredients Program',
                 'summary' => 'Eden Engine Technologies is building a disciplined CO2-to-food-ingredients validation program with evidence before scale.',
-                'cta'     => 'Partner With Eden Engine',
-                'url'     => home_url( '/technical-brief/' ),
+                'cta'     => 'Partner on Phase 1',
+                'url'     => home_url( '/partner/' ),
             ),
             'vision'          => array(
                 'title'   => 'A Better Planet Starts With Better Infrastructure',
@@ -127,21 +161,21 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 'url'     => home_url( '/roadmap/' ),
             ),
             'technical-brief' => array(
-                'title'   => 'Partner With Eden Engine',
-                'summary' => 'Request the Phase 1 technical brief or start a partner conversation around bench validation, assays, sensors, pathway review, or early funding.',
-                'cta'     => 'Request Technical Brief',
-                'url'     => home_url( '/technical-brief/' ),
+                'title'   => 'Eden Engine Technical Brief',
+                'summary' => 'A focused technical overview of the Phase 1 hypothesis, bounded validation plan, evidence gates, system architecture, known risks, and next validation step.',
+                'cta'     => 'Partner on Phase 1',
+                'url'     => home_url( '/partner/' ),
             ),
             'partner'         => array(
-                'title'   => 'Partner With Eden Engine',
-                'summary' => 'Request the Phase 1 technical brief or start a partner conversation around bench validation, assays, sensors, pathway review, or early funding.',
-                'cta'     => 'Request Technical Brief',
+                'title'   => 'Partner on Phase 1',
+                'summary' => 'Connect with Eden Engine about laboratory access, assays, bioprocess and engineering work, ingredient or industrial collaboration, strategic funding, or academic and media inquiries.',
+                'cta'     => 'Read the Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
             'contact'         => array(
-                'title'   => 'Partner With Eden Engine',
-                'summary' => 'Request the Phase 1 technical brief or start a partner conversation around bench validation, assays, sensors, pathway review, or early funding.',
-                'cta'     => 'Request Technical Brief',
+                'title'   => 'Partner on Phase 1',
+                'summary' => 'Use the partner inquiry to identify the capability you can contribute, why you are contacting Eden Engine, and the next step you want to explore.',
+                'cta'     => 'Read the Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
         );
@@ -164,6 +198,17 @@ if ( ! function_exists( 'eden_engine_fallback_html' ) ) {
         $html .= '<li><strong>Measured:</strong> No public measured performance data is claimed until dated bench evidence exists.</li>';
         $html .= '<li><strong>Not claimed:</strong> No commercial food, feed, nutrition, fuel, materials, life-support output, deployment, crop-improvement, or production-ready system claim.</li>';
         $html .= '</ul>';
+
+        if ( 'partner' === $widget || 'contact' === $widget ) {
+            $fallback_email = sanitize_email(
+                (string) apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
+            );
+
+            if ( is_email( $fallback_email ) ) {
+                $html .= '<p><strong>Direct email:</strong> <a href="mailto:' . esc_attr( $fallback_email ) . '">' . esc_html( $fallback_email ) . '</a></p>';
+            }
+        }
+
         $html .= '<a class="button button--primary" href="' . esc_url( $content['url'] ) . '">' . esc_html( $content['cta'] ) . '</a>';
         $html .= '</section>';
 
@@ -364,8 +409,11 @@ if ( ! function_exists( 'eden_engine_render_journal_card' ) ) {
 
 if ( ! function_exists( 'eden_engine_maybe_enqueue_assets' ) ) {
     function eden_engine_maybe_enqueue_assets(): void {
-        if ( eden_engine_page_has_shortcode() || eden_engine_should_style_blog() || '' !== eden_engine_current_page_widget() ) {
+        if ( eden_engine_page_has_shortcode() || '' !== eden_engine_current_page_widget() ) {
             eden_engine_enqueue_assets();
+        } elseif ( eden_engine_should_style_blog() ) {
+            eden_engine_enqueue_assets( false );
+            eden_engine_enqueue_journal_nav();
         }
     }
 }
@@ -429,6 +477,12 @@ if ( ! function_exists( 'eden_engine_shortcode_technology' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_shortcode_evidence' ) ) {
+    function eden_engine_shortcode_evidence( array $atts ): string {
+        return eden_engine_render( $atts, 'evidence' );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_system' ) ) {
     function eden_engine_shortcode_system( array $atts ): string {
         return eden_engine_render( $atts, 'system' );
@@ -459,6 +513,12 @@ if ( ! function_exists( 'eden_engine_shortcode_vision' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_shortcode_partner' ) ) {
+    function eden_engine_shortcode_partner( array $atts ): string {
+        return eden_engine_render( $atts, 'partner' );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_contact' ) ) {
     function eden_engine_shortcode_contact( array $atts ): string {
         return eden_engine_render( $atts, 'contact' );
@@ -484,11 +544,13 @@ add_shortcode( 'eden_pathway_demo', 'eden_engine_shortcode_pathway_demo' );
 add_shortcode( 'eden_reactor_status', 'eden_engine_shortcode_reactor_status' );
 add_shortcode( 'eden_mission', 'eden_engine_shortcode_mission' );
 add_shortcode( 'eden_technology', 'eden_engine_shortcode_technology' );
+add_shortcode( 'eden_evidence', 'eden_engine_shortcode_evidence' );
 add_shortcode( 'eden_system', 'eden_engine_shortcode_system' );
 add_shortcode( 'eden_applications', 'eden_engine_shortcode_applications' );
 add_shortcode( 'eden_roadmap', 'eden_engine_shortcode_roadmap' );
 add_shortcode( 'eden_company', 'eden_engine_shortcode_company' );
 add_shortcode( 'eden_vision', 'eden_engine_shortcode_vision' );
+add_shortcode( 'eden_partner', 'eden_engine_shortcode_partner' );
 add_shortcode( 'eden_contact', 'eden_engine_shortcode_contact' );
 add_shortcode( 'eden_technical_brief', 'eden_engine_shortcode_technical_brief' );
 add_shortcode( 'eden_whitepaper', 'eden_engine_shortcode_whitepaper' );
@@ -505,6 +567,10 @@ if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
 
         if ( is_page( 'technology' ) ) {
             return 'technology';
+        }
+
+        if ( is_page( 'evidence' ) ) {
+            return 'evidence';
         }
 
         if ( is_page( 'system' ) ) {
@@ -527,7 +593,11 @@ if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
             return 'vision';
         }
 
-        if ( is_page( 'technical-brief' ) || is_page( 'contact' ) || is_page( 'whitepaper' ) ) {
+        if ( is_page( 'partner' ) || is_page( 'contact' ) ) {
+            return 'partner';
+        }
+
+        if ( is_page( 'technical-brief' ) || is_page( 'whitepaper' ) ) {
             return 'technical-brief';
         }
 
@@ -545,11 +615,13 @@ if ( ! function_exists( 'eden_engine_auto_custom_pages' ) ) {
             has_shortcode( $content, 'eden_engine_showcase' ) ||
             has_shortcode( $content, 'eden_mission' ) ||
             has_shortcode( $content, 'eden_technology' ) ||
+            has_shortcode( $content, 'eden_evidence' ) ||
             has_shortcode( $content, 'eden_system' ) ||
             has_shortcode( $content, 'eden_applications' ) ||
             has_shortcode( $content, 'eden_roadmap' ) ||
             has_shortcode( $content, 'eden_company' ) ||
             has_shortcode( $content, 'eden_vision' ) ||
+            has_shortcode( $content, 'eden_partner' ) ||
             has_shortcode( $content, 'eden_contact' ) ||
             has_shortcode( $content, 'eden_technical_brief' ) ||
             has_shortcode( $content, 'eden_whitepaper' ) ||
@@ -572,11 +644,36 @@ add_filter( 'the_content', 'eden_engine_auto_custom_pages', 5 );
 
 if ( ! function_exists( 'eden_engine_redirect_alias_pages' ) ) {
     function eden_engine_redirect_alias_pages(): void {
-        if ( is_admin() || ! ( is_page( 'contact' ) || is_page( 'whitepaper' ) ) ) {
+        if ( is_admin() ) {
             return;
         }
 
-        wp_safe_redirect( home_url( '/technical-brief/' ), 301 );
+        $destination  = '';
+        $request_path = '';
+
+        if ( isset( $GLOBALS['wp'] ) && isset( $GLOBALS['wp']->request ) ) {
+            $request_path = trim( (string) $GLOBALS['wp']->request, '/' );
+        }
+
+        if ( is_page( 'system' ) || ( is_404() && 'system' === $request_path ) ) {
+            $destination = add_query_arg( 'section', 'architecture', home_url( '/technology/' ) );
+        } elseif (
+            is_page( 'mission' ) ||
+            is_page( 'vision' ) ||
+            ( is_404() && in_array( $request_path, array( 'mission', 'vision' ), true ) )
+        ) {
+            $destination = home_url( '/company/' );
+        } elseif ( is_page( 'contact' ) || ( is_404() && 'contact' === $request_path ) ) {
+            $destination = home_url( '/partner/' );
+        } elseif ( is_page( 'whitepaper' ) || ( is_404() && 'whitepaper' === $request_path ) ) {
+            $destination = home_url( '/technical-brief/' );
+        }
+
+        if ( '' === $destination ) {
+            return;
+        }
+
+        wp_safe_redirect( $destination, 301 );
         exit;
     }
 }
@@ -653,6 +750,181 @@ if ( ! function_exists( 'eden_engine_handle_brief_request' ) ) {
 add_action( 'wp_ajax_nopriv_eden_engine_brief_request', 'eden_engine_handle_brief_request' );
 add_action( 'wp_ajax_eden_engine_brief_request', 'eden_engine_handle_brief_request' );
 
+if ( ! function_exists( 'eden_engine_partner_request_textarea' ) ) {
+    function eden_engine_partner_request_textarea( string $key ): string {
+        $value = isset( $_POST[ $key ] ) ? (string) wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
+
+        return sanitize_textarea_field( $value );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_partner_inquiry_types' ) ) {
+    function eden_engine_partner_inquiry_types(): array {
+        return array(
+            'Laboratory, analytical, or assay partner',
+            'Bioprocess or engineering collaborator',
+            'Ingredient, food, or industrial partner',
+            'Grant, investment, or strategic funding',
+            'Media, academic, or general inquiry',
+        );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_partner_nonce' ) ) {
+    function eden_engine_partner_nonce(): void {
+        nocache_headers();
+        wp_send_json_success( array( 'nonce' => wp_create_nonce( 'eden_engine_partner_request' ) ) );
+    }
+}
+
+add_action( 'wp_ajax_nopriv_eden_engine_partner_nonce', 'eden_engine_partner_nonce' );
+add_action( 'wp_ajax_eden_engine_partner_nonce', 'eden_engine_partner_nonce' );
+
+if ( ! function_exists( 'eden_engine_partner_rate_limit_key' ) ) {
+    function eden_engine_partner_rate_limit_key(): string {
+        $remote_address = isset( $_SERVER['REMOTE_ADDR'] )
+            ? sanitize_text_field( (string) wp_unslash( $_SERVER['REMOTE_ADDR'] ) )
+            : 'unknown';
+
+        return 'eden_partner_' . substr( hash_hmac( 'sha256', $remote_address, wp_salt( 'nonce' ) ), 0, 32 );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_handle_partner_request' ) ) {
+    function eden_engine_handle_partner_request(): void {
+        $nonce = eden_engine_brief_request_field( 'nonce' );
+
+        if ( ! wp_verify_nonce( $nonce, 'eden_engine_partner_request' ) ) {
+            wp_send_json_error( array( 'message' => 'The partner inquiry could not be verified. Please refresh and try again.' ), 403 );
+        }
+
+        if ( '' !== eden_engine_brief_request_field( 'website' ) ) {
+            wp_send_json_error( array( 'message' => 'The partner inquiry could not be sent.' ), 400 );
+        }
+
+        $name                = eden_engine_brief_request_field( 'name' );
+        $email               = sanitize_email( eden_engine_brief_request_field( 'email' ) );
+        $organization        = eden_engine_brief_request_field( 'organization' );
+        $role                = eden_engine_brief_request_field( 'role' );
+        $inquiry_type        = eden_engine_brief_request_field( 'inquiryType' );
+        $relevant_capability = eden_engine_partner_request_textarea( 'relevantCapability' );
+        $reason_for_contact  = eden_engine_partner_request_textarea( 'reasonForContact' );
+        $desired_next_step   = eden_engine_partner_request_textarea( 'desiredNextStep' );
+        $attachment_url      = esc_url_raw( eden_engine_brief_request_field( 'attachmentUrl' ) );
+
+        if ( '' === $inquiry_type ) {
+            $inquiry_type = eden_engine_brief_request_field( 'interestType' );
+        }
+
+        if ( '' === $reason_for_contact ) {
+            $reason_for_contact = eden_engine_partner_request_textarea( 'message' );
+        }
+
+        if (
+            '' === $name ||
+            '' === $email ||
+            ! is_email( $email ) ||
+            '' === $organization ||
+            '' === $role ||
+            '' === $inquiry_type ||
+            '' === $relevant_capability ||
+            '' === $reason_for_contact ||
+            '' === $desired_next_step
+        ) {
+            wp_send_json_error(
+                array( 'message' => 'Please complete every required partner inquiry field with a valid email address.' ),
+                400
+            );
+        }
+
+        if ( ! in_array( $inquiry_type, eden_engine_partner_inquiry_types(), true ) ) {
+            wp_send_json_error( array( 'message' => 'Please select a recognized inquiry type.' ), 400 );
+        }
+
+        $length_limits = array(
+            array( $name, 120 ),
+            array( $email, 254 ),
+            array( $organization, 180 ),
+            array( $role, 140 ),
+            array( $inquiry_type, 180 ),
+            array( $relevant_capability, 2000 ),
+            array( $reason_for_contact, 3000 ),
+            array( $desired_next_step, 2000 ),
+            array( $attachment_url, 2048 ),
+        );
+
+        foreach ( $length_limits as $length_limit ) {
+            if ( strlen( $length_limit[0] ) > $length_limit[1] ) {
+                wp_send_json_error( array( 'message' => 'One or more inquiry fields exceed the allowed length.' ), 400 );
+            }
+        }
+
+        $attachment_input = eden_engine_brief_request_field( 'attachmentUrl' );
+        if ( '' !== $attachment_input && '' === $attachment_url ) {
+            wp_send_json_error( array( 'message' => 'Please provide a valid optional reference URL.' ), 400 );
+        }
+
+        $recipient = sanitize_email(
+            (string) apply_filters(
+                'eden_engine_partner_request_recipient',
+                apply_filters( 'eden_engine_brief_request_recipient', get_option( 'admin_email' ) )
+            )
+        );
+
+        if ( ! is_email( $recipient ) ) {
+            wp_send_json_error( array( 'message' => 'The partner inbox is not configured. Please use the direct email link instead.' ), 500 );
+        }
+
+        $rate_limit_key = eden_engine_partner_rate_limit_key();
+        $request_count  = (int) get_transient( $rate_limit_key );
+
+        if ( $request_count >= 5 ) {
+            wp_send_json_error(
+                array( 'message' => 'Too many partner inquiries were submitted from this connection. Please wait and try again or use the direct email link.' ),
+                429
+            );
+        }
+
+        set_transient( $rate_limit_key, $request_count + 1, 10 * MINUTE_IN_SECONDS );
+
+        $subject = sprintf( 'Eden Engine Partner Inquiry - %s - %s', $inquiry_type, $name );
+        $body    = implode(
+            "\n",
+            array(
+                'New Eden Engine Phase 1 partner inquiry',
+                '',
+                'Contact',
+                'Name: ' . $name,
+                'Email: ' . $email,
+                'Organization: ' . ( $organization ?: 'Not provided' ),
+                'Role: ' . ( $role ?: 'Not provided' ),
+                '',
+                'Inquiry',
+                'Inquiry type: ' . $inquiry_type,
+                'Relevant capability: ' . ( $relevant_capability ?: 'Not provided' ),
+                '',
+                'Reason for contacting Eden Engine:',
+                $reason_for_contact,
+                '',
+                'Desired next step:',
+                $desired_next_step,
+                '',
+                'Optional attachment or reference link: ' . ( $attachment_url ?: 'Not provided' ),
+            )
+        );
+        $headers = array( 'Reply-To: ' . $name . ' <' . $email . '>' );
+
+        if ( ! wp_mail( $recipient, $subject, $body, $headers ) ) {
+            wp_send_json_error( array( 'message' => 'The partner inquiry could not be sent. Please use the direct email link instead.' ), 500 );
+        }
+
+        wp_send_json_success( array( 'message' => 'Partner inquiry sent. Eden Engine will follow up by email.' ) );
+    }
+}
+
+add_action( 'wp_ajax_nopriv_eden_engine_partner_request', 'eden_engine_handle_partner_request' );
+add_action( 'wp_ajax_eden_engine_partner_request', 'eden_engine_handle_partner_request' );
+
 if ( ! function_exists( 'eden_engine_body_class' ) ) {
     function eden_engine_body_class( array $classes ): array {
         if ( '' !== eden_engine_current_page_widget() ) {
@@ -690,10 +962,12 @@ if ( ! function_exists( 'eden_engine_ensure_public_pages' ) ) {
 
         $pages = array(
             'technology'      => array( 'Technology', '[eden_technology]' ),
+            'evidence'        => array( 'Evidence', '[eden_evidence]' ),
             'system'          => array( 'System', '[eden_system]' ),
             'applications'    => array( 'Applications', '[eden_applications]' ),
             'company'         => array( 'Company', '[eden_company]' ),
             'vision'          => array( 'Vision', '[eden_vision]' ),
+            'partner'         => array( 'Partner', '[eden_partner]' ),
             'technical-brief' => array( 'Technical Brief', '[eden_technical_brief]' ),
             'contact'         => array( 'Contact', '[eden_contact]' ),
         );
@@ -734,11 +1008,13 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
 
         do_action( 'litespeed_purge_url', home_url( '/' ) );
         do_action( 'litespeed_purge_url', home_url( '/technology/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/evidence/' ) );
         do_action( 'litespeed_purge_url', home_url( '/system/' ) );
         do_action( 'litespeed_purge_url', home_url( '/applications/' ) );
         do_action( 'litespeed_purge_url', home_url( '/roadmap/' ) );
         do_action( 'litespeed_purge_url', home_url( '/company/' ) );
         do_action( 'litespeed_purge_url', home_url( '/vision/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/partner/' ) );
         do_action( 'litespeed_purge_url', home_url( '/technical-brief/' ) );
         do_action( 'litespeed_purge_url', home_url( '/contact/' ) );
         do_action( 'litespeed_purge_url', home_url( '/journal/' ) );
@@ -775,30 +1051,59 @@ add_filter( 'document_title_parts', 'eden_engine_document_title' );
 if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
-            array( 'home', 'Home', home_url( '/' ) ),
             array( 'technology', 'Technology', home_url( '/technology/' ) ),
+            array( 'evidence', 'Evidence', home_url( '/evidence/' ) ),
             array( 'roadmap', 'Roadmap', home_url( '/roadmap/' ) ),
+            array( 'applications', 'Applications', home_url( '/applications/' ) ),
             array( 'journal', 'Journal', home_url( '/journal/' ) ),
             array( 'company', 'Company', home_url( '/company/' ) ),
         );
 
-        $html  = '<div class="eden-wp-nav-wrap"><header class="site-header eden-wp-nav" aria-label="Eden Engine site header">';
+        $html  = '<div class="eden-wp-nav-wrap"><header class="site-header site-header--interactive eden-wp-nav" aria-label="Eden Engine site header" data-eden-wp-nav>';
         $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
         $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/brand/legacy-tree-logo.png' ) . '" alt="" /></span>';
         $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Food Infrastructure Out.</small></span></a>';
+        $html .= '<button class="site-nav-toggle" type="button" aria-controls="eden-wp-primary-menu" aria-expanded="false" aria-label="Open primary navigation" data-eden-wp-nav-toggle>';
+        $html .= '<span data-eden-wp-nav-label>Menu</span><span class="site-nav-toggle__glyph" aria-hidden="true"><i></i><i></i></span></button>';
+        $html .= '<div class="site-header__panel" id="eden-wp-primary-menu" data-eden-wp-nav-panel>';
         $html .= '<nav class="site-nav eden-wp-site-nav" aria-label="Primary navigation">';
 
         foreach ( $items as $item ) {
-            $is_current = ( 'home' === $item[0] && is_front_page() ) || ( 'journal' === $item[0] && eden_engine_should_style_blog() ) || is_page( $item[0] );
+            $is_current = ( 'journal' === $item[0] && eden_engine_should_style_blog() ) || is_page( $item[0] );
             $current    = $is_current ? ' aria-current="page"' : '';
             $html      .= '<a class="site-nav__link" href="' . esc_url( $item[2] ) . '"' . $current . '>' . esc_html( $item[1] ) . '</a>';
         }
 
         $html .= '</nav><div class="site-header__actions">';
-        $html .= '<a class="button button--outline" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Request Technical Brief</a>';
-        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Partner With Eden Engine</a>';
-        $html .= '</div>';
+        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Phase 1</a>';
+        $html .= '</div></div>';
         $html .= '</header></div>';
+
+        return $html;
+    }
+}
+
+if ( ! function_exists( 'eden_engine_footer_html' ) ) {
+    function eden_engine_footer_html(): string {
+        $logo_url = EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/brand/legacy-tree-logo.png';
+
+        $html  = '<footer class="site-footer eden-wp-footer">';
+        $html .= '<div class="site-footer__brand">';
+        $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
+        $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( $logo_url ) . '" alt="" /></span>';
+        $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Food Infrastructure Out.</small></span></a>';
+        $html .= '<p>Eden Engine is developing a modular, evidence-gated carbon-to-food research platform. Phase 1 begins with bounded carbon validation and measurable protein or biomass proof before broader food-system claims.</p>';
+        $html .= '</div>';
+        $html .= '<div class="site-footer__links" aria-label="Footer navigation">';
+        $html .= '<div><h2>Technology</h2><a href="' . esc_url( home_url( '/technology/' ) ) . '">Technology</a></div>';
+        $html .= '<div><h2>Evidence</h2><a href="' . esc_url( home_url( '/evidence/' ) ) . '">Evidence Program</a></div>';
+        $html .= '<div><h2>Roadmap</h2><a href="' . esc_url( home_url( '/roadmap/' ) ) . '">Roadmap</a></div>';
+        $html .= '<div><h2>Applications</h2><a href="' . esc_url( home_url( '/applications/' ) ) . '">Applications</a></div>';
+        $html .= '<div><h2>Journal</h2><a href="' . esc_url( home_url( '/journal/' ) ) . '">Journal</a></div>';
+        $html .= '<div><h2>Company</h2><a href="' . esc_url( home_url( '/company/' ) ) . '">Company</a><a href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Phase 1</a><a href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Technical Brief</a></div>';
+        $html .= '</div>';
+        $html .= '<p class="site-footer__disclaimer">Current status: Phase 1 bench-validation planning and early testing. No commercial food, feed, nutrition, life-support, deployment, or production-ready capability is claimed. Future applications depend on dated measured evidence, safety validation, independent review, and scale-up results.</p>';
+        $html .= '</footer>';
 
         return $html;
     }
