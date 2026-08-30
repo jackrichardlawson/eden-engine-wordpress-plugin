@@ -41,25 +41,28 @@ if ( function_exists( 'wp_body_open' ) ) {
     wp_body_open();
 }
 ?>
-<main class="eden-site eden-journal-shell">
+<div class="eden-site eden-journal-shell">
+    <a class="sr-only" href="#eden-main-content">Skip to main content</a>
     <div class="technical-backdrop" aria-hidden="true">
         <img src="<?php echo esc_url( EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/shared/backgrounds/dark-grid.jpg' ); ?>" alt="" />
     </div>
     <?php echo eden_engine_nav_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
+    <main id="eden-main-content">
+
     <section class="eden-journal-hero" aria-labelledby="eden-journal-title">
         <div class="eden-journal-hero__copy">
-            <p class="eden-journal-eyebrow">Build Log / Public Proof Trail</p>
+            <p class="eden-journal-eyebrow">Research Journal / Build Log</p>
             <h1 id="eden-journal-title"><?php echo esc_html( $journal_title ); ?></h1>
             <p><?php echo esc_html( $journal_intro ); ?></p>
         </div>
         <div class="eden-journal-hero__readout" aria-label="Journal focus areas">
             <span>Build Log</span>
-            <strong>CO2 to ingredients, bounded validation, evidence before scale.</strong>
+            <strong>CO₂ to ingredients, bounded validation, evidence before scale.</strong>
             <ul>
                 <li>Research notes</li>
                 <li>Regulatory context</li>
-                <li>Public proof trail</li>
+                <li>Artifact-backed updates when available</li>
             </ul>
         </div>
     </section>
@@ -122,8 +125,9 @@ if ( function_exists( 'wp_body_open' ) ) {
             </div>
         <?php endif; ?>
     </section>
+    </main>
     <?php echo eden_engine_footer_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-</main>
+</div>
 <?php wp_footer(); ?>
 </body>
 </html>

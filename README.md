@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
 
-Current version: 0.5.0
+Current version: 0.6.0
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -27,6 +27,7 @@ Legacy public routes redirect intentionally:
 - `/mission/` and `/vision/` -> `/company/`
 - `/contact/` -> `/partner/`
 - `/whitepaper/` -> `/technical-brief/`
+- `/evidence-2/` -> `/evidence/`
 
 Paste this shortcode into a WordPress page for the full homepage layout if you need manual placement:
 
@@ -34,7 +35,7 @@ Paste this shortcode into a WordPress page for the full homepage layout if you n
 [eden_engine_showcase]
 ```
 
-Individual sections are also available:
+Route shortcodes are also available. Each mounts one complete Eden route; use no more than one Eden route shortcode on a page:
 
 ```text
 [eden_digital_twin]
@@ -72,6 +73,8 @@ After installation, activate **Eden Engine** from the WordPress Plugins screen. 
 The native Journal header uses the same public navigation as the React site: Technology, Evidence, Roadmap, Applications, Journal, and Company, with one **Partner on Phase 1** action. A small Journal-only script provides the accessible mobile disclosure without loading the full React bundle. The shared footer is rendered by the plugin for both index and single-post templates.
 
 Partner submissions refresh their nonce from a no-cache WordPress AJAX endpoint before posting. The server also validates the inquiry track, required context, field lengths, honeypot, and a short per-connection rate limit. If JavaScript is unavailable, the fallback exposes the configured direct email and Technical Brief link.
+
+The public partner address defaults to `partners@theedenengine.com`. Define `EDEN_ENGINE_PARTNER_EMAIL` in `wp-config.php`, or set the `eden_engine_partner_public_email` option, to change the address shown on the site. The mailbox must be provisioned separately. Form submissions continue to use the WordPress administrator email unless the `eden_engine_partner_request_recipient` filter is configured.
 
 ## Build Assets
 
@@ -115,6 +118,16 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.6.0
+
+- Added an Eden-owned public page template so Astra does not emit a hidden duplicate masthead or legacy menu on the main website routes
+- Expanded server-rendered fallback content into page-specific, crawlable summaries with explicit current capability, evidence state, Phase 1A, and parallel Phase 1B boundaries
+- Added a permanent redirect from `/evidence-2/` to the canonical Evidence page and included the duplicate route in cache purges
+- Added reviewed Journal titles, descriptions, claim classes, social metadata, and Article structured data for riskier legacy posts
+- Renamed the Journal framing to Research Journal / Build Log and removed synthesized fallback posts from the React feed
+- Expanded the partner intake to eight focused inquiry tracks, added a configurable branded public email, and connected the Technical Brief directly to its preselected inquiry path
+- Added a shared Evidence gate ledger to the Roadmap and made active claim status and independent-review state explicit
 
 ### Version 0.5.0
 

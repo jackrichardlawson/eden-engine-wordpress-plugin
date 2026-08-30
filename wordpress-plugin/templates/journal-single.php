@@ -22,16 +22,22 @@ if ( function_exists( 'wp_body_open' ) ) {
     wp_body_open();
 }
 ?>
-<main class="eden-site eden-post-shell">
+<div class="eden-site eden-post-shell">
+    <a class="sr-only" href="#eden-main-content">Skip to main content</a>
     <div class="technical-backdrop" aria-hidden="true">
         <img src="<?php echo esc_url( EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/shared/backgrounds/dark-grid.jpg' ); ?>" alt="" />
     </div>
     <?php echo eden_engine_nav_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
+    <main id="eden-main-content">
+
     <?php
     while ( have_posts() ) :
         the_post();
-        $post_id = get_the_ID();
+        $post_id       = get_the_ID();
+        $review_policy = function_exists( 'eden_engine_reviewed_journal_policy_for_post' )
+            ? eden_engine_reviewed_journal_policy_for_post( $post_id )
+            : array();
         ?>
         <article <?php post_class( 'eden-post' ); ?>>
             <header class="eden-post-hero">
@@ -61,8 +67,8 @@ if ( function_exists( 'wp_body_open' ) ) {
                     <p class="eden-journal-eyebrow">Control Readout</p>
                     <dl>
                         <div>
-                            <dt>Status</dt>
-                            <dd>Public note</dd>
+                            <dt>Claim class</dt>
+                            <dd><?php echo esc_html( ! empty( $review_policy['claim_class'] ) ? (string) $review_policy['claim_class'] : 'Research / build note' ); ?></dd>
                         </div>
                         <div>
                             <dt>Signal</dt>
@@ -111,8 +117,9 @@ if ( function_exists( 'wp_body_open' ) ) {
             <?php endif; ?>
         </article>
     <?php endwhile; ?>
+    </main>
     <?php echo eden_engine_footer_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-</main>
+</div>
 <?php wp_footer(); ?>
 </body>
 </html>

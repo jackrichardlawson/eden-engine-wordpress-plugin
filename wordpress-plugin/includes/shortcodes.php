@@ -20,6 +20,18 @@ if ( ! function_exists( 'eden_engine_partner_recipient' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_partner_public_email' ) ) {
+    function eden_engine_partner_public_email(): string {
+        $configured_email = defined( 'EDEN_ENGINE_PARTNER_EMAIL' )
+            ? (string) EDEN_ENGINE_PARTNER_EMAIL
+            : (string) get_option( 'eden_engine_partner_public_email', 'partners@theedenengine.com' );
+
+        return sanitize_email(
+            (string) apply_filters( 'eden_engine_partner_public_email', $configured_email )
+        );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
     function eden_engine_shortcode_names(): array {
         return array(
@@ -82,7 +94,7 @@ if ( ! function_exists( 'eden_engine_enqueue_assets' ) ) {
                             'eden_engine_partner_nonce',
                             admin_url( 'admin-ajax.php' )
                         ),
-                        'fallbackEmail'       => eden_engine_partner_recipient(),
+                        'fallbackEmail'       => eden_engine_partner_public_email(),
                         'partnerUrl'          => home_url( '/partner/' ),
                         'technicalBriefUrl'   => home_url( '/technical-brief/' ),
                     )
@@ -116,19 +128,19 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
         $content = array(
             'home'            => array(
                 'title'   => 'Carbon In. Food Infrastructure Out.',
-                'summary' => 'Eden Engine is developing a modular CO2-to-food-ingredients platform, beginning with bounded carbon validation, protein/biomass proof, and carbohydrate precursor R&D.',
+                'summary' => 'Eden Engine is building the research and control platform for advancing carbon-conversion pathways into qualified food ingredients. It connects scientific precedent, digital twins, experiment design, and measured evidence.',
                 'cta'     => 'Partner on Phase 1',
                 'url'     => home_url( '/partner/' ),
             ),
             'technology'      => array(
-                'title'   => 'The Technology Behind CO2-to-Food Ingredients',
-                'summary' => 'Technology explains the Phase 1 carbon-to-ingredient target, target architecture, technical risk, evidence metrics, and control loop.',
+                'title'   => 'The Technology Behind CO₂-to-Food Ingredients',
+                'summary' => 'An accountable research architecture connecting conditioned carbon inputs, candidate conversion pathways, recovery, product qualification, analytics, QA/HOLD logic, and digital-twin feedback.',
                 'cta'     => 'View the Evidence Program',
                 'url'     => home_url( '/evidence/' ),
             ),
             'evidence'        => array(
                 'title'   => 'Evidence Before Scale',
-                'summary' => 'The evidence program separates what is modeled, planned, measured, and independently reviewed while defining the next test that could reduce uncertainty.',
+                'summary' => 'The evidence program keeps external precedent, Eden-modeled integration, planned experiments, measured results, independent review, and future qualification in separate claim states.',
                 'cta'     => 'Partner on Phase 1',
                 'url'     => home_url( '/partner/' ),
             ),
@@ -146,19 +158,19 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
             ),
             'roadmap'         => array(
                 'title'   => 'From First Carbon Proof to Future Food Systems',
-                'summary' => 'The roadmap starts with Phase 1 carbon validation, then moves through evidence gates toward protein biomass proof, carbohydrate precursor breakthroughs, integrated pilots, and future food-system applications.',
+                'summary' => 'Phase 1A validates a closed microbial-biomass pathway while Phase 1B advances carbohydrate route selection and analytical feasibility in parallel. Later gates cover recovery, product qualification, safety, pilots, and applications.',
                 'cta'     => 'View the Evidence Program',
                 'url'     => home_url( '/evidence/' ),
             ),
             'journal'         => array(
-                'title'   => 'Field Notes From the Carbon Conversion Build',
-                'summary' => 'A public proof ledger for what is modeled, what is being tested, and what still needs evidence.',
+                'title'   => 'Research Journal / Build Log',
+                'summary' => 'Artifact-backed notes on what is modeled, what is planned, what has been measured, and what still needs evidence.',
                 'cta'     => 'Read Field Notes',
                 'url'     => home_url( '/journal/' ),
             ),
             'company'         => array(
                 'title'   => 'Building a Disciplined Carbon-to-Food-Ingredients Program',
-                'summary' => 'Eden Engine Technologies is building a disciplined CO2-to-food-ingredients validation program with evidence before scale.',
+                'summary' => 'Eden Engine Technologies coordinates the software, science, partners, capital, measurement, and review needed to turn a carbon-to-food hypothesis into dated evidence.',
                 'cta'     => 'Partner on Phase 1',
                 'url'     => home_url( '/partner/' ),
             ),
@@ -171,8 +183,14 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
             'technical-brief' => array(
                 'title'   => 'Eden Engine Technical Brief',
                 'summary' => 'A focused technical overview of the Phase 1 hypothesis, bounded validation plan, evidence gates, system architecture, known risks, and next validation step.',
-                'cta'     => 'Partner on Phase 1',
-                'url'     => home_url( '/partner/' ),
+                'cta'     => 'Discuss the Technical Brief',
+                'url'     => add_query_arg(
+                    array(
+                        'section' => 'partner-form',
+                        'inquiry' => 'technical-brief',
+                    ),
+                    home_url( '/partner/' )
+                ),
             ),
             'partner'         => array(
                 'title'   => 'Partner on Phase 1',
@@ -192,31 +210,263 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_public_widget_sections' ) ) {
+    function eden_engine_public_widget_sections( string $widget ): array {
+        $aliases = array(
+            'system'  => 'technology',
+            'vision'  => 'company',
+            'contact' => 'partner',
+        );
+        $widget  = $aliases[ $widget ] ?? $widget;
+        $sections = array(
+            'home' => array(
+                array(
+                    'title' => 'What Eden Engine has built',
+                    'body'  => 'The current foundation is software and systems engineering—not a claimed production facility.',
+                    'items' => array(
+                        'Pathway portfolio and comparison tools',
+                        'CO₂-to-protein and microbial-biomass research workspace',
+                        'Digital-twin models and typed platform contracts',
+                        'Experiment-readiness and evidence-governance workflows',
+                        'Eden Control operator interface and synthetic end-to-end pipeline tests',
+                    ),
+                ),
+                array(
+                    'title' => 'Two distinct Phase 1 programs',
+                    'body'  => 'Phase 1A tests one closed, measurable microbial-biomass pathway. Phase 1B runs in parallel as a higher-risk carbohydrate-pathway program; it is not an expected output of the biomass route.',
+                    'items' => array(
+                        'Phase 1A: closed carbon balance and repeatable microbial-biomass detection',
+                        'Phase 1B: route selection, analytical feasibility, and bounded breakthrough experiments',
+                    ),
+                ),
+                array(
+                    'title' => 'What must be proven next',
+                    'body'  => 'The immediate objective is one bounded experiment with known inputs, measurable outputs, qualified analytical methods, uncertainty, and an explicit continue-or-HOLD decision.',
+                    'items' => array(),
+                ),
+            ),
+            'technology' => array(
+                array(
+                    'title' => 'System boundary',
+                    'body'  => 'The platform treats every pathway as a controlled chain with declared inputs, conversions, recoveries, measurements, and losses.',
+                    'items' => array(
+                        'Carbon source, origin, contaminants, conditioning, clean energy, water, nutrients, and opportunity cost',
+                        'Biological, electrochemical, enzymatic, and hybrid candidate pathways',
+                        'Conversion stage, reactor or process boundary, and operating constraints',
+                        'Harvesting, recovery, purification, composition, stability, and intended-use specification',
+                        'Analytics, qualified methods, traceable data, QA/HOLD logic, and operator decisions',
+                        'Digital-twin feedback that remains labeled as modeled until bench data exists',
+                    ),
+                ),
+                array(
+                    'title' => 'Major technical risks',
+                    'body'  => 'The architecture is only useful if it exposes the reasons a route could fail.',
+                    'items' => array(
+                        'Source-gas contaminants and conditioning burden',
+                        'Carbon selectivity, losses, byproducts, and incomplete mass balance',
+                        'Energy intensity and dependence on a named energy source',
+                        'Recovery and purification burden',
+                        'Analytical limits, repeatability, control stability, and scale sensitivity',
+                    ),
+                ),
+            ),
+            'evidence' => array(
+                array(
+                    'title' => 'Evidence states',
+                    'body'  => 'One optimistic readiness label cannot substitute for a traceable evidence register.',
+                    'items' => array(
+                        'Established external precedent: primary literature, standards, and regulatory or product precedent',
+                        'Eden-modeled: route assumptions, digital models, and system integration',
+                        'Planned: approved hypotheses, controls, methods, and HOLD rules',
+                        'Measured: dated Eden observations with uncertainty and provenance',
+                        'Independently reviewed: external review of an Eden result or evidence package',
+                        'Future vision: motivating targets that are not current capability',
+                    ),
+                ),
+                array(
+                    'title' => 'Active claim status',
+                    'body'  => 'Software and modeling capability are implemented. No Eden-specific bench performance, food-grade output, safety clearance, integrated pilot, or deployment qualification is currently published as measured and independently reviewed.',
+                    'items' => array(),
+                ),
+                array(
+                    'title' => 'Next evidence gate',
+                    'body'  => 'Quantify feed, product, off-gas, liquid, solids, losses, and uncertainty for one bounded route with controls and a pre-written HOLD rule.',
+                    'items' => array(),
+                ),
+            ),
+            'roadmap' => array(
+                array(
+                    'title' => 'Phase 1A and Phase 1B',
+                    'body'  => 'The programs run in parallel with separate hypotheses and claim states. Later scale and application gates remain dependent on measured evidence.',
+                    'items' => array(
+                        'Phase 1A: microbial-biomass validation, carbon balance, repeatability, and recovery',
+                        'Phase 1B: carbohydrate route selection, analytical feasibility, and breakthrough experiments',
+                    ),
+                ),
+                array(
+                    'title' => 'Numbered evidence gates',
+                    'body'  => 'Every gate has entry criteria, required evidence, a failure consequence, a fallback route, and an explicit status.',
+                    'items' => array(
+                        '0 — Define bounded route and inputs — defined in planning',
+                        '1 — Instrumented carbon balance — next gate',
+                        '2 — Repeatable target detection — pending',
+                        '3 — Recovery and purity — pending',
+                        '4 — Food-product specification — pending',
+                        '5 — Safety and regulatory route — pending',
+                        '6 — Integrated pilot — pending',
+                        '7 — Application qualification — pending',
+                    ),
+                ),
+                array(
+                    'title' => 'Failure is a roadmap result',
+                    'body'  => 'If evidence does not close, the program narrows, repeats, changes method, selects a fallback route, or remains on HOLD. Calendar progress never overrides a failed gate.',
+                    'items' => array(),
+                ),
+            ),
+            'applications' => array(
+                array(
+                    'title' => 'Application horizons',
+                    'body'  => 'Applications explain why the research matters; they do not imply current deployment.',
+                    'items' => array(
+                        'Near-term research: analytical services, route screening, and ingredient-relevant characterization',
+                        'Industrial context: co-location and conditioned carbon-stream utilization after route validation',
+                        'Resilience context: localized production concepts after safety, reliability, and integration evidence',
+                        'Frontier context: remote or off-world systems only after mission-specific qualification',
+                    ),
+                ),
+                array(
+                    'title' => 'Maturity labels',
+                    'body'  => 'Every application should be labeled as research precedent, modeled scenario, planned validation, measured evidence, or future vision.',
+                    'items' => array(),
+                ),
+            ),
+            'company' => array(
+                array(
+                    'title' => 'What the company is building',
+                    'body'  => 'Eden coordinates pathway science, software, experiment design, measurement, evidence review, product qualification, partnerships, and capital around one staged program.',
+                    'items' => array(
+                        'Public: program boundaries, claim states, evidence gates, safety constraints, and next tests',
+                        'Protected: unpublished route parameters, detailed apparatus choices, partner data, calibration records, and confidential methods',
+                        'Shared in stages: non-confidential capability fit before controlled technical exchange',
+                    ),
+                ),
+                array(
+                    'title' => 'Current needs',
+                    'body'  => 'The company is seeking laboratory access, analytical methods, gas-handling and sensor support, bioprocess engineering, product-qualification expertise, independent review, and focused early funding.',
+                    'items' => array(),
+                ),
+            ),
+            'partner' => array(
+                array(
+                    'title' => 'Choose a focused inquiry',
+                    'body'  => 'Useful inquiries identify the capability offered, the evidence it could improve, and a realistic next step.',
+                    'items' => array(
+                        'Laboratory or assay partner',
+                        'Bioprocess engineering',
+                        'Ingredient or industrial partner',
+                        'Academic collaboration',
+                        'Non-dilutive funding',
+                        'Strategic investment',
+                        'Media',
+                        'Technical brief request',
+                    ),
+                ),
+            ),
+            'technical-brief' => array(
+                array(
+                    'title' => 'What the public brief contains',
+                    'body'  => 'The web brief states the Phase 1 boundary, evidence classes, assumptions, risks, failure modes, safety constraints, and smallest useful next test.',
+                    'items' => array(
+                        'System boundary and source assumptions',
+                        'Phase 1A and parallel Phase 1B hypotheses',
+                        'Evidence gates and active claim status',
+                        'Mass, energy, carbon, safety, and product-qualification checks',
+                        'Continue, revise, or HOLD decision logic',
+                    ),
+                ),
+                array(
+                    'title' => 'Current evidence boundary',
+                    'body'  => 'No Eden-specific food-grade output, validated production performance, integrated pilot operation, or deployment is presented as measured and independently reviewed. Use Print / Save as PDF for the current public brief.',
+                    'items' => array(),
+                ),
+            ),
+        );
+
+        return $sections[ $widget ] ?? $sections['home'];
+    }
+}
+
 if ( ! function_exists( 'eden_engine_fallback_html' ) ) {
     function eden_engine_fallback_html( string $widget ): string {
-        $content = eden_engine_public_widget_content( $widget );
+        static $fallback_instance = 0;
 
-        $html  = '<section class="eden-engine-crawlable-fallback">';
-        $html .= '<p class="eyebrow">Current status</p>';
-        $html .= '<h1>' . esc_html( $content['title'] ) . '</h1>';
+        ++$fallback_instance;
+
+        $content   = eden_engine_public_widget_content( $widget );
+        $sections  = eden_engine_public_widget_sections( $widget );
+        $full_page = function_exists( 'eden_engine_is_public_app_page' ) && eden_engine_is_public_app_page();
+        $title_id  = 'eden-fallback-title-' . sanitize_html_class( $widget ) . '-' . $fallback_instance;
+
+        if ( $full_page ) {
+            $html  = '<div class="eden-site eden-server-fallback">';
+            $html .= '<a class="sr-only" href="#eden-main-content">Skip to main content</a>';
+            $html .= eden_engine_nav_html();
+            $html .= '<main id="eden-main-content" tabindex="-1">';
+            $html .= '<section class="eden-engine-crawlable-fallback" aria-labelledby="' . esc_attr( $title_id ) . '">';
+        } else {
+            $html = '<section class="eden-site eden-engine-crawlable-fallback eden-engine-crawlable-fallback--inline" aria-labelledby="' . esc_attr( $title_id ) . '">';
+        }
+
+        $html .= '<div class="eden-server-fallback__intro">';
+        $html .= '<p class="eyebrow">Current program</p>';
+        $html .= $full_page
+            ? '<h1 id="' . esc_attr( $title_id ) . '">' . esc_html( $content['title'] ) . '</h1>'
+            : '<h2 id="' . esc_attr( $title_id ) . '">' . esc_html( $content['title'] ) . '</h2>';
         $html .= '<p>' . esc_html( $content['summary'] ) . '</p>';
-        $html .= '<ul>';
-        $html .= '<li><strong>Stage:</strong> Phase 1: bench-validation planning.</li>';
-        $html .= '<li><strong>Objective:</strong> Build and instrument a bounded carbon-to-ingredient pathway, beginning with protein/biomass proof and preserving carbohydrate-relevant outputs as the breakthrough target.</li>';
-        $html .= '<li><strong>Measured:</strong> No public measured performance data is claimed until dated bench evidence exists.</li>';
-        $html .= '<li><strong>Not claimed:</strong> No commercial food, feed, nutrition, fuel, materials, life-support output, deployment, crop-improvement, or production-ready system claim.</li>';
-        $html .= '</ul>';
+        $html .= '</div>';
+        $html .= '<div class="eden-server-fallback__status" aria-label="Current program status">';
+        $html .= '<article><span>Current capability</span><strong>Research and control platform</strong><p>Pathway comparison, digital-twin modeling, experiment planning, evidence gating, and decision support are implemented.</p></article>';
+        $html .= '<article><span>Evidence status</span><strong>Modeled and planned</strong><p>External precedent is separated from Eden models, planned validation, measured results, and independent review.</p></article>';
+        $html .= '<article><span>Phase 1 boundary</span><strong>Two parallel programs</strong><p>Phase 1A tests microbial biomass; Phase 1B preserves a higher-risk carbon-to-carbohydrate research track.</p></article>';
+        $html .= '</div>';
+
+        foreach ( $sections as $section_index => $section ) {
+            $heading_id = 'eden-fallback-section-' . sanitize_html_class( $widget ) . '-' . $fallback_instance . '-' . absint( $section_index );
+            $html      .= '<section class="eden-server-fallback__section" aria-labelledby="' . esc_attr( $heading_id ) . '">';
+            $html      .= '<p class="eyebrow">Program readout ' . esc_html( str_pad( (string) ( $section_index + 1 ), 2, '0', STR_PAD_LEFT ) ) . '</p>';
+            $html      .= '<h2 id="' . esc_attr( $heading_id ) . '">' . esc_html( (string) $section['title'] ) . '</h2>';
+            $html      .= '<p>' . esc_html( (string) $section['body'] ) . '</p>';
+
+            if ( ! empty( $section['items'] ) && is_array( $section['items'] ) ) {
+                $html .= '<ul>';
+
+                foreach ( $section['items'] as $item ) {
+                    $html .= '<li>' . esc_html( (string) $item ) . '</li>';
+                }
+
+                $html .= '</ul>';
+            }
+
+            $html .= '</section>';
+        }
 
         if ( 'partner' === $widget || 'contact' === $widget ) {
-            $fallback_email = eden_engine_partner_recipient();
+            $fallback_email = eden_engine_partner_public_email();
 
             if ( is_email( $fallback_email ) ) {
-                $html .= '<p><strong>Direct email:</strong> <a href="mailto:' . esc_attr( $fallback_email ) . '">' . esc_html( $fallback_email ) . '</a></p>';
+                $html .= '<p class="eden-server-fallback__email"><strong>Direct email:</strong> <a href="mailto:' . esc_attr( $fallback_email ) . '">' . esc_html( $fallback_email ) . '</a></p>';
             }
         }
 
-        $html .= '<a class="button button--primary" href="' . esc_url( $content['url'] ) . '">' . esc_html( $content['cta'] ) . '</a>';
-        $html .= '</section>';
+        $html .= '<div class="eden-server-fallback__action"><a class="button button--primary" href="' . esc_url( $content['url'] ) . '">' . esc_html( $content['cta'] ) . '</a></div>';
+
+        if ( $full_page ) {
+            $html .= '</section></main>';
+            $html .= eden_engine_footer_html();
+            $html .= '</div>';
+        } else {
+            $html .= '</section>';
+        }
 
         return $html;
     }
@@ -278,10 +528,40 @@ if ( ! function_exists( 'eden_engine_should_style_blog' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_is_public_app_page' ) ) {
+    function eden_engine_is_public_app_page(): bool {
+        if ( is_admin() ) {
+            return false;
+        }
+
+        if ( is_front_page() && is_page() && ! is_home() ) {
+            return true;
+        }
+
+        return is_page(
+            array(
+                'technology',
+                'evidence',
+                'roadmap',
+                'applications',
+                'company',
+                'partner',
+                'technical-brief',
+            )
+        );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_blog_template' ) ) {
     function eden_engine_blog_template( string $template ): string {
         if ( is_admin() ) {
             return $template;
+        }
+
+        if ( eden_engine_is_public_app_page() ) {
+            $public_template = EDEN_ENGINE_PLUGIN_PATH . 'templates/public-page.php';
+
+            return file_exists( $public_template ) ? $public_template : $template;
         }
 
         if ( eden_engine_should_style_blog() && ! is_singular( 'post' ) ) {
@@ -565,7 +845,7 @@ add_shortcode( 'eden_whitepaper', 'eden_engine_shortcode_whitepaper' );
 
 if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
     function eden_engine_current_page_widget(): string {
-        if ( is_front_page() ) {
+        if ( is_front_page() && is_page() && ! is_home() ) {
             return 'home';
         }
 
@@ -663,7 +943,9 @@ if ( ! function_exists( 'eden_engine_redirect_alias_pages' ) ) {
             $request_path = trim( (string) $GLOBALS['wp']->request, '/' );
         }
 
-        if ( is_page( 'system' ) || ( is_404() && 'system' === $request_path ) ) {
+        if ( is_page( 'evidence-2' ) || ( is_404() && 'evidence-2' === $request_path ) ) {
+            $destination = home_url( '/evidence/' );
+        } elseif ( is_page( 'system' ) || ( is_404() && 'system' === $request_path ) ) {
             $destination = add_query_arg( 'section', 'architecture', home_url( '/technology/' ) );
         } elseif (
             is_page( 'mission' ) ||
@@ -686,7 +968,7 @@ if ( ! function_exists( 'eden_engine_redirect_alias_pages' ) ) {
     }
 }
 
-add_action( 'template_redirect', 'eden_engine_redirect_alias_pages', 10 );
+add_action( 'template_redirect', 'eden_engine_redirect_alias_pages', 1 );
 
 if ( ! function_exists( 'eden_engine_brief_request_field' ) ) {
     function eden_engine_brief_request_field( string $key ): string {
@@ -707,11 +989,14 @@ if ( ! function_exists( 'eden_engine_partner_request_textarea' ) ) {
 if ( ! function_exists( 'eden_engine_partner_inquiry_types' ) ) {
     function eden_engine_partner_inquiry_types(): array {
         return array(
-            'Laboratory, analytical, or assay partner',
-            'Bioprocess or engineering collaborator',
-            'Ingredient, food, or industrial partner',
-            'Grant, investment, or strategic funding',
-            'Media, academic, or general inquiry',
+            'Laboratory or assay partner',
+            'Bioprocess engineering',
+            'Ingredient or industrial partner',
+            'Academic collaboration',
+            'Non-dilutive funding',
+            'Strategic investment',
+            'Media',
+            'Technical brief request',
         );
     }
 }
@@ -950,6 +1235,7 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
         do_action( 'litespeed_purge_url', home_url( '/' ) );
         do_action( 'litespeed_purge_url', home_url( '/technology/' ) );
         do_action( 'litespeed_purge_url', home_url( '/evidence/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/evidence-2/' ) );
         do_action( 'litespeed_purge_url', home_url( '/system/' ) );
         do_action( 'litespeed_purge_url', home_url( '/applications/' ) );
         do_action( 'litespeed_purge_url', home_url( '/roadmap/' ) );
@@ -979,8 +1265,41 @@ if ( ! function_exists( 'eden_engine_public_tagline' ) ) {
 
 add_filter( 'pre_option_blogdescription', 'eden_engine_public_tagline' );
 
+if ( ! function_exists( 'eden_engine_public_route_metadata' ) ) {
+    function eden_engine_public_route_metadata(): array {
+        $widget = eden_engine_current_page_widget();
+
+        if ( '' === $widget ) {
+            return array();
+        }
+
+        $titles = array(
+            'home'            => 'Carbon-to-Food Research and Control Platform',
+            'technology'      => 'Technology and Pathway Architecture',
+            'evidence'        => 'Evidence Program and Active Claim Status',
+            'roadmap'         => 'Evidence-Gated Research Roadmap',
+            'applications'    => 'Potential Applications and Evidence Boundaries',
+            'company'         => 'Company, Mission, and Information Boundary',
+            'partner'         => 'Partner on Phase 1',
+            'technical-brief' => 'Phase 1 Technical Brief',
+        );
+        $content = eden_engine_public_widget_content( $widget );
+
+        return array(
+            'title'       => $titles[ $widget ] ?? (string) $content['title'],
+            'description' => (string) $content['summary'],
+        );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_document_title' ) ) {
     function eden_engine_document_title( array $parts ): array {
+        $metadata = eden_engine_public_route_metadata();
+
+        if ( ! empty( $metadata['title'] ) ) {
+            $parts['title'] = (string) $metadata['title'];
+        }
+
         $parts['tagline'] = eden_engine_public_tagline();
 
         return $parts;
@@ -988,6 +1307,75 @@ if ( ! function_exists( 'eden_engine_document_title' ) ) {
 }
 
 add_filter( 'document_title_parts', 'eden_engine_document_title' );
+
+if ( ! function_exists( 'eden_engine_filter_public_page_seo_title' ) ) {
+    function eden_engine_filter_public_page_seo_title( string $title ): string {
+        $metadata = eden_engine_public_route_metadata();
+
+        return ! empty( $metadata['title'] ) ? (string) $metadata['title'] . ' | ' . get_bloginfo( 'name' ) : $title;
+    }
+}
+
+if ( ! function_exists( 'eden_engine_filter_public_page_seo_description' ) ) {
+    function eden_engine_filter_public_page_seo_description( string $description ): string {
+        $metadata = eden_engine_public_route_metadata();
+
+        return ! empty( $metadata['description'] ) ? (string) $metadata['description'] : $description;
+    }
+}
+
+add_filter( 'wpseo_title', 'eden_engine_filter_public_page_seo_title', 30 );
+add_filter( 'wpseo_opengraph_title', 'eden_engine_filter_public_page_seo_title', 30 );
+add_filter( 'wpseo_twitter_title', 'eden_engine_filter_public_page_seo_title', 30 );
+add_filter( 'rank_math/frontend/title', 'eden_engine_filter_public_page_seo_title', 30 );
+add_filter( 'rank_math/opengraph/facebook/og_title', 'eden_engine_filter_public_page_seo_title', 30 );
+add_filter( 'rank_math/opengraph/twitter/twitter_title', 'eden_engine_filter_public_page_seo_title', 30 );
+add_filter( 'wpseo_metadesc', 'eden_engine_filter_public_page_seo_description', 30 );
+add_filter( 'wpseo_opengraph_desc', 'eden_engine_filter_public_page_seo_description', 30 );
+add_filter( 'wpseo_twitter_description', 'eden_engine_filter_public_page_seo_description', 30 );
+add_filter( 'rank_math/frontend/description', 'eden_engine_filter_public_page_seo_description', 30 );
+add_filter( 'rank_math/opengraph/facebook/og_description', 'eden_engine_filter_public_page_seo_description', 30 );
+add_filter( 'rank_math/opengraph/twitter/twitter_description', 'eden_engine_filter_public_page_seo_description', 30 );
+
+if ( ! function_exists( 'eden_engine_public_page_head_metadata' ) ) {
+    function eden_engine_public_page_head_metadata(): void {
+        if ( ! eden_engine_is_public_app_page() || defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) ) {
+            return;
+        }
+
+        $metadata = eden_engine_public_route_metadata();
+
+        if ( empty( $metadata ) ) {
+            return;
+        }
+
+        $title       = (string) $metadata['title'] . ' | ' . get_bloginfo( 'name' );
+        $description = (string) $metadata['description'];
+        $url         = get_permalink( get_queried_object_id() ) ?: home_url( '/' );
+        $schema      = array(
+            '@context'    => 'https://schema.org',
+            '@type'       => 'WebPage',
+            'name'        => $title,
+            'description' => $description,
+            'url'         => $url,
+            'isPartOf'    => array(
+                '@type' => 'WebSite',
+                'name'  => get_bloginfo( 'name' ),
+                'url'   => home_url( '/' ),
+            ),
+        );
+
+        echo '<meta name="description" content="' . esc_attr( $description ) . '" />' . "\n";
+        echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
+        echo '<meta property="og:description" content="' . esc_attr( $description ) . '" />' . "\n";
+        echo '<meta property="og:type" content="website" />' . "\n";
+        echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
+        echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+        echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
+    }
+}
+
+add_action( 'wp_head', 'eden_engine_public_page_head_metadata', 5 );
 
 if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
@@ -1033,7 +1421,7 @@ if ( ! function_exists( 'eden_engine_footer_html' ) ) {
         $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
         $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( $logo_url ) . '" alt="" /></span>';
         $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Food Infrastructure Out.</small></span></a>';
-        $html .= '<p>Eden Engine is developing a modular, evidence-gated carbon-to-food research platform. Phase 1 begins with bounded carbon validation and measurable protein or biomass proof before broader food-system claims.</p>';
+        $html .= '<p>Eden Engine is developing a modular research and control platform for carbon-to-food pathways. Phase 1A tests microbial biomass while Phase 1B preserves a parallel, higher-risk carbon-to-carbohydrate research program.</p>';
         $html .= '</div>';
         $html .= '<div class="site-footer__links" aria-label="Footer navigation">';
         $html .= '<div><h2>Technology</h2><a href="' . esc_url( home_url( '/technology/' ) ) . '">Technology</a></div>';
@@ -1043,7 +1431,7 @@ if ( ! function_exists( 'eden_engine_footer_html' ) ) {
         $html .= '<div><h2>Journal</h2><a href="' . esc_url( home_url( '/journal/' ) ) . '">Journal</a></div>';
         $html .= '<div><h2>Company</h2><a href="' . esc_url( home_url( '/company/' ) ) . '">Company</a><a href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Phase 1</a><a href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Technical Brief</a></div>';
         $html .= '</div>';
-        $html .= '<p class="site-footer__disclaimer">Current status: Phase 1 bench-validation planning. No commercial food, feed, nutrition, life-support, deployment, or production-ready capability is claimed. Future applications depend on dated measured evidence, safety validation, independent review, and scale-up results.</p>';
+        $html .= '<p class="site-footer__disclaimer">Current capability: pathway comparison, modeling, experiment planning, evidence gating, and decision support. No Eden-specific food-grade output, validated production performance, or deployment is presented as measured and independently reviewed.</p>';
         $html .= '</footer>';
 
         return $html;
