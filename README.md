@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
 
-Current version: 0.6.1
+Current version: 0.7.0
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -76,6 +76,32 @@ Partner submissions refresh their nonce from a no-cache WordPress AJAX endpoint 
 
 The public partner address defaults to `partners@theedenengine.com`. Define `EDEN_ENGINE_PARTNER_EMAIL` in `wp-config.php`, or set the `eden_engine_partner_public_email` option, to change the address shown on the site. The mailbox must be provisioned separately. Form submissions continue to use the WordPress administrator email unless the `eden_engine_partner_request_recipient` filter is configured.
 
+## Artifact-Backed Journal Contract
+
+Published Journal posts can declare a versioned public evidence contract through registered post meta. The contract is intentionally stricter than a normal editorial label: a post is computed as `artifact_backed: true` only when every required field below is present and valid **and** the linked artifact status is `published`. A partial, draft, under-review, superseded, or withdrawn contract never receives the Artifact-backed badge.
+
+The stable post meta keys are:
+
+- `_eden_journal_artifact_identifier` — stable public artifact ID
+- `_eden_journal_artifact_url` — valid public HTTP(S) artifact link that does not resolve to the Journal post itself
+- `_eden_journal_artifact_type` — `dataset`, `experiment-record`, `model-or-simulation`, `analysis`, `protocol-or-method`, `software-release`, `technical-note`, `review`, or `other`
+- `_eden_journal_artifact_status` — `draft`, `under-review`, `published`, `superseded`, or `withdrawn`
+- `_eden_journal_claim_state` — `external-precedent`, `eden-modeled`, `planned-validation`, `synthetic`, `implemented-governance`, `measured-unreviewed`, `measured-reviewed`, `qualified`, or `historical-vision`
+- `_eden_journal_what_changed` — concrete change represented by the publication
+- `_eden_journal_narrow_support` — smallest defensible interpretation supported by the artifact
+- `_eden_journal_excluded_inferences` — non-empty array of claims readers must not infer
+- `_eden_journal_evidence_references` — non-empty array of `{ "label": "...", "url": "https://...", "type": "..." }` public references
+- `_eden_journal_next_gate` — smallest next validation step that would reduce uncertainty
+- `_eden_journal_review_date` — valid `YYYY-MM-DD` technical review date
+- `_eden_journal_eden_interpretation` — Eden-specific interpretation, kept separate from the underlying evidence
+- `_eden_journal_unknowns` — non-empty array of remaining unknowns, risks, or unresolved assumptions
+
+All keys are single post meta values, sanitized on write, registered with `show_in_rest`, and editable only by a user who can edit the post. The raw values are available through the standard REST `meta` object. A read-only `eden_journal_contract` field is also added to every `/wp/v2/posts` response; it is `null` when no contract is declared and otherwise includes declared normalized fields, human-readable labels, `missing_required_fields`, `contract_status`, and the authoritative `artifact_backed` boolean. Missing fields are omitted from that computed response rather than represented by schema-invalid empty values. This computed field remains available even if the site disables the post type's generic `custom-fields` REST support.
+
+PHP integrations and migrations should call `eden_engine_journal_publication_contract_for_post( $post_id )` for the normalized contract and `eden_engine_is_artifact_backed_post( $post_id )` for the fixed completeness decision. Integrations may extend controlled choice labels through `eden_engine_journal_artifact_types`, `eden_engine_journal_artifact_statuses`, and `eden_engine_journal_claim_states`; supply an existing editorial source through `eden_engine_journal_contract_fields`; or add a namespaced REST payload under `extensions` through `eden_engine_journal_contract_rest_extensions`. These filters do not provide a separate way to set the authoritative Artifact-backed flag.
+
+The native Journal index shows the Artifact-backed badge only when the helper returns true. The single-post template conditionally renders the linked artifact, claim state, review date, narrow support, excluded inferences, references, Eden interpretation, unknowns, and next evidence gate. A partial contract is rendered as incomplete and explicitly not artifact-backed.
+
 ## Build Assets
 
 The React source lives in the parent Eden Engine repository under `apps/web`. From `apps/web`, run:
@@ -102,8 +128,11 @@ eden-engine-wordpress-plugin/
   README.md
   wordpress-plugin/
     includes/
+      artifact-publications.php
       journal-policy.php
       shortcodes.php
+    public-artifacts/
+      2026-08-29-journal-proof-manifest.json
     templates/
       journal-index.php
       journal-single.php
@@ -118,6 +147,14 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.7.0
+
+- Published three artifact-backed Build Log entries with explicit claim states, excluded inferences, unknowns, review dates, and next evidence gates
+- Added a strict fixed Journal publication contract with registered REST metadata and fail-closed Artifact-backed labels
+- Published a machine-readable artifact receipt manifest with dated source locators and SHA-256 receipts for protected repository artifacts
+- Added social images and complete Open Graph/Twitter metadata for the main public routes and reviewed Journal entries
+- Added non-PII partner-form outcome telemetry and expanded cache purges to cover the new artifact-backed posts
 
 ### Version 0.6.1
 

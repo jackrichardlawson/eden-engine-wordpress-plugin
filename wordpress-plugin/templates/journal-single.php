@@ -34,10 +34,16 @@ if ( function_exists( 'wp_body_open' ) ) {
     <?php
     while ( have_posts() ) :
         the_post();
-        $post_id       = get_the_ID();
-        $review_policy = function_exists( 'eden_engine_reviewed_journal_policy_for_post' )
+        $post_id              = get_the_ID();
+        $review_policy        = function_exists( 'eden_engine_reviewed_journal_policy_for_post' )
             ? eden_engine_reviewed_journal_policy_for_post( $post_id )
             : array();
+        $publication_contract = function_exists( 'eden_engine_journal_publication_contract_for_post' )
+            ? eden_engine_journal_publication_contract_for_post( $post_id )
+            : array();
+        $claim_class          = ! empty( $publication_contract['claim_state_label'] )
+            ? (string) $publication_contract['claim_state_label']
+            : ( ! empty( $review_policy['claim_class'] ) ? (string) $review_policy['claim_class'] : 'Research / build note' );
         ?>
         <article <?php post_class( 'eden-post' ); ?>>
             <header class="eden-post-hero">
@@ -50,6 +56,9 @@ if ( function_exists( 'wp_body_open' ) ) {
                         <span><?php echo esc_html( get_the_date( '', $post_id ) ); ?></span>
                         <span><?php echo esc_html( eden_engine_post_read_time( $post_id ) ); ?></span>
                         <span><?php echo esc_html( get_the_author_meta( 'display_name', (int) get_post_field( 'post_author', $post_id ) ) ); ?></span>
+                        <?php if ( function_exists( 'eden_engine_journal_artifact_badge_html' ) ) : ?>
+                            <?php echo eden_engine_journal_artifact_badge_html( $post_id, $publication_contract ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Generated and escaped by the contract helper. ?>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <figure class="eden-post-hero__media">
@@ -68,8 +77,22 @@ if ( function_exists( 'wp_body_open' ) ) {
                     <dl>
                         <div>
                             <dt>Claim class</dt>
-                            <dd><?php echo esc_html( ! empty( $review_policy['claim_class'] ) ? (string) $review_policy['claim_class'] : 'Research / build note' ); ?></dd>
+                            <dd><?php echo esc_html( $claim_class ); ?></dd>
                         </div>
+                        <?php if ( ! empty( $publication_contract['has_contract'] ) ) : ?>
+                            <div>
+                                <dt>Evidence contract</dt>
+                                <dd>
+                                    <?php
+                                    echo esc_html(
+                                        function_exists( 'eden_engine_journal_contract_status_label' )
+                                            ? eden_engine_journal_contract_status_label( $publication_contract )
+                                            : 'Not labeled artifact-backed'
+                                    );
+                                    ?>
+                                </dd>
+                            </div>
+                        <?php endif; ?>
                         <div>
                             <dt>Signal</dt>
                             <dd><?php echo esc_html( eden_engine_post_kicker( $post_id ) ); ?></dd>
@@ -91,6 +114,10 @@ if ( function_exists( 'wp_body_open' ) ) {
                             'after'  => '</nav>',
                         )
                     );
+
+                    if ( function_exists( 'eden_engine_journal_publication_contract_html' ) ) {
+                        echo eden_engine_journal_publication_contract_html( $post_id, $publication_contract ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Generated and escaped by the contract helper.
+                    }
                     ?>
                 </div>
             </div>

@@ -62,7 +62,7 @@ if ( function_exists( 'wp_body_open' ) ) {
             <ul>
                 <li>Research notes</li>
                 <li>Regulatory context</li>
-                <li>Artifact-backed updates when available</li>
+                <li>Artifact-backed only after the full public evidence contract</li>
             </ul>
         </div>
     </section>
@@ -75,6 +75,35 @@ if ( function_exists( 'wp_body_open' ) ) {
         <span>Experiment</span>
         <i aria-hidden="true"></i>
         <span>Public note</span>
+    </section>
+
+    <section class="eden-journal-publication-guide" aria-labelledby="eden-journal-contract-title">
+        <div class="eden-journal-publication-guide__intro">
+            <p class="eden-journal-eyebrow">Fixed publication contract</p>
+            <h2 id="eden-journal-contract-title">Proof is a classification, not a tone of voice.</h2>
+            <p>An ordinary article remains a public note. The Artifact-backed label appears only when the complete evidence contract is present and the linked artifact receipt is published.</p>
+        </div>
+        <dl class="eden-journal-publication-guide__grid">
+            <?php
+            $publication_contract_fields = array(
+                array( 'Artifact', 'A repository document, experiment ID, model version, or dated output.' ),
+                array( 'Claim state', 'External precedent, modeled, planned, synthetic, measured, reviewed, or future.' ),
+                array( 'What changed', 'The concrete technical or program decision represented by the update.' ),
+                array( 'Supports', 'The smallest defensible claim the reviewed artifact permits.' ),
+                array( 'Excludes', 'Production, safety, nutrition, scale, economics, deployment, or other unsupported inferences.' ),
+                array( 'Evidence', 'Reviewed Eden artifacts or sources, with Eden’s interpretation kept separate.' ),
+                array( 'Next gate', 'The next observation or decision, plus the date the public claim was reviewed.' ),
+            );
+
+            foreach ( $publication_contract_fields as $field_index => $publication_contract_field ) :
+                ?>
+                <div>
+                    <dt><span><?php echo esc_html( str_pad( (string) ( $field_index + 1 ), 2, '0', STR_PAD_LEFT ) ); ?></span><?php echo esc_html( $publication_contract_field[0] ); ?></dt>
+                    <dd><?php echo esc_html( $publication_contract_field[1] ); ?></dd>
+                </div>
+            <?php endforeach; ?>
+        </dl>
+        <p class="eden-journal-publication-guide__source-note"><strong>Reviewed source layer:</strong> each cited source records what it establishes, what Eden infers, what it does not establish, and whether it concerns pathway science, food precedent, Eden integration, or deployment.</p>
     </section>
 
     <section class="eden-journal-posts" aria-label="Journal posts">

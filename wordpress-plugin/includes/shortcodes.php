@@ -594,6 +594,17 @@ if ( ! function_exists( 'eden_engine_post_image_url' ) ) {
             }
         }
 
+        $proof_images = array(
+            'what-exp-bal-gas-must-measure-before-it-counts-as-eden-evidence' => 'pages/evidence/measurement-bench-v2.webp',
+            'why-synthetic-data-can-test-edens-pipeline-but-cannot-become-measured-eden-evidence' => 'pages/technology/sensing-control-room-20260513.png',
+            'how-edens-current-evidence-gated-decision-protocol-works' => 'pages/roadmap/evidence-gates-v2.webp',
+        );
+        $post_slug   = (string) get_post_field( 'post_name', $post_id );
+
+        if ( ! empty( $proof_images[ $post_slug ] ) ) {
+            return EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/' . $proof_images[ $post_slug ];
+        }
+
         $fallbacks = array(
             EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/phase-1-co2-to-sugar-20260513.png',
             EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/pages/home/pilot-system-hero.png',
@@ -669,6 +680,12 @@ if ( ! function_exists( 'eden_engine_render_journal_card' ) ) {
         $heading_tag = $is_featured ? 'h2' : 'h3';
         $class_name  = $is_featured ? 'eden-journal-card eden-journal-card--featured' : 'eden-journal-card';
         $image_size  = $is_featured ? 'large' : 'medium_large';
+        $contract    = function_exists( 'eden_engine_journal_publication_contract_for_post' )
+            ? eden_engine_journal_publication_contract_for_post( $post_id )
+            : array();
+        $badge_html  = function_exists( 'eden_engine_journal_artifact_badge_html' )
+            ? eden_engine_journal_artifact_badge_html( $post_id, $contract )
+            : '';
         ?>
         <article class="<?php echo esc_attr( $class_name ); ?>">
             <a class="eden-journal-card__media" href="<?php echo esc_url( get_permalink( $post_id ) ); ?>" aria-label="<?php echo esc_attr( get_the_title( $post_id ) ); ?>">
@@ -683,6 +700,12 @@ if ( ! function_exists( 'eden_engine_render_journal_card' ) ) {
                     <span><?php echo esc_html( eden_engine_post_kicker( $post_id ) ); ?></span>
                     <span><?php echo esc_html( get_the_date( '', $post_id ) ); ?></span>
                     <span><?php echo esc_html( eden_engine_post_read_time( $post_id ) ); ?></span>
+                    <?php if ( '' !== $badge_html ) : ?>
+                        <?php echo $badge_html; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Generated and escaped by the contract helper. ?>
+                        <?php if ( ! empty( $contract['claim_state_label'] ) ) : ?>
+                            <span><?php echo esc_html( (string) $contract['claim_state_label'] ); ?></span>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
                 <<?php echo esc_attr( $heading_tag ); ?> class="eden-journal-card__title">
                     <a href="<?php echo esc_url( get_permalink( $post_id ) ); ?>"><?php echo esc_html( get_the_title( $post_id ) ); ?></a>
@@ -970,6 +993,68 @@ if ( ! function_exists( 'eden_engine_redirect_alias_pages' ) ) {
 
 add_action( 'template_redirect', 'eden_engine_redirect_alias_pages', 1 );
 
+if ( ! function_exists( 'eden_engine_legacy_alias_page_slugs' ) ) {
+    function eden_engine_legacy_alias_page_slugs(): array {
+        return array( 'evidence-2', 'system', 'mission', 'vision', 'contact', 'whitepaper' );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_legacy_alias_page_ids' ) ) {
+    function eden_engine_legacy_alias_page_ids(): array {
+        $post_ids = array();
+
+        foreach ( eden_engine_legacy_alias_page_slugs() as $slug ) {
+            $page = get_page_by_path( $slug, OBJECT, 'page' );
+            if ( $page instanceof WP_Post ) {
+                $post_ids[] = (int) $page->ID;
+            }
+        }
+
+        return array_values( array_unique( array_filter( $post_ids ) ) );
+    }
+}
+
+if ( ! function_exists( 'eden_engine_exclude_aliases_from_core_sitemap' ) ) {
+    function eden_engine_exclude_aliases_from_core_sitemap( array $query_args, string $post_type ): array {
+        if ( 'page' !== $post_type ) {
+            return $query_args;
+        }
+
+        $query_args['post__not_in'] = array_values(
+            array_unique(
+                array_merge(
+                    (array) ( $query_args['post__not_in'] ?? array() ),
+                    eden_engine_legacy_alias_page_ids()
+                )
+            )
+        );
+
+        return $query_args;
+    }
+}
+
+add_filter( 'wp_sitemaps_posts_query_args', 'eden_engine_exclude_aliases_from_core_sitemap', 10, 2 );
+
+if ( ! function_exists( 'eden_engine_exclude_aliases_from_yoast_sitemap' ) ) {
+    function eden_engine_exclude_aliases_from_yoast_sitemap( array $post_ids ): array {
+        return array_values( array_unique( array_merge( $post_ids, eden_engine_legacy_alias_page_ids() ) ) );
+    }
+}
+
+add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', 'eden_engine_exclude_aliases_from_yoast_sitemap' );
+
+if ( ! function_exists( 'eden_engine_exclude_aliases_from_rank_math_sitemap' ) ) {
+    function eden_engine_exclude_aliases_from_rank_math_sitemap( $url, string $type, $object ) {
+        if ( 'post' !== $type || ! $object instanceof WP_Post || 'page' !== $object->post_type ) {
+            return $url;
+        }
+
+        return in_array( (int) $object->ID, eden_engine_legacy_alias_page_ids(), true ) ? false : $url;
+    }
+}
+
+add_filter( 'rank_math/sitemap/entry', 'eden_engine_exclude_aliases_from_rank_math_sitemap', 10, 3 );
+
 if ( ! function_exists( 'eden_engine_brief_request_field' ) ) {
     function eden_engine_brief_request_field( string $key ): string {
         $value = isset( $_POST[ $key ] ) ? wp_unslash( $_POST[ $key ] ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Missing
@@ -1189,13 +1274,10 @@ if ( ! function_exists( 'eden_engine_ensure_public_pages' ) ) {
         $pages = array(
             'technology'      => array( 'Technology', '[eden_technology]' ),
             'evidence'        => array( 'Evidence', '[eden_evidence]' ),
-            'system'          => array( 'System', '[eden_system]' ),
             'applications'    => array( 'Applications', '[eden_applications]' ),
             'company'         => array( 'Company', '[eden_company]' ),
-            'vision'          => array( 'Vision', '[eden_vision]' ),
             'partner'         => array( 'Partner', '[eden_partner]' ),
             'technical-brief' => array( 'Technical Brief', '[eden_technical_brief]' ),
-            'contact'         => array( 'Contact', '[eden_contact]' ),
         );
 
         foreach ( $pages as $slug => $page ) {
@@ -1245,6 +1327,13 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
         do_action( 'litespeed_purge_url', home_url( '/technical-brief/' ) );
         do_action( 'litespeed_purge_url', home_url( '/contact/' ) );
         do_action( 'litespeed_purge_url', home_url( '/journal/' ) );
+
+        if ( function_exists( 'eden_engine_seeded_artifact_publications' ) ) {
+            foreach ( array_keys( eden_engine_seeded_artifact_publications() ) as $publication_slug ) {
+                do_action( 'litespeed_purge_url', home_url( '/' . sanitize_title( (string) $publication_slug ) . '/' ) );
+            }
+        }
+
         do_action( 'litespeed_purge_all' );
 
         if ( ! headers_sent() ) {
@@ -1337,6 +1426,41 @@ add_filter( 'rank_math/frontend/description', 'eden_engine_filter_public_page_se
 add_filter( 'rank_math/opengraph/facebook/og_description', 'eden_engine_filter_public_page_seo_description', 30 );
 add_filter( 'rank_math/opengraph/twitter/twitter_description', 'eden_engine_filter_public_page_seo_description', 30 );
 
+if ( ! function_exists( 'eden_engine_public_page_social_image' ) ) {
+    function eden_engine_public_page_social_image(): string {
+        $images = array(
+            'home'            => 'pages/home/carbon-horizon-hero-v1.webp',
+            'technology'      => 'pages/technology/bench-platform-hero-v2.webp',
+            'evidence'        => 'pages/evidence/measurement-bench-v2.webp',
+            'roadmap'         => 'pages/roadmap/evidence-gates-v2.webp',
+            'applications'    => 'pages/applications/hero-global-mission-map.jpg',
+            'company'         => 'pages/company/hero-founder-reactor.jpg',
+            'partner'         => 'pages/partner/technical-review-v2.webp',
+            'technical-brief' => 'pages/technical-brief/dossier-v2.webp',
+        );
+        $widget = eden_engine_current_page_widget();
+
+        if ( empty( $images[ $widget ] ) ) {
+            return '';
+        }
+
+        return EDEN_ENGINE_PLUGIN_URL . 'assets/images/eden-engine/' . $images[ $widget ];
+    }
+}
+
+if ( ! function_exists( 'eden_engine_filter_public_page_social_image' ) ) {
+    function eden_engine_filter_public_page_social_image( string $image ): string {
+        $public_image = eden_engine_public_page_social_image();
+
+        return '' !== $public_image ? $public_image : $image;
+    }
+}
+
+add_filter( 'wpseo_opengraph_image', 'eden_engine_filter_public_page_social_image', 30 );
+add_filter( 'wpseo_twitter_image', 'eden_engine_filter_public_page_social_image', 30 );
+add_filter( 'rank_math/opengraph/facebook/og_image', 'eden_engine_filter_public_page_social_image', 30 );
+add_filter( 'rank_math/opengraph/twitter/twitter_image', 'eden_engine_filter_public_page_social_image', 30 );
+
 if ( ! function_exists( 'eden_engine_public_page_head_metadata' ) ) {
     function eden_engine_public_page_head_metadata(): void {
         if ( ! eden_engine_is_public_app_page() || defined( 'WPSEO_VERSION' ) || defined( 'RANK_MATH_VERSION' ) ) {
@@ -1352,6 +1476,7 @@ if ( ! function_exists( 'eden_engine_public_page_head_metadata' ) ) {
         $title       = (string) $metadata['title'] . ' | ' . get_bloginfo( 'name' );
         $description = (string) $metadata['description'];
         $url         = get_permalink( get_queried_object_id() ) ?: home_url( '/' );
+        $image_url   = eden_engine_public_page_social_image();
         $schema      = array(
             '@context'    => 'https://schema.org',
             '@type'       => 'WebPage',
@@ -1365,12 +1490,25 @@ if ( ! function_exists( 'eden_engine_public_page_head_metadata' ) ) {
             ),
         );
 
+        if ( '' !== $image_url ) {
+            $schema['image'] = $image_url;
+        }
+
         echo '<meta name="description" content="' . esc_attr( $description ) . '" />' . "\n";
         echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
         echo '<meta property="og:description" content="' . esc_attr( $description ) . '" />' . "\n";
         echo '<meta property="og:type" content="website" />' . "\n";
         echo '<meta property="og:url" content="' . esc_url( $url ) . '" />' . "\n";
+        if ( '' !== $image_url ) {
+            echo '<meta property="og:image" content="' . esc_url( $image_url ) . '" />' . "\n";
+            echo '<meta property="og:image:alt" content="' . esc_attr( $title ) . '" />' . "\n";
+        }
         echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+        echo '<meta name="twitter:title" content="' . esc_attr( $title ) . '" />' . "\n";
+        echo '<meta name="twitter:description" content="' . esc_attr( $description ) . '" />' . "\n";
+        if ( '' !== $image_url ) {
+            echo '<meta name="twitter:image" content="' . esc_url( $image_url ) . '" />' . "\n";
+        }
         echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE ) . '</script>' . "\n";
     }
 }

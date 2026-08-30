@@ -1,0 +1,167 @@
+{
+  "schema_version": "eden.public_journal_artifact_manifest.v1",
+  "manifest_id": "eden-journal-proof-manifest-2026-08-29",
+  "review_date": "2026-08-29",
+  "source_repository_visibility": "private",
+  "public_boundary": "This manifest publishes artifact identifiers, dates, source locators, and SHA-256 receipts. It does not publish protected source contents, physical measurements, or confidential partner information.",
+  "verification": {
+    "targeted_test_count": 54,
+    "targeted_test_status": "passed",
+    "reviewed_revision": "26b7d673f338dd2b834e8af9ac933b2e94c8e751",
+    "reviewed_at": "2026-08-29",
+    "environment": {
+      "python": "3.11.15",
+      "pytest": "8.3.3"
+    },
+    "test_command": "$env:PYTHONDONTWRITEBYTECODE='1'; .\\.venv\\Scripts\\python.exe -m pytest tests/experiment_readiness/test_exp_bal_gas_ingestion.py tests/experiment_pipeline tests/numerical_integrity/test_h2_stoich_regression.py -q -p no:cacheprovider",
+    "normalized_report": "54 passed\n",
+    "report_normalization": "UTF-8 with LF and a final newline; variable timing and progress alignment are omitted.",
+    "report_sha256": "3d87ce15df363224606544ff8db10e2d6ff34db4d8bdfcb163eb3274eda40eb3",
+    "scope": [
+      "EXP-BAL-GAS readiness and ingestion",
+      "experiment-pipeline evidence promotion",
+      "production fail-closed behavior",
+      "learning-pipeline model closure",
+      "H2 stoichiometry regression"
+    ]
+  },
+  "publications": [
+    {
+      "publication_receipt_id": "eden-publication-receipt-exp-bal-gas-measurements-v1",
+      "slug": "what-exp-bal-gas-must-measure-before-it-counts-as-eden-evidence",
+      "claim_state": "PLAN_ONLY plus implemented readiness and data-contract software",
+      "artifacts": [
+        {
+          "artifact_id": "exp-bal-gas-readiness-v1",
+          "updated_at": "2026-08-23T01:50:00Z",
+          "source_locator": "eden_platform/data/seed/program_phase1/exp_bal_gas_readiness_v1.json",
+          "sha256": "80a251207bd0120776c1af72d365f5b3de556babb580e7162c6adc332ea84b49"
+        },
+        {
+          "artifact_id": "exp-bal-gas-data-contract-v1",
+          "updated_at": "2026-08-23T01:50:00Z",
+          "source_locator": "eden_platform/data/seed/program_phase1/exp_bal_gas_data_contract_v1.json",
+          "sha256": "41a9cf487a9b7bf990b4ded3d14eb110718e8f7b71a3306c11e0768ba20d8ed6"
+        },
+        {
+          "artifact_id": "exp-bal-gas-run-template-v1",
+          "updated_at": "2026-08-24T00:00:00Z",
+          "source_locator": "eden_platform/data/seed/experiment_pipeline/exp_bal_gas_run_template_v1.json",
+          "sha256": "e66df7ee1442214460278170b87ff983f2a0402e5dc72c2539412b562e224e38"
+        },
+        {
+          "artifact_id": "numerical-integrity-certificate-v1",
+          "updated_at": "2026-08-23T06:15:00Z",
+          "source_locator": "eden_platform/data/seed/numerical_integrity/certificate_v1.json",
+          "sha256": "a4ea26986e6a157fe09295a48dcba1bd421b6f72365a8435cc6f7a352529ba76"
+        }
+      ]
+    },
+    {
+      "publication_receipt_id": "eden-publication-receipt-synthetic-promotion-boundary-v1",
+      "slug": "why-synthetic-data-can-test-edens-pipeline-but-cannot-become-measured-eden-evidence",
+      "claim_state": "Implemented and regression-tested software behavior using SYNTHETIC_TEST_DATA; no physical evidence",
+      "artifacts": [
+        {
+          "artifact_id": "exp-bal-gas-synthetic-records-v1",
+          "updated_at": "2026-08-23T01:50:00Z",
+          "source_locator": "eden_platform/data/seed/program_phase1/exp_bal_gas_synthetic_records_v1.json",
+          "sha256": "b8424ec39dec4f1715def3c743c16f61e80e621684ba7c4454d491f924434b3b"
+        },
+        {
+          "artifact_id": "real-experiment-pipeline-exp-bal-gas-2026-08-24",
+          "updated_at": "2026-08-24",
+          "source_locator": "docs/research_campaigns/experiment_readiness/REAL_EXPERIMENT_PIPELINE_EXP_BAL_GAS_2026-08-24.md",
+          "sha256": "7733edcdb28b035ecd7f19b57d6880e7f29f5a311b8186e3e64c9d95986b839c"
+        },
+        {
+          "artifact_id": "learning-pipeline-model-closure-2026-08-25",
+          "updated_at": "2026-08-25",
+          "source_locator": "docs/research_campaigns/experiment_readiness/LEARNING_PIPELINE_MODEL_CLOSURE_2026-08-25.md",
+          "sha256": "99d2c1eb153847a8cf302c1940345a94c2d629573ab386bd2067d783a5771947"
+        },
+        {
+          "artifact_id": "experiment-pipeline-promotion-gate",
+          "updated_at": "2026-08-25T17:06:09-04:00",
+          "reviewed_at": "2026-08-29",
+          "source_revision": "501156458908afc881b104ac435504525f4d2ec8",
+          "source_locator": "eden_platform/experiment_pipeline/promotion.py",
+          "sha256": "28f7111eba32dd97571e46545913454736c0b1a4bcf6e87c4ffd87f60ed35756"
+        },
+        {
+          "artifact_id": "experiment-pipeline-record-invariants",
+          "updated_at": "2026-08-23T22:58:11-04:00",
+          "reviewed_at": "2026-08-29",
+          "source_revision": "1c450aca999a467ef2f07030833fdce091f7c0ea",
+          "source_locator": "eden_platform/experiment_pipeline/models/records.py",
+          "sha256": "2cd95cad0b6fd2dc4201ffb476ce5116a52606b098b83838a287b76fbdf996db"
+        },
+        {
+          "artifact_id": "experiment-pipeline-orchestrator",
+          "updated_at": "2026-08-25T16:55:51-04:00",
+          "reviewed_at": "2026-08-29",
+          "source_revision": "944f8c90d1b27171d9ed31c789d11d3e1c07425c",
+          "source_locator": "eden_platform/experiment_pipeline/pipeline.py",
+          "sha256": "727785566ad21c12f5e4aaef879f6f563cd487c48e3c46c0ce5dc23acecc4d9a"
+        }
+      ]
+    },
+    {
+      "publication_receipt_id": "eden-publication-receipt-evidence-gated-decision-protocol-v1",
+      "slug": "how-edens-current-evidence-gated-decision-protocol-works",
+      "claim_state": "Implemented internal governance and decision-support logic; not independently validated scientific truth",
+      "artifacts": [
+        {
+          "artifact_id": "exp-bal-gas-data-contract-v1",
+          "updated_at": "2026-08-23T01:50:00Z",
+          "source_locator": "eden_platform/data/seed/program_phase1/exp_bal_gas_data_contract_v1.json",
+          "sha256": "41a9cf487a9b7bf990b4ded3d14eb110718e8f7b71a3306c11e0768ba20d8ed6"
+        },
+        {
+          "artifact_id": "design-closure-experiment-voi-v1",
+          "updated_at": "2026-08-22T21:50:00Z",
+          "source_locator": "eden_platform/data/seed/program_phase1/design_closure_experiment_voi_v1.json",
+          "sha256": "8b300a2ab684333c5f2e8e53d3f8563739fece0ff56a1e014285dc273b8736de"
+        },
+        {
+          "artifact_id": "portfolio-campaign-scores-v1",
+          "updated_at": "2026-08-24T04:00:00Z",
+          "source_locator": "eden_platform/data/seed/portfolio/portfolio_campaign_scores_v1.json",
+          "sha256": "3f347ddf4ba30513ec0db5101d14594443d9f06c54b703c99fa049d441247708"
+        },
+        {
+          "artifact_id": "phase1-p3a-decision-gates-v1",
+          "updated_at": "2026-08-22T16:31:00Z",
+          "source_locator": "eden_platform/data/seed/program_phase1/phase1_p3a_decision_gates.v1.json",
+          "sha256": "eaffa8d19b529f5feb88f33fcf90eb8d4e7e529fb9d75ffb4e40c1518179698f"
+        },
+        {
+          "artifact_id": "exp-bal-gas-measurement-consumer-map-v1",
+          "updated_at": "2026-08-25T21:50:00Z",
+          "source_locator": "eden_platform/data/seed/experiment_pipeline/exp_bal_gas_measurement_consumer_map_v1.json",
+          "sha256": "c75a59848619eeac533ce44780c0d0ef39eea7bf3e5c2dbb13c1897115c7cb2d"
+        },
+        {
+          "artifact_id": "downstream-model-gap-queue-v1",
+          "updated_at": "2026-08-25T21:50:00Z",
+          "source_locator": "eden_platform/data/seed/experiment_pipeline/downstream_model_gap_queue_v1.json",
+          "sha256": "d008e7c20eaaa223074790dffbfeee8d2077d876e5937df65c5e8f679eb7c8a0"
+        },
+        {
+          "artifact_id": "campaign-reprioritization-implementation",
+          "updated_at": "2026-08-25T16:55:51-04:00",
+          "reviewed_at": "2026-08-29",
+          "source_revision": "944f8c90d1b27171d9ed31c789d11d3e1c07425c",
+          "source_locator": "eden_platform/experiment_pipeline/campaign_reprioritization.py",
+          "sha256": "5396e97d0852a54bf4c8e7e142746c419fc79b1f4e6936de94087cabcf21b9bb"
+        },
+        {
+          "artifact_id": "authority-reconciliation-hdq-ni-2026-08-23",
+          "updated_at": "2026-08-23T05:55:00Z",
+          "source_locator": "docs/research_campaigns/numerical_integrity/AUTHORITY_RECONCILIATION_HDQ_NI_2026-08-23.md",
+          "sha256": "90c982d6492a0020aea86986416d9b0eab1aedc0cdce4eb6d95cda3a2dc4a09c"
+        }
+      ]
+    }
+  ]
+}
