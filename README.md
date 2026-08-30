@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
 
-Current version: 0.6.0
+Current version: 0.6.1
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -118,6 +118,12 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.6.1
+
+- Reframed the remaining sugar-first Journal card titles around the parallel Phase 1A and Phase 1B program structure
+- Added reviewed browser, social, schema, description, and claim-class metadata for the carbon-negative article and the two legacy sugar-first roadmap posts
+- Extended the historical-context notice to the old Phase 1 CO₂-to-sugar roadmap article
 
 ### Version 0.6.0
 

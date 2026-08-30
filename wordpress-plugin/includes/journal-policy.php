@@ -49,6 +49,21 @@ add_action( 'template_redirect', 'eden_engine_redirect_legacy_journal_posts', 5 
 if ( ! function_exists( 'eden_engine_reviewed_journal_policy' ) ) {
     function eden_engine_reviewed_journal_policy(): array {
         return array(
+            'what-carbon-negative-food-actually-means' => array(
+                'title'       => 'What “Carbon-Negative Food” Would Need to Demonstrate',
+                'description' => 'A carbon-negative food claim requires a named boundary, baseline, carbon origin, energy supply, coproduct treatment, product fate, and evidence for any durable storage or avoided emissions.',
+                'claim_class' => 'Carbon claim audit / evidence required',
+            ),
+            'why-co2-to-sugar-is-the-first-step-toward-post-agricultural-humanity' => array(
+                'title'       => 'Why Carbohydrate Synthesis Remains a Parallel Breakthrough Program',
+                'description' => 'A historical sugar-first vision reframed around Eden’s current structure: Phase 1A microbial-biomass validation and a separate, higher-risk Phase 1B carbohydrate research program.',
+                'claim_class' => 'Historical vision / parallel research target',
+            ),
+            'the-eden-engine-phase-1-roadmap-from-co2-to-sugar' => array(
+                'title'       => 'Eden Engine Phase 1A / 1B Roadmap: Biomass Validation and Parallel Carbohydrate Research',
+                'description' => 'The current roadmap separates a bounded microbial-biomass validation program from parallel carbohydrate route selection and analytical-feasibility work.',
+                'claim_class' => 'Planned validation / no result implied',
+            ),
             'is-co2-derived-sugar-safe-to-eat' => array(
                 'title'       => 'What Would Need to Be Proven Before CO₂-Derived Sugar Could Be Considered Safe?',
                 'description' => 'A food-safety determination requires a defined product, process, impurity profile, intended use, specification, regulatory route, and Eden-specific evidence.',
@@ -284,6 +299,7 @@ if ( ! function_exists( 'eden_engine_is_historical_journal_post' ) ) {
         $historical_slugs  = array(
             'what-carbon-negative-food-actually-means',
             'why-co2-to-sugar-is-the-first-step-toward-post-agricultural-humanity',
+            'the-eden-engine-phase-1-roadmap-from-co2-to-sugar',
         );
         $is_historical     = '' !== $published_date && $published_date < '2026-05-01 00:00:00';
         $is_historical     = $is_historical || in_array( $post_slug, $historical_slugs, true );
