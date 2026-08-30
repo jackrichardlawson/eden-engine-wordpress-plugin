@@ -1241,6 +1241,7 @@ if ( ! function_exists( 'eden_engine_journal_index_head_metadata' ) ) {
             ),
         );
 
+        echo '<link rel="canonical" href="' . esc_url( (string) $metadata['url'] ) . '" />' . "\n";
         echo '<meta name="description" content="' . esc_attr( (string) $metadata['description'] ) . '" />' . "\n";
         echo '<meta property="og:title" content="' . esc_attr( $title ) . '" />' . "\n";
         echo '<meta property="og:description" content="' . esc_attr( (string) $metadata['description'] ) . '" />' . "\n";

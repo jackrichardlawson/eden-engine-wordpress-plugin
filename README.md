@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
 
-Current version: 0.7.0
+Current version: 0.7.1
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -147,6 +147,11 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.7.1
+
+- Added the missing canonical URL to the native Journal archive fallback metadata
+- Bumped the release version so the deployment purges LiteSpeed/CDN output for the corrected Journal head
 
 ### Version 0.7.0
 
