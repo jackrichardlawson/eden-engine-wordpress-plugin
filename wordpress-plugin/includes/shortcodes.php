@@ -128,7 +128,7 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
     function eden_engine_public_widget_content( string $widget ): array {
         $content = array(
             'home'            => array(
-                'title'   => 'Carbon-Fed Fermentation for Sustainable Protein',
+                'title'   => 'Carbon In. Food Infrastructure Out.',
                 'summary' => 'Eden Engine is developing a modular gas-fermentation platform that uses conditioned CO₂ and electricity-derived hydrogen to cultivate protein-rich microbial biomass. Software and experiment controls are built; qualified biological validation is next.',
                 'cta'     => 'View the Protein Program',
                 'url'     => home_url( '/protein/' ),
@@ -1485,7 +1485,7 @@ add_filter( 'rank_math/opengraph/twitter/twitter_description', 'eden_engine_filt
 if ( ! function_exists( 'eden_engine_public_page_social_image' ) ) {
     function eden_engine_public_page_social_image(): string {
         $images = array(
-            'home'            => 'pages/home/pilot-system-hero.png',
+            'home'            => 'pages/home/carbon-horizon-hero-v1.webp',
             'protein'         => 'pages/technology/bench-platform-hero-v2.webp',
             'technology'      => 'pages/technology/bench-platform-hero-v2.webp',
             'evidence'        => 'pages/evidence/measurement-bench-v2.webp',

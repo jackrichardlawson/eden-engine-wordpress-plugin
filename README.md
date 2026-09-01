@@ -2,7 +2,7 @@
 
 Custom Eden Engine page layouts, sustainable-protein program sections, evidence controls, partner intake, and native Journal templates for WordPress.
 
-Current version: 0.8.0
+Current version: 0.8.1
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -149,6 +149,11 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.8.1
+
+- Restored the original homepage headline, `Carbon In. Food Infrastructure Out.`
+- Restored the tree-and-DNA horizon artwork as the homepage hero and social image
 
 ### Version 0.8.0
 
