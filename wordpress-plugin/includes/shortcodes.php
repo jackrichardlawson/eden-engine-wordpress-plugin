@@ -41,6 +41,7 @@ if ( ! function_exists( 'eden_engine_shortcode_names' ) ) {
             'eden_pathway_demo',
             'eden_reactor_status',
             'eden_mission',
+            'eden_protein',
             'eden_technology',
             'eden_evidence',
             'eden_system',
@@ -127,21 +128,27 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
     function eden_engine_public_widget_content( string $widget ): array {
         $content = array(
             'home'            => array(
-                'title'   => 'Carbon In. Food Infrastructure Out.',
-                'summary' => 'Eden Engine is building the research and control platform for advancing carbon-conversion pathways into qualified food ingredients. It connects scientific precedent, digital twins, experiment design, and measured evidence.',
-                'cta'     => 'Partner on Phase 1',
+                'title'   => 'Carbon-Fed Fermentation for Sustainable Protein',
+                'summary' => 'Eden Engine is developing a modular gas-fermentation platform that uses conditioned CO₂ and electricity-derived hydrogen to cultivate protein-rich microbial biomass. Software and experiment controls are built; qualified biological validation is next.',
+                'cta'     => 'View the Protein Program',
+                'url'     => home_url( '/protein/' ),
+            ),
+            'protein'         => array(
+                'title'   => 'The Phase 1 Protein Program',
+                'summary' => 'The selected Phase 1 route uses conditioned CO₂, electricity-derived H₂, O₂, nutrients, and a hydrogen-oxidizing microorganism to produce a traceable, non-food research biomass lot for independent characterization.',
+                'cta'     => 'Partner on Validation',
                 'url'     => home_url( '/partner/' ),
             ),
             'technology'      => array(
-                'title'   => 'The Technology Behind CO₂-to-Food Ingredients',
-                'summary' => 'An accountable research architecture connecting conditioned carbon inputs, candidate conversion pathways, recovery, product qualification, analytics, QA/HOLD logic, and digital-twin feedback.',
+                'title'   => 'One Platform, Two Carbon Interfaces',
+                'summary' => 'Direct CO₂/H₂ fermentation is Eden’s selected Phase 1 protein pathway. A future acetate interface could expand the platform to selected fungi, yeast, and algae after the protein route is validated.',
                 'cta'     => 'View the Evidence Program',
                 'url'     => home_url( '/evidence/' ),
             ),
             'evidence'        => array(
                 'title'   => 'Evidence Before Scale',
                 'summary' => 'The evidence program keeps external precedent, Eden-modeled integration, planned experiments, measured results, independent review, and future qualification in separate claim states.',
-                'cta'     => 'Partner on Phase 1',
+                'cta'     => 'Partner on Validation',
                 'url'     => home_url( '/partner/' ),
             ),
             'system'          => array(
@@ -157,8 +164,8 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 'url'     => home_url( '/evidence/' ),
             ),
             'roadmap'         => array(
-                'title'   => 'From First Carbon Proof to Future Food Systems',
-                'summary' => 'Phase 1A validates a closed microbial-biomass pathway while Phase 1B advances carbohydrate route selection and analytical feasibility in parallel. Later gates cover recovery, product qualification, safety, pilots, and applications.',
+                'title'   => 'From First Protein Evidence to Platform Expansion',
+                'summary' => 'Phase 1 qualifies, executes, and independently characterizes the direct CO₂/H₂ protein pathway. Acetate and broader product diversification remain later platform-expansion work.',
                 'cta'     => 'View the Evidence Program',
                 'url'     => home_url( '/evidence/' ),
             ),
@@ -169,9 +176,9 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 'url'     => home_url( '/journal/' ),
             ),
             'company'         => array(
-                'title'   => 'Building a Disciplined Carbon-to-Food-Ingredients Program',
-                'summary' => 'Eden Engine Technologies coordinates the software, science, partners, capital, measurement, and review needed to turn a carbon-to-food hypothesis into dated evidence.',
-                'cta'     => 'Partner on Phase 1',
+                'title'   => 'Building a Sustainable-Protein Program',
+                'summary' => 'Eden Engine Technologies coordinates the software, science, partners, capital, measurement, and review needed to turn the selected CO₂/H₂ microbial-protein pathway into dated evidence and a partner-ready decision.',
+                'cta'     => 'Partner on Validation',
                 'url'     => home_url( '/partner/' ),
             ),
             'vision'          => array(
@@ -193,13 +200,13 @@ if ( ! function_exists( 'eden_engine_public_widget_content' ) ) {
                 ),
             ),
             'partner'         => array(
-                'title'   => 'Partner on Phase 1',
+                'title'   => 'Partner on Validation',
                 'summary' => 'Connect with Eden Engine about laboratory access, assays, bioprocess and engineering work, ingredient or industrial collaboration, strategic funding, or academic and media inquiries.',
                 'cta'     => 'Read the Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
             ),
             'contact'         => array(
-                'title'   => 'Partner on Phase 1',
+                'title'   => 'Partner on Validation',
                 'summary' => 'Use the partner inquiry to identify the capability you can contribute, why you are contacting Eden Engine, and the next step you want to explore.',
                 'cta'     => 'Read the Technical Brief',
                 'url'     => home_url( '/technical-brief/' ),
@@ -221,52 +228,87 @@ if ( ! function_exists( 'eden_engine_public_widget_sections' ) ) {
         $sections = array(
             'home' => array(
                 array(
-                    'title' => 'What Eden Engine has built',
-                    'body'  => 'The current foundation is software and systems engineering—not a claimed production facility.',
+                    'title' => 'Current stage',
+                    'body'  => 'Software, pathway models, and experiment controls are built. Qualified biological validation is the next milestone.',
                     'items' => array(
-                        'Pathway portfolio and comparison tools',
-                        'CO₂-to-protein and microbial-biomass research workspace',
-                        'Digital-twin models and typed platform contracts',
-                        'Experiment-readiness and evidence-governance workflows',
-                        'Eden Control operator interface and synthetic end-to-end pipeline tests',
+                        'Built: software, models, experiment workflow, and evidence controls',
+                        'Designed: selected direct CO₂/H₂ pathway, measurements, and decision gates',
+                        'Next: qualified facility, safety approval, organism down-selection, controlled runs, and independent assays',
                     ),
                 ),
                 array(
-                    'title' => 'Two distinct Phase 1 programs',
-                    'body'  => 'Phase 1A tests one closed, measurable microbial-biomass pathway. Phase 1B runs in parallel as a higher-risk carbohydrate-pathway program; it is not an expected output of the biomass route.',
+                    'title' => 'One selected Phase 1 pathway',
+                    'body'  => 'Eden’s current program uses conditioned CO₂ and electricity-derived hydrogen directly in microbial fermentation to pursue protein-rich biomass.',
                     'items' => array(
-                        'Phase 1A: closed carbon balance and repeatable microbial-biomass detection',
-                        'Phase 1B: route selection, analytical feasibility, and bounded breakthrough experiments',
+                        'Conditioned CO₂ + H₂ + O₂ + nutrients',
+                        'Hydrogen-oxidizing microbial fermentation',
+                        'Traceable research biomass lot',
+                        'Independent characterization and a documented continue, rescope, or stop decision',
                     ),
                 ),
                 array(
                     'title' => 'What must be proven next',
-                    'body'  => 'The immediate objective is one bounded experiment with known inputs, measurable outputs, qualified analytical methods, uncertainty, and an explicit continue-or-HOLD decision.',
+                    'body'  => 'The immediate objective is a controlled biological campaign with known inputs, measurable outputs, qualified analytical methods, carbon and resource reconciliation, uncertainty, and an explicit decision.',
+                    'items' => array(),
+                ),
+            ),
+            'protein' => array(
+                array(
+                    'title' => 'The objective',
+                    'body'  => 'Develop a repeatable, measurable CO₂/H₂ microbial-biomass process and establish whether the resulting biomass can advance toward a qualified protein ingredient.',
+                    'items' => array(),
+                ),
+                array(
+                    'title' => 'How the biology works',
+                    'body'  => 'CO₂ supplies carbon. Electricity-derived hydrogen supplies biological energy. Oxygen, nitrogen, minerals, and water support growth. A hydrogen-oxidizing microorganism converts those inputs into protein-rich biomass.',
+                    'items' => array(
+                        'Qualify carbon source, organism, facility, gas safety, and analytical methods',
+                        'Execute controlled fermentation runs with traceable inputs and lot records',
+                        'Recover a non-food research biomass lot',
+                        'Independently characterize composition and safety-relevant attributes',
+                        'Reconcile carbon, mass, gas, water, energy, and uncertainty',
+                    ),
+                ),
+                array(
+                    'title' => 'What Phase 1 measures',
+                    'body'  => 'The program is designed to produce a decision-ready evidence package, not a premature food or commercial-production claim.',
+                    'items' => array(
+                        'Biomass identity and repeatability',
+                        'Protein and amino-acid composition',
+                        'Moisture, ash, lipids, carbohydrates, and nucleic acids',
+                        'Contaminants and other safety-relevant attributes',
+                        'Carbon and mass reconciliation',
+                        'Energy, gas, water, and recovery burden',
+                        'Preliminary functionality and application fit',
+                    ),
+                ),
+                array(
+                    'title' => 'Partner on validation',
+                    'body'  => 'Eden is seeking a qualified bioprocess facility, H₂/O₂ safety expertise, an analytical laboratory, food-science and regulatory guidance, and an ingredient-development partner.',
                     'items' => array(),
                 ),
             ),
             'technology' => array(
                 array(
-                    'title' => 'System boundary',
-                    'body'  => 'The platform treats every pathway as a controlled chain with declared inputs, conversions, recoveries, measurements, and losses.',
+                    'title' => 'Direct gas-fed protein — Phase 1',
+                    'body'  => 'Eden’s current protein program uses conditioned CO₂ and electricity-derived H₂ directly in microbial fermentation. This is the selected Phase 1 route for protein-rich biomass.',
                     'items' => array(
-                        'Carbon source, origin, contaminants, conditioning, clean energy, water, nutrients, and opportunity cost',
-                        'Biological, electrochemical, enzymatic, and hybrid candidate pathways',
-                        'Conversion stage, reactor or process boundary, and operating constraints',
-                        'Harvesting, recovery, purification, composition, stability, and intended-use specification',
-                        'Analytics, qualified methods, traceable data, QA/HOLD logic, and operator decisions',
+                        'Declared carbon origin, contaminants, conditioning, electricity source, water, nutrients, and opportunity cost',
+                        'Controlled fermentation, recovery, lot traceability, assays, and resource accounting',
                         'Digital-twin feedback that remains labeled as modeled until bench data exists',
                     ),
                 ),
                 array(
-                    'title' => 'Major technical risks',
-                    'body'  => 'The architecture is only useful if it exposes the reasons a route could fail.',
+                    'title' => 'Liquid-carbon expansion — Phase 2+',
+                    'body'  => 'A future electrochemical acetate pathway could provide a storable liquid feedstock for selected fungi, yeast, and algae, broadening Eden into texture, cultured ingredients, lipids, and specialty food components.',
+                    'items' => array(),
+                ),
+                array(
+                    'title' => 'Why the platform uses both',
+                    'body'  => 'Direct hydrogen fermentation prioritizes protein production. Acetate prioritizes biological and product flexibility. The architecture assigns each interface a clear role without presenting them as interchangeable.',
                     'items' => array(
-                        'Source-gas contaminants and conditioning burden',
-                        'Carbon selectivity, losses, byproducts, and incomplete mass balance',
-                        'Energy intensity and dependence on a named energy source',
-                        'Recovery and purification burden',
-                        'Analytical limits, repeatability, control stability, and scale sensitivity',
+                        'Current: direct CO₂/H₂ protein validation',
+                        'Later: acetate-enabled organism and product diversification',
                     ),
                 ),
             ),
@@ -296,25 +338,23 @@ if ( ! function_exists( 'eden_engine_public_widget_sections' ) ) {
             ),
             'roadmap' => array(
                 array(
-                    'title' => 'Phase 1A and Phase 1B',
-                    'body'  => 'The programs run in parallel with separate hypotheses and claim states. Later scale and application gates remain dependent on measured evidence.',
+                    'title' => 'Phase 1 — selected protein pathway',
+                    'body'  => 'The direct CO₂/H₂ program advances as one sequence. Later platform expansion remains dependent on measured evidence from this selected route.',
                     'items' => array(
-                        'Phase 1A: microbial-biomass validation, carbon balance, repeatability, and recovery',
-                        'Phase 1B: carbohydrate route selection, analytical feasibility, and breakthrough experiments',
+                        'Qualify route, source, organism, facility, safety, methods, and acceptance criteria',
+                        'Execute controlled runs and create a traceable non-food research lot',
+                        'Independently characterize composition and safety-relevant attributes',
+                        'Reconcile mass, carbon, gas, water, energy, and uncertainty',
+                        'Make a documented continue, rescope, or stop decision',
                     ),
                 ),
                 array(
-                    'title' => 'Numbered evidence gates',
-                    'body'  => 'Every gate has entry criteria, required evidence, a failure consequence, a fallback route, and an explicit status.',
+                    'title' => 'Phase 2+ — platform expansion',
+                    'body'  => 'Only after the first protein route is characterized does Eden expand into acetate-fed fungi, yeast, algae, and broader ingredient applications.',
                     'items' => array(
-                        '0 — Define bounded route and inputs — defined in planning',
-                        '1 — Instrumented carbon balance — next gate',
-                        '2 — Repeatable target detection — pending',
-                        '3 — Recovery and purity — pending',
-                        '4 — Food-product specification — pending',
-                        '5 — Safety and regulatory route — pending',
-                        '6 — Integrated pilot — pending',
-                        '7 — Application qualification — pending',
+                        'Acetate interface and biological diversification',
+                        'Texture, cultured bases, lipids, and specialty components',
+                        'Food-safety, regulatory, pilot, and application qualification',
                     ),
                 ),
                 array(
@@ -343,7 +383,7 @@ if ( ! function_exists( 'eden_engine_public_widget_sections' ) ) {
             'company' => array(
                 array(
                     'title' => 'What the company is building',
-                    'body'  => 'Eden coordinates pathway science, software, experiment design, measurement, evidence review, product qualification, partnerships, and capital around one staged program.',
+                    'body'  => 'Eden coordinates pathway science, software, experiment design, measurement, evidence review, product qualification, partnerships, and capital around one selected direct CO₂/H₂ protein program.',
                     'items' => array(
                         'Public: program boundaries, claim states, evidence gates, safety constraints, and next tests',
                         'Protected: unpublished route parameters, detailed apparatus choices, partner data, calibration records, and confidential methods',
@@ -352,7 +392,7 @@ if ( ! function_exists( 'eden_engine_public_widget_sections' ) ) {
                 ),
                 array(
                     'title' => 'Current needs',
-                    'body'  => 'The company is seeking laboratory access, analytical methods, gas-handling and sensor support, bioprocess engineering, product-qualification expertise, independent review, and focused early funding.',
+                    'body'  => 'The company is seeking a qualified bioprocess facility, H₂/O₂ safety expertise, analytical methods, food-science and regulatory guidance, ingredient-development collaboration, independent review, and focused early funding.',
                     'items' => array(),
                 ),
             ),
@@ -378,7 +418,7 @@ if ( ! function_exists( 'eden_engine_public_widget_sections' ) ) {
                     'body'  => 'The web brief states the Phase 1 boundary, evidence classes, assumptions, risks, failure modes, safety constraints, and smallest useful next test.',
                     'items' => array(
                         'System boundary and source assumptions',
-                        'Phase 1A and parallel Phase 1B hypotheses',
+                        'Selected direct CO₂/H₂ protein hypothesis and later acetate expansion boundary',
                         'Evidence gates and active claim status',
                         'Mass, energy, carbon, safety, and product-qualification checks',
                         'Continue, revise, or HOLD decision logic',
@@ -425,9 +465,9 @@ if ( ! function_exists( 'eden_engine_fallback_html' ) ) {
         $html .= '<p>' . esc_html( $content['summary'] ) . '</p>';
         $html .= '</div>';
         $html .= '<div class="eden-server-fallback__status" aria-label="Current program status">';
-        $html .= '<article><span>Current capability</span><strong>Research and control platform</strong><p>Pathway comparison, digital-twin modeling, experiment planning, evidence gating, and decision support are implemented.</p></article>';
-        $html .= '<article><span>Evidence status</span><strong>Modeled and planned</strong><p>External precedent is separated from Eden models, planned validation, measured results, and independent review.</p></article>';
-        $html .= '<article><span>Phase 1 boundary</span><strong>Two parallel programs</strong><p>Phase 1A tests microbial biomass; Phase 1B preserves a higher-risk carbon-to-carbohydrate research track.</p></article>';
+        $html .= '<article><span>Current program</span><strong>Direct CO₂/H₂ protein</strong><p>The selected Phase 1 route is a gas-fed microbial-biomass program.</p></article>';
+        $html .= '<article><span>Current stage</span><strong>Designed and controlled</strong><p>Software, pathway models, experiment workflow, and evidence controls are built.</p></article>';
+        $html .= '<article><span>Next milestone</span><strong>Qualified biological validation</strong><p>Facility, gas safety, organism down-selection, controlled runs, and independent assays come next.</p></article>';
         $html .= '</div>';
 
         foreach ( $sections as $section_index => $section ) {
@@ -540,6 +580,7 @@ if ( ! function_exists( 'eden_engine_is_public_app_page' ) ) {
 
         return is_page(
             array(
+                'protein',
                 'technology',
                 'evidence',
                 'roadmap',
@@ -782,6 +823,12 @@ if ( ! function_exists( 'eden_engine_shortcode_mission' ) ) {
     }
 }
 
+if ( ! function_exists( 'eden_engine_shortcode_protein' ) ) {
+    function eden_engine_shortcode_protein( array $atts ): string {
+        return eden_engine_render( $atts, 'protein' );
+    }
+}
+
 if ( ! function_exists( 'eden_engine_shortcode_technology' ) ) {
     function eden_engine_shortcode_technology( array $atts ): string {
         return eden_engine_render( $atts, 'technology' );
@@ -854,6 +901,7 @@ add_shortcode( 'eden_target_mapper', 'eden_engine_shortcode_target_mapper' );
 add_shortcode( 'eden_pathway_demo', 'eden_engine_shortcode_pathway_demo' );
 add_shortcode( 'eden_reactor_status', 'eden_engine_shortcode_reactor_status' );
 add_shortcode( 'eden_mission', 'eden_engine_shortcode_mission' );
+add_shortcode( 'eden_protein', 'eden_engine_shortcode_protein' );
 add_shortcode( 'eden_technology', 'eden_engine_shortcode_technology' );
 add_shortcode( 'eden_evidence', 'eden_engine_shortcode_evidence' );
 add_shortcode( 'eden_system', 'eden_engine_shortcode_system' );
@@ -874,6 +922,10 @@ if ( ! function_exists( 'eden_engine_current_page_widget' ) ) {
 
         if ( is_page( 'mission' ) ) {
             return 'company';
+        }
+
+        if ( is_page( 'protein' ) ) {
+            return 'protein';
         }
 
         if ( is_page( 'technology' ) ) {
@@ -925,6 +977,7 @@ if ( ! function_exists( 'eden_engine_auto_custom_pages' ) ) {
         if (
             has_shortcode( $content, 'eden_engine_showcase' ) ||
             has_shortcode( $content, 'eden_mission' ) ||
+            has_shortcode( $content, 'eden_protein' ) ||
             has_shortcode( $content, 'eden_technology' ) ||
             has_shortcode( $content, 'eden_evidence' ) ||
             has_shortcode( $content, 'eden_system' ) ||
@@ -1272,6 +1325,7 @@ if ( ! function_exists( 'eden_engine_ensure_public_pages' ) ) {
         }
 
         $pages = array(
+            'protein'         => array( 'Protein', '[eden_protein]' ),
             'technology'      => array( 'Technology', '[eden_technology]' ),
             'evidence'        => array( 'Evidence', '[eden_evidence]' ),
             'applications'    => array( 'Applications', '[eden_applications]' ),
@@ -1315,6 +1369,7 @@ if ( ! function_exists( 'eden_engine_purge_cache_after_update' ) ) {
         }
 
         do_action( 'litespeed_purge_url', home_url( '/' ) );
+        do_action( 'litespeed_purge_url', home_url( '/protein/' ) );
         do_action( 'litespeed_purge_url', home_url( '/technology/' ) );
         do_action( 'litespeed_purge_url', home_url( '/evidence/' ) );
         do_action( 'litespeed_purge_url', home_url( '/evidence-2/' ) );
@@ -1363,13 +1418,14 @@ if ( ! function_exists( 'eden_engine_public_route_metadata' ) ) {
         }
 
         $titles = array(
-            'home'            => 'Carbon-to-Food Research and Control Platform',
-            'technology'      => 'Technology and Pathway Architecture',
+            'home'            => 'Carbon-Fed Fermentation for Sustainable Protein',
+            'protein'         => 'Phase 1 Sustainable Protein Program',
+            'technology'      => 'One Platform, Two Carbon Interfaces',
             'evidence'        => 'Evidence Program and Active Claim Status',
             'roadmap'         => 'Evidence-Gated Research Roadmap',
             'applications'    => 'Potential Applications and Evidence Boundaries',
             'company'         => 'Company, Mission, and Information Boundary',
-            'partner'         => 'Partner on Phase 1',
+            'partner'         => 'Partner on Validation',
             'technical-brief' => 'Phase 1 Technical Brief',
         );
         $content = eden_engine_public_widget_content( $widget );
@@ -1429,7 +1485,8 @@ add_filter( 'rank_math/opengraph/twitter/twitter_description', 'eden_engine_filt
 if ( ! function_exists( 'eden_engine_public_page_social_image' ) ) {
     function eden_engine_public_page_social_image(): string {
         $images = array(
-            'home'            => 'pages/home/carbon-horizon-hero-v1.webp',
+            'home'            => 'pages/home/pilot-system-hero.png',
+            'protein'         => 'pages/technology/bench-platform-hero-v2.webp',
             'technology'      => 'pages/technology/bench-platform-hero-v2.webp',
             'evidence'        => 'pages/evidence/measurement-bench-v2.webp',
             'roadmap'         => 'pages/roadmap/evidence-gates-v2.webp',
@@ -1518,6 +1575,7 @@ add_action( 'wp_head', 'eden_engine_public_page_head_metadata', 5 );
 if ( ! function_exists( 'eden_engine_nav_html' ) ) {
     function eden_engine_nav_html(): string {
         $items = array(
+            array( 'protein', 'Protein', home_url( '/protein/' ) ),
             array( 'technology', 'Technology', home_url( '/technology/' ) ),
             array( 'evidence', 'Evidence', home_url( '/evidence/' ) ),
             array( 'roadmap', 'Roadmap', home_url( '/roadmap/' ) ),
@@ -1542,7 +1600,7 @@ if ( ! function_exists( 'eden_engine_nav_html' ) ) {
         }
 
         $html .= '</nav><div class="site-header__actions">';
-        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Phase 1</a>';
+        $html .= '<a class="button button--primary" href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Validation</a>';
         $html .= '</div></div>';
         $html .= '</header></div>';
 
@@ -1559,17 +1617,18 @@ if ( ! function_exists( 'eden_engine_footer_html' ) ) {
         $html .= '<a class="site-brand" href="' . esc_url( home_url( '/' ) ) . '" aria-label="Eden Engine home">';
         $html .= '<span class="site-brand__mark site-brand__mark--image" aria-hidden="true"><img src="' . esc_url( $logo_url ) . '" alt="" /></span>';
         $html .= '<span><strong>Eden Engine</strong><small>Carbon In. Food Infrastructure Out.</small></span></a>';
-        $html .= '<p>Eden Engine is developing a modular research and control platform for carbon-to-food pathways. Phase 1A tests microbial biomass while Phase 1B preserves a parallel, higher-risk carbon-to-carbohydrate research program.</p>';
+        $html .= '<p>Eden Engine is developing a modular carbon-fed fermentation platform, beginning with a selected direct CO₂/H₂ pathway to protein-rich microbial biomass. Acetate remains a later platform-expansion interface.</p>';
         $html .= '</div>';
         $html .= '<div class="site-footer__links" aria-label="Footer navigation">';
+        $html .= '<div><h2>Protein</h2><a href="' . esc_url( home_url( '/protein/' ) ) . '">Protein Program</a></div>';
         $html .= '<div><h2>Technology</h2><a href="' . esc_url( home_url( '/technology/' ) ) . '">Technology</a></div>';
         $html .= '<div><h2>Evidence</h2><a href="' . esc_url( home_url( '/evidence/' ) ) . '">Evidence Program</a></div>';
         $html .= '<div><h2>Roadmap</h2><a href="' . esc_url( home_url( '/roadmap/' ) ) . '">Roadmap</a></div>';
         $html .= '<div><h2>Applications</h2><a href="' . esc_url( home_url( '/applications/' ) ) . '">Applications</a></div>';
         $html .= '<div><h2>Journal</h2><a href="' . esc_url( home_url( '/journal/' ) ) . '">Journal</a></div>';
-        $html .= '<div><h2>Company</h2><a href="' . esc_url( home_url( '/company/' ) ) . '">Company</a><a href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Phase 1</a><a href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Technical Brief</a></div>';
+        $html .= '<div><h2>Company</h2><a href="' . esc_url( home_url( '/company/' ) ) . '">Company</a><a href="' . esc_url( home_url( '/partner/' ) ) . '">Partner on Validation</a><a href="' . esc_url( home_url( '/technical-brief/' ) ) . '">Technical Brief</a></div>';
         $html .= '</div>';
-        $html .= '<p class="site-footer__disclaimer">Current capability: pathway comparison, modeling, experiment planning, evidence gating, and decision support. No Eden-specific food-grade output, validated production performance, or deployment is presented as measured and independently reviewed.</p>';
+        $html .= '<p class="site-footer__disclaimer">Current stage: software, pathway models, and experiment controls built; qualified biological validation next. No Eden-specific food-grade output or commercial production claim is being made.</p>';
         $html .= '</footer>';
 
         return $html;

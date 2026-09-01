@@ -878,13 +878,13 @@ if ( ! function_exists( 'eden_engine_reviewed_journal_policy' ) ) {
                 'claim_class' => 'Carbon claim audit / evidence required',
             ),
             'why-co2-to-sugar-is-the-first-step-toward-post-agricultural-humanity' => array(
-                'title'       => 'Why Carbohydrate Synthesis Remains a Parallel Breakthrough Program',
-                'description' => 'A historical sugar-first vision reframed around Eden’s current structure: Phase 1A microbial-biomass validation and a separate, higher-risk Phase 1B carbohydrate research program.',
-                'claim_class' => 'Historical vision / parallel research target',
+                'title'       => 'Why Carbohydrate Synthesis Is Now a Later Research Direction',
+                'description' => 'A historical sugar-first vision reframed around Eden’s current program: direct CO₂/H₂ microbial protein first, with carbohydrate research retained only as a later evidence-gated direction.',
+                'claim_class' => 'Historical vision / later research target',
             ),
             'the-eden-engine-phase-1-roadmap-from-co2-to-sugar' => array(
-                'title'       => 'Eden Engine Phase 1A / 1B Roadmap: Biomass Validation and Parallel Carbohydrate Research',
-                'description' => 'The current roadmap separates a bounded microbial-biomass validation program from parallel carbohydrate route selection and analytical-feasibility work.',
+                'title'       => 'Earlier CO₂-to-Sugar Roadmap: Superseded by Direct Protein Validation',
+                'description' => 'The current roadmap selects direct CO₂/H₂ microbial protein for Phase 1. Acetate and carbohydrate research remain later, evidence-gated platform directions.',
                 'claim_class' => 'Planned validation / no result implied',
             ),
             'is-co2-derived-sugar-safe-to-eat' => array(
@@ -1285,8 +1285,8 @@ if ( ! function_exists( 'eden_engine_historical_journal_notice' ) ) {
             . '<p class="eden-journal-eyebrow">Historical vision note</p>'
             . '<h2 id="eden-journal-review-note-title">Earlier concept / not current capability</h2>'
             . '<p><strong>Claim class:</strong> historical vision / future research target.</p>'
-            . '<p>This article reflects an earlier Eden Engine concept. The current program separates Phase 1A microbial-biomass validation from a parallel, higher-risk Phase 1B carbon-to-carbohydrate program. No production, safety, environmental-impact, or scale claim should be inferred from this article.</p>'
-            . '<p><strong>Last technically reviewed:</strong> <time datetime="2026-08-29">August 29, 2026</time></p>'
+            . '<p>This article reflects an earlier Eden Engine concept. The current program selects direct CO₂/H₂ microbial-protein validation for Phase 1; acetate and carbohydrate research remain later, evidence-gated platform directions. No production, safety, environmental-impact, or scale claim should be inferred from this article.</p>'
+            . '<p><strong>Last technically reviewed:</strong> <time datetime="2026-08-31">August 31, 2026</time></p>'
             . '<a href="' . esc_url( home_url( '/evidence/' ) ) . '">View the current evidence program</a>'
             . '</aside>';
     }
@@ -1318,7 +1318,7 @@ if ( ! function_exists( 'eden_engine_sugar_safety_review_content' ) ) {
             . '<p>Chemical identity matters, but it is not the whole safety or regulatory question. A specific output, manufacturing route, impurity profile, intended use, specification, and evidence package must be evaluated together.</p>'
             . '<h3>What would need to be demonstrated</h3>'
             . '<ol>' . $list_html . '</ol>'
-            . '<p><strong>Current Eden status:</strong> no Eden output is publicly claimed to be food-grade, safe for consumption, or regulatorily cleared. The smallest useful next step remains a bounded, instrumented carbon-to-ingredient experiment.</p>'
+            . '<p><strong>Current Eden status:</strong> no Eden output is publicly claimed to be food-grade, safe for consumption, or regulatorily cleared. The smallest useful next step is to qualify a partner-run direct CO₂/H₂ fermentation campaign, then produce and independently characterize one protein-rich research lot.</p>'
             . '<a class="eden-journal-button" href="' . esc_url( home_url( '/evidence/' ) ) . '">View the evidence program</a>'
             . '</section>';
     }

@@ -1,8 +1,8 @@
 # Eden Engine WordPress Plugin
 
-Custom Eden Engine page layouts, evidence-program sections, partner intake, native Journal templates, and CO2-to-food-ingredients platform content for WordPress.
+Custom Eden Engine page layouts, sustainable-protein program sections, evidence controls, partner intake, and native Journal templates for WordPress.
 
-Current version: 0.7.1
+Current version: 0.8.0
 
 This repository is intentionally plugin-only. It should contain only the WordPress plugin entry file, shortcode code, and static assets required for WordPress to install and activate the plugin directly from GitHub.
 
@@ -11,6 +11,7 @@ This repository is intentionally plugin-only. It should contain only the WordPre
 The plugin automatically renders custom layouts for:
 
 - `/`
+- `/protein/`
 - `/technology/`
 - `/evidence/`
 - `/roadmap/`
@@ -43,6 +44,7 @@ Route shortcodes are also available. Each mounts one complete Eden route; use no
 [eden_pathway_demo]
 [eden_reactor_status]
 [eden_mission]
+[eden_protein]
 [eden_technology]
 [eden_evidence]
 [eden_system]
@@ -70,7 +72,7 @@ Branch: main
 
 After installation, activate **Eden Engine** from the WordPress Plugins screen. Keep Home as the Front Page and Journal as the Posts Page.
 
-The native Journal header uses the same public navigation as the React site: Technology, Evidence, Roadmap, Applications, Journal, and Company, with one **Partner on Phase 1** action. A small Journal-only script provides the accessible mobile disclosure without loading the full React bundle. The shared footer is rendered by the plugin for both index and single-post templates.
+The native Journal header uses the same public navigation as the React site: Protein, Technology, Evidence, Roadmap, Applications, Journal, and Company, with one **Partner on Validation** action. A small Journal-only script provides the accessible mobile disclosure without loading the full React bundle. The shared footer is rendered by the plugin for both index and single-post templates.
 
 Partner submissions refresh their nonce from a no-cache WordPress AJAX endpoint before posting. The server also validates the inquiry track, required context, field lengths, honeypot, and a short per-connection rate limit. If JavaScript is unavailable, the fallback exposes the configured direct email and Technical Brief link.
 
@@ -147,6 +149,13 @@ eden-engine-wordpress-plugin/
 The root `eden-engine.php` file uses `plugin_dir_path( __FILE__ )` and `plugin_dir_url( __FILE__ )` so all plugin paths resolve from the WordPress plugin root.
 
 ## Changelog
+
+### Version 0.8.0
+
+- Added the `/protein/` route and `[eden_protein]` shortcode with crawlable Phase 1 program content
+- Refocused the public homepage and navigation on direct CO₂/H₂ microbial protein
+- Reframed acetate as a later platform-expansion interface instead of a parallel Phase 1 program
+- Updated metadata, social images, page creation, and cache-purge coverage for the new route
 
 ### Version 0.7.1
 
